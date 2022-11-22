@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// other dependencies
 const fs = require('fs');
 const db = require('../db/connection');
 // Loads the schema files from db/schema
@@ -25,6 +24,7 @@ const runSchemaFiles = () => __awaiter(void 0, void 0, void 0, function* () {
         yield db.query(sql);
     }
 });
+// Loads the seeds files from db/seeds
 const runSeedFiles = () => __awaiter(void 0, void 0, void 0, function* () {
     const schemaFilenames = fs.readdirSync('./db/seeds');
     for (const fn of schemaFilenames) {
