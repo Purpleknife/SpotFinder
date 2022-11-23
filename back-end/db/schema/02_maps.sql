@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS maps CASCADE;
+
+CREATE TABLE maps (
+  id SERIAL PRIMARY KEY NOT NULL,
+  creator INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  date_created TIMESTAMP NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  city VARCHAR(255) NOT NULL,
+  province VARCHAR(255) NOT NULL,
+  country VARCHAR(255) NOT NULL,
+  latitude REAL NOT NULL,
+  longitude REAL NOT NULL
+);

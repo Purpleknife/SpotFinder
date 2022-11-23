@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS pin_comments CASCADE;
+
+CREATE TABLE pin_comments (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  pin_id INTEGER REFERENCES pins(id) ON DELETE CASCADE,
+  date_commented TIMESTAMP NOT NULL,
+  content TEXT NOT NULL
+);

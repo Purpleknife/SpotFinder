@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS contributions CASCADE;
+
+CREATE TABLE contributions (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+  date_contibuted TIMESTAMP NOT NULL,
+  contribution_type VARCHAR(255) NOT NULL
+);
