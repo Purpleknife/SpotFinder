@@ -1,0 +1,18 @@
+@import "~bootstrap/scss/bootstrap";
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  
+  .logo {
+    color: purple;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 1em;
+  }
+
+  .navbar_btn_lp {
+    padding-top: 1em;
+    padding-right: 1em;
+  }
+}
