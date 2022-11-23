@@ -6,7 +6,6 @@ This project's goal is to revisit an old project made with Node JS, Express and 
 
 <strong><h3> 📌 This project's goals are:</h3></strong>
 - Develop my skills in TypeScript.
-- Learn how to use Redux.
 - Learn how to use Leaflet Maps API with React.
 - Manage an app that has a lot of features.
 
