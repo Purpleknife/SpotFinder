@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS coordinates CASCADE;
+
+CREATE TABLE coordinates (
+  id SERIAL PRIMARY KEY NOT NULL,
+  city VARCHAR(255) NOT NULL,
+  province VARCHAR(255) NOT NULL,
+  country VARCHAR(255) NOT NULL,
+  latitude REAL NOT NULL,
+  longitude REAL NOT NULL
+);
