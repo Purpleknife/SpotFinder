@@ -11,8 +11,10 @@ This project's goal is to revisit an old project made with Node JS, Express and 
 
 ## Features
 - [ ] <strong>A non-logged-in user can :</strong>
-  - [ ] View, search for maps, and visit other users profiles.
-  - [ ] View comments and likes.
+  - [ ] View all the maps.
+  - [ ] Search for maps.
+  - [ ] Visit other users profiles.
+  - [ ] View comments and likes on maps and pins.
 - [ ] <strong>A logged-in user can :</strong>
   - [ ] Create and delete maps.
   - [ ] Edit their own maps.
