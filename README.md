@@ -22,6 +22,7 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [ ] Like and comment on pins.
   - [ ] Search for maps and users.
   - [ ] Visit other users profiles.
+  - [ ] Edit their own profile.
   - [ ] Chat with other users (maybe?).
 
 ## Other
