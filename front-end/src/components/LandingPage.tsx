@@ -7,7 +7,11 @@ const LandingPage = () => {
   return (
     <div className='landing_page'>
       <NavBar />
-      <Map />
+
+      <div className='map_container'>
+        <Map />
+      </div>
+
     </div>
   );
 }
