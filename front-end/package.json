@@ -12,10 +12,12 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "axios": "^1.2.0",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.3",
     "leaflet": "^1.9.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
+    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.1.0",
     "react-router-dom": "^6.4.3",
@@ -49,6 +51,7 @@
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "sass": "^1.56.1"
   }
 }
