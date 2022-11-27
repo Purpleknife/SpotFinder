@@ -5,6 +5,8 @@ import Map from './Map';
 
 import axios from 'axios';
 
+import './LandingPage.scss';
+
 const LandingPage = () => {
   const [mapList, setMapList] = useState<any>(null);
   const [mapData, setMapData] = useState<any>(null);
