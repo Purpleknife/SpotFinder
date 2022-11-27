@@ -1,31 +1,37 @@
-import dotenv from 'dotenv';
-dotenv.config();
+require('dotenv').config();
+
+import * as fs from 'fs';
+const chalk = require('chalk');
+const database = require('../db/connection');
 
 
-const fs = require('fs');
-const db = require('../db/connection');
-
-// Loads the schema files from db/schema
+// Load the schema files from db/schema:
 const runSchemaFiles = async () => {
+  console.log(chalk.cyan(`-> Loading Schema Files ...`));
   const schemaFilenames = fs.readdirSync('./db/schema');
   
   for (const fn of schemaFilenames) {
     const sql = fs.readFileSync(`./db/schema/${fn}`, 'utf8');
-    await db.query(sql);
+    console.log(`\t-> Running ${chalk.green(fn)}`);
+    await database.query(sql);
   }
 };
 
-// Loads the seeds files from db/seeds
+
+// Load the seeds files from db/seeds:
 const runSeedFiles = async () => {
+  console.log(chalk.cyan(`-> Loading Seeds ...`));
   const schemaFilenames = fs.readdirSync('./db/seeds');
 
   for (const fn of schemaFilenames) {
     const sql = fs.readFileSync(`./db/seeds/${fn}`, 'utf8');
-    await db.query(sql);
+    console.log(`\t-> Running ${chalk.green(fn)}`);
+    await database.query(sql);
   }
 };
 
 
+// Reset the database:
 const runResetDB = async () => {
   try {
     process.env.DB_HOST &&
@@ -35,6 +41,7 @@ const runResetDB = async () => {
     await runSeedFiles();
     process.exit();
   } catch (err) {
+    console.error(chalk.red(`Failed due to error: ${err}`));
     process.exit();
   }
 };
