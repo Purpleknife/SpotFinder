@@ -27,7 +27,9 @@ app.use((0, method_override_1.default)('_method'));
 app.use(express_1.default.static('public'));
 // Routes
 const userRoutes = require('./routes/users');
+const mapRoutes = require('./routes/maps');
 app.use('/', userRoutes(db));
+app.use('/', mapRoutes(db));
 app.listen(port, () => {
     console.log(`Express is listening on port ${port}!`);
 });
