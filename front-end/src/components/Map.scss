@@ -1,5 +1,18 @@
 
-.leaflet-container {
-  height: 200px;
-  width: 500px;
+
+
+.map {
+  margin-bottom: 3em;
+  margin-left: 5em;
+
+  .leaflet-container {
+    height: 200px;
+    width: 500px;
+  }
+
+  .map_info {
+    display: flex;
+    justify-content: left;
+  }
+
 }
