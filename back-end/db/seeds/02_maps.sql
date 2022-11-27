@@ -1,4 +1,4 @@
-INSERT INTO coordinates (creator, date_created, title, city, province, country, latitude, longitude)
+INSERT INTO maps (creator, date_created, title, city, province, country, latitude, longitude)
 
 VALUES (1, '2022-11-01', 'Best Places to Eat Around Town', 'Toronto', 'Ontario', 'Canada', 43.755839, -79.420263),
 (1, '2021-12-20', 'Best Mountains to Hike', 'Calgary', 'Alberta', 'Canada', 51.043580, -114.047625),
