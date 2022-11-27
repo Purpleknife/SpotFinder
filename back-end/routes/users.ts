@@ -6,7 +6,60 @@ const router  = express.Router();
 
 module.exports = (db: any) => {
 
-  // Routes here.
+  // Route to fetch ALL users:
+  router.get('/users', (req: Request, res: Response) => {
+    const queryString: string = `SELECT * FROM users;`;
+
+    db.query(queryString)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+  
+  // Route to register new users:
+  router.post('/users', (req: Request, res: Response) => {
+    const username: string = req.body.username;
+    const email: string = req.body.email;
+    const password: string = req.body.password;
+    const password_confirmation: string = req.body.password_confirmation;
+
+    const queryParams: string[] = [username, email, password, password_confirmation];
+    const queryString: string = `
+      INSERT INTO users (username, email, password, password_confirmation)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;`
+    ;
+    
+    db.query(queryString, queryParams)      
+      .then((data: any) => {
+        console.log('REGISTER', data.rows);
+        res.json(data.rows[0]);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+  // Route to login users:
+  router.get('/login/:id', (req: Request, res: Response) => {
+    const id: string | number = req.params.id;
+
+    const queryParams: (string | number)[] = [id];
+    const queryString: string = `SELECT * FROM users WHERE users.id = $1;`;
+
+    db.query(queryString, queryParams)      
+    .then((data: any) => {
+      res.json(data.rows[0]);
+    })
+    .catch((error: Error) => {
+      console.log(error.message);
+    });
+  });
+
 
   return router;
 };

@@ -8,6 +8,49 @@ dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 module.exports = (db) => {
-    // Routes here.
+    // Route to fetch ALL users:
+    router.get('/users', (req, res) => {
+        const queryString = `SELECT * FROM users;`;
+        db.query(queryString)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
+    // Route to register new users:
+    router.post('/users', (req, res) => {
+        const username = req.body.username;
+        const email = req.body.email;
+        const password = req.body.password;
+        const password_confirmation = req.body.password_confirmation;
+        const queryParams = [username, email, password, password_confirmation];
+        const queryString = `
+      INSERT INTO users (username, email, password, password_confirmation)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            console.log('REGISTER', data.rows);
+            res.json(data.rows[0]);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
+    // Route to login users:
+    router.get('/login/:id', (req, res) => {
+        const id = req.params.id;
+        const queryParams = [id];
+        const queryString = `SELECT * FROM users WHERE users.id = $1;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows[0]);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };
