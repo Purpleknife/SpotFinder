@@ -1,8 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
+
+import { useCookies } from 'react-cookie';
+
+import axios from 'axios';
+import bcrypt from 'bcryptjs';
+
 
 interface RegisterProps {
   handleClose: () => void;
@@ -10,10 +18,66 @@ interface RegisterProps {
 }
 
 const Register = (props: RegisterProps) => {
+  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
+  const [showError, setShowError] = useState('');
+  
   const usernameInput = useRef<HTMLInputElement>(null);
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
   const passwordConfirmationInput = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+  const salt = bcrypt.genSaltSync(10);
+
+  interface User {
+    username: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+  }
+
+  const registerUser = async() => {
+    const password: string = passwordInput.current!.value;
+    const saltedPassword: string = bcrypt.hashSync(password, salt);
+
+    const passwordConfirmation: string = passwordConfirmationInput.current!.value;
+    const saltedPasswordConfirmation: string = bcrypt.hashSync(passwordConfirmation, salt);
+
+    if (password !== passwordConfirmation) {
+      setShowError('Passwords don\'t match.');
+    }
+    
+    axios.get('/users')
+      .then(res => {    
+        const allUsers = res.data;
+        const fetchUser = allUsers.find((user: User) => user.email === emailInput.current!.value);
+        if (fetchUser) {
+          setShowError('This email adress is already registered.');
+        } else {
+          axios.post('/users', {
+            username: usernameInput!.current!.value,
+            email: emailInput.current!.value,
+            password: saltedPassword,
+            password_confirmation: saltedPasswordConfirmation
+          })
+            .then(res => {
+              console.log('res from front-end', res.data);
+              setCookie('username', res.data.username, {path: '/'});
+              setCookie('user_id', res.data.id, {path: '/'});
+              setCookie('logged_in', 'yes', {path: '/'});
+              setShowError('');
+              //const user_id: (string | number) = res.data.id;
+              //navigate(`/dashboard/${user_id}`);
+            })
+            .catch((error) => {
+              console.log(error.message);
+            })
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
 
   return (
     <>
@@ -21,6 +85,10 @@ const Register = (props: RegisterProps) => {
         <Modal.Header closeButton>
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
+
+        {showError && <Alert id='alert' key='danger' variant='danger'>
+        {showError}
+        </Alert>}
 
         <Modal.Body>
           <Form>
@@ -76,7 +144,7 @@ const Register = (props: RegisterProps) => {
         </Modal.Body>
         <Modal.Footer>
 
-          <Button id='register'>
+          <Button id='register' onClick={registerUser}>
             Register
           </Button>
         </Modal.Footer>
