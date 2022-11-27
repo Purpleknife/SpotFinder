@@ -1,8 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
+
+import { useCookies } from 'react-cookie';
+
+import { useNavigate } from 'react-router';
+
+import axios from 'axios';
+import bcrypt from 'bcryptjs';
 
 interface LoginProps {
   handleClose: () => void;
@@ -10,9 +18,54 @@ interface LoginProps {
 }
 
 const Login = (props: LoginProps) => {
+  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
+  const [showError, setShowError] = useState('');
 
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+
+  interface User {
+    username: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+  }
+
+  const loginUser = async() => {
+    const email = emailInput.current!.value;
+    const password = passwordInput.current!.value;
+
+    return axios.get('/users')
+      .then(res => {
+        const allUsers = res.data;
+
+        const fetchUser = allUsers.find((user: User) => user.email === email);
+          if (fetchUser) {
+            if (bcrypt.compareSync(password, fetchUser.password)) {
+              const user_id = fetchUser.id;
+
+              axios.get(`/login/${user_id}`)
+                .then((res) => {
+                  console.log('login data', res.data);
+                  setCookie('username', res.data.username, {path: '/'});
+                  setCookie('user_id', res.data.id, {path: '/'});
+                  setCookie('logged_in', 'yes', {path: '/'});
+                  setShowError('');
+                  //navigate(`/dashboard/${user_id}`);
+                })
+                .catch(error => console.log(error.message));
+            } else {
+              setShowError('Wrong credentials.');
+            }
+          }
+          if (!fetchUser) {
+            setShowError('This email adress is not registered.');
+          }
+      })
+      .catch(error => console.log(error.message));
+  };
 
   return (
     <>
@@ -20,6 +73,10 @@ const Login = (props: LoginProps) => {
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
+
+        {showError && <Alert id='alert' key='danger' variant='danger'>
+        {showError}
+        </Alert>}
 
         <Modal.Body>
           <Form>
@@ -53,7 +110,7 @@ const Login = (props: LoginProps) => {
         </Modal.Body>
         <Modal.Footer>
 
-          <Button id='login'>
+          <Button id='login' onClick={loginUser}>
             Login
           </Button>
         </Modal.Footer>
