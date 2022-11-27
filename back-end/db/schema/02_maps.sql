@@ -5,7 +5,6 @@ CREATE TABLE maps (
   creator INTEGER REFERENCES users(id) ON DELETE CASCADE,
   date_created TIMESTAMP NOT NULL,
   title VARCHAR(255) NOT NULL,
-  description TEXT,
   city VARCHAR(255) NOT NULL,
   province VARCHAR(255) NOT NULL,
   country VARCHAR(255) NOT NULL,
