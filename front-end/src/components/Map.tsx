@@ -34,6 +34,15 @@ const Map = (props: MapProps) => {
           </Popup>
         </Marker> */}
       </MapContainer>
+      
+      <div className='map_info'>
+        Title: {props.title}
+        <br />
+        Location: {props.city}, {props.province}, {props.country}
+        <br />
+        Created by: {props.creator}, on {props.date_created}
+
+      </div>
     </div>
   );
 }
