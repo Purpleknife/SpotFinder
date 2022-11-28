@@ -6,6 +6,10 @@ import 'leaflet/dist/leaflet.css';
 
 import Pins from './Pins';
 
+import MapView from './MapView';
+
+import { Link, useNavigate } from 'react-router-dom';
+
 interface MapProps {
   id: number;
   creator: number;
@@ -21,9 +25,10 @@ interface MapProps {
 }
 
 const Map = (props: MapProps) => {
+  const navigate = useNavigate();
 
   const pinsForMaps = props.pins.map((pin) => {
-    console.log('PIN', pin);
+    //console.log('PIN', pin);
     return (
       <Pins
         key={pin.id}
@@ -39,13 +44,14 @@ const Map = (props: MapProps) => {
 
   return (
     <div className='map'>
-      <MapContainer center={[props.latitude, props.longitude]} zoom={13} scrollWheelZoom={false}>
+      <MapView id={props.id} key={props.id} latitude={props.latitude} longitude={props.longitude} pins={pinsForMaps}/>
+      {/* <MapContainer center={[props.latitude, props.longitude]} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {pinsForMaps}
-      </MapContainer>
+      </MapContainer> */}
       
       <div className='map_info'>
         Title: {props.title}
@@ -53,8 +59,19 @@ const Map = (props: MapProps) => {
         Location: {props.city}, {props.province}, {props.country}
         <br />
         Created by: {props.username}, on {props.date_created}
-
       </div>
+
+
+      <button type='submit' onClick={() => navigate(`/maps/${props.id}`, 
+        { state: 
+            {id: props.id, 
+            key: props.id,
+            latitude: props.latitude,
+            longitude: props.longitude}
+        })
+            }>
+              
+              View</button>
     </div>
   );
 }
