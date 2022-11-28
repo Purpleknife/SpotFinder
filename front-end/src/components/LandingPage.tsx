@@ -22,6 +22,7 @@ const LandingPage = () => {
       });
   };
 
+
   interface Map {
     id: number;
     creator: number;
@@ -32,6 +33,7 @@ const LandingPage = () => {
     country: string;
     latitude: number;
     longitude: number;
+    pins: any[];
   }
 
   const generateMapList = () => {
@@ -48,6 +50,7 @@ const LandingPage = () => {
           country={mp.country}
           latitude={mp.latitude}
           longitude={mp.longitude}
+          pins={mp.pins}
         />
       )
     });

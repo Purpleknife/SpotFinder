@@ -38,7 +38,7 @@ const Map = (props: MapProps) => {
 
   return (
     <div className='map'>
-      <MapContainer center={[props.latitude, props.longitude]} zoom={12} scrollWheelZoom={false}>
+      <MapContainer center={[props.latitude, props.longitude]} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
