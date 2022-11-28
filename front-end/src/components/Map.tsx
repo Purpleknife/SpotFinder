@@ -9,6 +9,7 @@ import Pins from './Pins';
 interface MapProps {
   id: number;
   creator: number;
+  username: string;
   date_created: string;
   title: string;
   city: string;
@@ -51,7 +52,7 @@ const Map = (props: MapProps) => {
         <br />
         Location: {props.city}, {props.province}, {props.country}
         <br />
-        Created by: {props.creator}, on {props.date_created}
+        Created by: {props.username}, on {props.date_created}
 
       </div>
     </div>

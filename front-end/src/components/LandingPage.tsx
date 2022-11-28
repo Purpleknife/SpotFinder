@@ -26,6 +26,7 @@ const LandingPage = () => {
   interface Map {
     id: number;
     creator: number;
+    username: string;
     date_created: string;
     title: string;
     city: string;
@@ -43,6 +44,7 @@ const LandingPage = () => {
           key={mp.id}
           id={mp.id}
           creator={mp.creator}
+          username={mp.username}
           date_created={mp.date_created}
           title={mp.title}
           city={mp.city}
