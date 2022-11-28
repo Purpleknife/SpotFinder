@@ -1,9 +1,10 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 import './Map.scss';
 
 import 'leaflet/dist/leaflet.css';
-//import L from "leaflet";
+
+import Pins from './Pins';
 
 interface MapProps {
   id: number;
@@ -15,24 +16,34 @@ interface MapProps {
   country: string;
   latitude: number;
   longitude: number;
+  pins: any[];
 }
 
 const Map = (props: MapProps) => {
 
-  //const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
+  const pinsForMaps = props.pins.map((pin) => {
+    console.log('PIN', pin);
+    return (
+      <Pins
+        key={pin.id}
+        id={pin.id}
+        latitude={pin.latitude}
+        longitude={pin.longitude}
+        title={pin.title}
+        description={pin.description}
+        image={pin.image}
+      />
+    )
+  })
 
   return (
     <div className='map'>
-      <MapContainer center={[props.latitude, props.longitude]} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={[props.latitude, props.longitude]} zoom={12} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* <Marker position={[51.505, -0.09]} icon={icon}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker> */}
+        {pinsForMaps}
       </MapContainer>
       
       <div className='map_info'>
