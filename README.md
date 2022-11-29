@@ -15,7 +15,7 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [X] View all the maps.
   - [X] View all the pins.
   - [ ] Search for maps.
-  - [ ] Visit other users profiles.
+  - [X] Visit other users profiles.
   - [ ] View comments and likes on maps and pins.
 - [ ] <strong>A logged-in user can :</strong>
   - [ ] Create and delete maps.
