@@ -86,6 +86,26 @@ module.exports = (db: any) => {
   });
 
 
+  // Route to load the user's contributions:
+  router.get('/contributions/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [user_id];
+    const queryString: string = `
+      SELECT * FROM contributions
+      WHERE user_id = $1;
+    `;
+
+    db.query(queryString, queryParams)
+    .then((data: any) => {
+      res.json(data.rows);
+    })
+    .catch((error: Error) => {
+      console.log(error.message);
+    });
+  });
+
+
   return router;
 };
 
