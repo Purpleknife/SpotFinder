@@ -61,6 +61,29 @@ module.exports = (db: any) => {
   });
 
 
+  // Route to load the user's profile:
+  router.get('/profile/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [user_id];
+    const queryString: string = `
+      SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.* FROM maps
+      JOIN pins ON map_id = maps.id
+      JOIN users ON maps.creator = users.id
+      WHERE maps.creator = $1
+      GROUP BY maps.id, users.id;
+    `;
+
+    db.query(queryString, queryParams)
+    .then((data: any) => {
+      res.json(data.rows[0]);
+    })
+    .catch((error: Error) => {
+      console.log(error.message);
+    });
+  });
+
+
   return router;
 };
 

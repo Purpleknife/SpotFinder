@@ -52,5 +52,24 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Route to load the user's profile:
+    router.get('/profile/:user_id', (req, res) => {
+        const user_id = req.params.user_id;
+        const queryParams = [user_id];
+        const queryString = `
+      SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.* FROM maps
+      JOIN pins ON map_id = maps.id
+      JOIN users ON maps.creator = users.id
+      WHERE maps.creator = $1
+      GROUP BY maps.id, users.id;
+    `;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows[0]);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };
