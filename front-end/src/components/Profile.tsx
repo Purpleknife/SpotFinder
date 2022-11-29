@@ -1,7 +1,10 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+import axios from 'axios';
+
 import { useCookies } from 'react-cookie';
+
+import { useParams } from 'react-router-dom';
 
 import './Profile.scss';
 
@@ -17,8 +20,10 @@ const Profile = () => {
   const [userDataList, setUserDataList] = useState<any>(null);
   const [contributions, setContributions] = useState<any>(null);
 
-  const loadProfileData = async() => {
-    return axios.get(`/profile/${user_id}`)
+  const params = useParams(); // Used to dynamically visit other users's profiles.
+
+  const loadProfileData = async(id: number | string) => {
+    return axios.get(`/profile/${id}`)
       .then((res) => {
         //console.log('profile', res.data);
         setUserData(res.data);
@@ -29,8 +34,8 @@ const Profile = () => {
   };
   
 
-  const loadContributions = async() => {
-    return axios.get(`/contributions/${user_id}`)
+  const loadContributions = async(id: number | string) => {
+    return axios.get(`/contributions/${id}`)
       .then((res) => {
         //console.log('contributions', res.data);
         setContributions(res.data);
@@ -107,8 +112,10 @@ const Profile = () => {
 
 
   useEffect(() => {
-    loadProfileData();
-    loadContributions();
+    if (params.user_id) {
+      loadProfileData(params.user_id);
+      loadContributions(params.user_id);
+    }
   }, []);
 
   useEffect(() => {

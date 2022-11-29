@@ -32,7 +32,7 @@ const Map = (props: MapProps) => {
         <br />
         Location: {props.city}, {props.province}, {props.country}
         <br />
-        Created by: {props.username}, on {props.date_created}
+        Created by: <span onClick={() => navigate(`/profile/${props.creator}`)}>{props.username}</span>, on {props.date_created}
       </div>
 
 
