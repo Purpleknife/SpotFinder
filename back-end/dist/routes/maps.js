@@ -23,21 +23,5 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
-    // Get ALL pins for a specific map:
-    router.get('/pins/:map_id', (req, res) => {
-        const map_id = req.params.map_id;
-        const queryParams = [map_id];
-        const queryString = `
-      SELECT * FROM pins
-      WHERE map_id = $1;`;
-        db.query(queryString, queryParams)
-            .then((data) => {
-            console.log('Get Pins', data.rows);
-            res.json(data.rows);
-        })
-            .catch((error) => {
-            console.log(error.message);
-        });
-    });
     return router;
 };
