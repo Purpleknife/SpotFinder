@@ -57,7 +57,9 @@ module.exports = (db) => {
         const user_id = req.params.user_id;
         const queryParams = [user_id];
         const queryString = `
-      SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.* FROM maps
+      SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username, users.first_name, users.last_name, users.email, 
+      users.password, users.profile_image, users.id AS user_id, users.city AS user_city, users.province AS user_province, users.country AS user_country
+      FROM maps
       JOIN pins ON map_id = maps.id
       JOIN users ON maps.creator = users.id
       WHERE maps.creator = $1
@@ -65,7 +67,7 @@ module.exports = (db) => {
     `;
         db.query(queryString, queryParams)
             .then((data) => {
-            res.json(data.rows[0]);
+            res.json(data.rows);
         })
             .catch((error) => {
             console.log(error.message);
