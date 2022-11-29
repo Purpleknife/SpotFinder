@@ -66,8 +66,8 @@ const Register = (props: RegisterProps) => {
               setCookie('user_id', res.data.id, {path: '/'});
               setCookie('logged_in', 'yes', {path: '/'});
               setShowError('');
-              //const user_id: (string | number) = res.data.id;
-              //navigate(`/dashboard/${user_id}`);
+              const user_id: (string | number) = res.data.id;
+              navigate(`/profile/${user_id}`);
             })
             .catch((error) => {
               console.log(error.message);

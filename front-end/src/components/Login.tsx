@@ -53,7 +53,7 @@ const Login = (props: LoginProps) => {
                   setCookie('user_id', res.data.id, {path: '/'});
                   setCookie('logged_in', 'yes', {path: '/'});
                   setShowError('');
-                  //navigate(`/dashboard/${user_id}`);
+                  navigate(`/profile/${user_id}`);
                 })
                 .catch(error => console.log(error.message));
             } else {
