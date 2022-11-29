@@ -6,12 +6,14 @@ This project's goal is to revisit an old project made with Node JS, Express and 
 
 <strong><h3> 📌 This project's goals are:</h3></strong>
 - Develop my skills in TypeScript.
+- Develop my skills in React.
 - Learn how to use Leaflet Maps API with React.
 - Manage an app that has a lot of features.
 
 ## Features
 - [ ] <strong>A non-logged-in user can :</strong>
   - [X] View all the maps.
+  - [X] View all the pins.
   - [ ] Search for maps.
   - [ ] Visit other users profiles.
   - [ ] View comments and likes on maps and pins.
