@@ -24,10 +24,12 @@ interface ContributionsProps {
   user_country: string;
   user_id: number;
   user_province: string;
-}
+  contributions: string;
+};
 
 
 const Contributions = (props: ContributionsProps) => {
+
   return (
     <div className='contributions'>
       <div className='contri_map'>
@@ -37,7 +39,8 @@ const Contributions = (props: ContributionsProps) => {
       <br />
       Location: {props.city}, {props.province}, {props.country}
       <br />
-      Created on {props.date_created}
+      Created by {props.username} on {props.date_created}
+      <br /> Last contribution: {props.contributions}
     </div>
   );
 }
