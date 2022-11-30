@@ -1,4 +1,4 @@
-INSERT INTO contributions (user_id, map_id, date_contibuted, contribution_type)
+INSERT INTO contributions (user_id, map_id, date_contributed, contribution_type)
 
 VALUES (1, 1, '2022-11-01', 'Created Map'),
 (1, 2, '2021-12-20', 'Created Map'),
