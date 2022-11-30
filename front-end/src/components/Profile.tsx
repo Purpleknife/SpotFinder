@@ -38,7 +38,7 @@ const Profile = () => {
   const loadContributions = async(id: number | string) => {
     return axios.get(`/contributions/${id}`)
       .then((res) => {
-        //console.log('contributions', res.data);
+        console.log('contributions', res.data);
         setContributions(res.data);
       })
       .catch((error) => {
@@ -48,10 +48,20 @@ const Profile = () => {
 
 
   // Get the contribution's type (Created Map or Edited Map) for a specific map.
-  const organizeContributions = (mapId: number) => {
+  const contributionsType = (mapId: number) => {
     for (const index in contributions) {
       if (contributions[index].map_id === mapId) {
         return contributions[index].contribution_type;
+      }
+    }
+  };
+
+
+  // Get the contribution's date for a specific map.
+  const contributionsDate = (mapId: number) => {
+    for (const index in contributions) {
+      if (contributions[index].map_id === mapId) {
+        return contributions[index].date_contibuted;
       }
     }
   };
@@ -103,7 +113,8 @@ const Profile = () => {
           user_country={data.user_country}
           user_id={data.user_id}
           user_province={data.user_province}
-          contributions={organizeContributions(data.id)}
+          contributions_type={contributionsType(data.id)}
+          contributions_date={contributionsDate(data.id)}
         />
       )
     });

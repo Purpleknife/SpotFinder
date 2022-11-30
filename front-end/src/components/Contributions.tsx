@@ -4,6 +4,7 @@ import MapView from './MapView';
 
 import './Contributions.scss';
 
+
 interface ContributionsProps {
   id: number;
   title: string;
@@ -24,7 +25,8 @@ interface ContributionsProps {
   user_country: string;
   user_id: number;
   user_province: string;
-  contributions: string;
+  contributions_type: string;
+  contributions_date: string;
 };
 
 
@@ -40,7 +42,7 @@ const Contributions = (props: ContributionsProps) => {
       Location: {props.city}, {props.province}, {props.country}
       <br />
       Created by {props.username} on {props.date_created}
-      <br /> Last contribution: {props.contributions}
+      <br /> Last contribution: {props.contributions_type}, {props.contributions_date}.
     </div>
   );
 }
