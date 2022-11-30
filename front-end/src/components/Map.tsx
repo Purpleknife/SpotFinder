@@ -25,17 +25,16 @@ const Map = (props: MapProps) => {
 
   return (
     <div className='map'>
-      <MapView id={props.id} key={props.id} latitude={props.latitude} longitude={props.longitude} allPins={props.pins}/>
+      Title: {props.title}
+      <br />
+      Location: {props.city}, {props.province}, {props.country}
       
-      <div className='map_info'>
-        Title: {props.title}
-        <br />
-        Location: {props.city}, {props.province}, {props.country}
-        <br />
-        Created by: <span onClick={() => navigate(`/profile/${props.creator}`)}>{props.username}</span>, on {props.date_created}
-      </div>
+      <MapView id={props.id} key={props.id} latitude={props.latitude} longitude={props.longitude} allPins={props.pins}/>
 
+      Created by:
+      <span onClick={() => navigate(`/profile/${props.creator}`)}> {props.username}</span>, on {props.date_created}
 
+      <br />
       <button type='submit' onClick={() => navigate(`/maps/${props.id}`, 
         { state: {
             id: props.id, 
