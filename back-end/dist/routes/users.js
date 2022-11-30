@@ -52,6 +52,10 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Route to logout users:
+    router.get('/logout', (req, res) => {
+        return res.json('You\'re logged out from SpotFinder!');
+    });
     // Route to load the user's profile:
     router.get('/profile/:user_id', (req, res) => {
         const user_id = req.params.user_id;
