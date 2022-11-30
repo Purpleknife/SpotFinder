@@ -9,6 +9,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import './Profile.scss';
 
 import Contributions from './Contributions';
+import NavBar from './Navbar';
 
 
 const Profile = () => {
@@ -110,6 +111,10 @@ const Profile = () => {
     setUserDataList(dataList);
   };
 
+  useEffect(() => {
+    document.title = `${username}'s profile`;
+  })
+
 
   useEffect(() => {
     if (params.user_id) {
@@ -132,6 +137,7 @@ const Profile = () => {
       :
 
       <div>
+        <NavBar />
         Hello, {username}!
 
         <br />

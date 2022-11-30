@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './NavBar.scss';
 
@@ -12,6 +12,7 @@ import Login from './Login';
 import Register from './Register';
 import axios from 'axios';
 
+
 const NavBar = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const username = cookies.username;
@@ -20,8 +21,9 @@ const NavBar = () => {
 
   const navigate = useNavigate();
 
-  const [showRegister, setShowRegister] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+  const [showButton, setShowButton] = useState<boolean>(true);
+  const [showRegister, setShowRegister] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   const handleRegisterClose = () => setShowRegister(false);
   const handleRegisterShow = () => setShowRegister(true);
@@ -42,17 +44,24 @@ const NavBar = () => {
       });
   };
 
+  useEffect(() => {
+    if (document.title.includes('profile')) {
+      setShowButton(false);
+    };
+  });
+
+
   return (
     <nav>
       <div className='logo'>SpotFinder</div>
 
       { logged_in
       ?
-        <>
+        <div>
           <span>Welcome, {username}!</span>
-          <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>
+          { showButton && <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>}
           <button type='submit' onClick={logout}>Logout</button>
-        </>
+        </div>
       :
       <div className='navbar_btn_lp'>
         <Button className='login_and_register' onClick={handleLoginShow}>
