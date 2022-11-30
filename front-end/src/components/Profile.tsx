@@ -61,7 +61,7 @@ const Profile = () => {
   const contributionsDate = (mapId: number) => {
     for (const index in contributions) {
       if (contributions[index].map_id === mapId) {
-        return contributions[index].date_contibuted;
+        return contributions[index].date_contributed;
       }
     }
   };
