@@ -10,9 +10,10 @@ import { useNavigate } from 'react-router-dom';
 
 import Login from './Login';
 import Register from './Register';
+import axios from 'axios';
 
 const NavBar = () => {
-  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
+  const [cookies, setCookie, removeCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const username = cookies.username;
   const logged_in = cookies.logged_in;
   const user_id = cookies.user_id;
@@ -28,6 +29,19 @@ const NavBar = () => {
   const handleLoginClose = () => setShowLogin(false);
   const handleLoginShow = () => setShowLogin(true);
 
+  const logout =  async() => {
+    return axios.get('/logout')
+      .then((res) => {
+        removeCookie('username', {path: '/'});
+        removeCookie('user_id', {path: '/'});
+        removeCookie('logged_in', {path: '/'});
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <nav>
       <div className='logo'>SpotFinder</div>
@@ -37,6 +51,7 @@ const NavBar = () => {
         <>
           <span>Welcome, {username}!</span>
           <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>
+          <button type='submit' onClick={logout}>Logout</button>
         </>
       :
       <div className='navbar_btn_lp'>
