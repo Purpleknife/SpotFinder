@@ -4,6 +4,7 @@ import MapView from './MapView';
 
 import './Contributions.scss';
 
+import { useNavigate } from 'react-router-dom';
 
 interface ContributionsProps {
   id: number;
@@ -32,6 +33,8 @@ interface ContributionsProps {
 
 const Contributions = (props: ContributionsProps) => {
 
+  const navigate = useNavigate();
+
   return (
     <div className='contributions'>
       <div className='contri_map'>
@@ -43,6 +46,20 @@ const Contributions = (props: ContributionsProps) => {
       <br />
       Created by {props.username} on {props.date_created}
       <br /> Last contribution: {props.contributions_type}, {props.contributions_date}.
+
+      <br />
+      <button type='submit' onClick={() => navigate(`/maps/${props.id}`, 
+        { state: {
+            id: props.id, 
+            key: props.id,
+            latitude: props.latitude,
+            longitude: props.longitude,
+            allPins: props.pins
+          }
+        }
+      )}>
+        View
+      </button>
     </div>
   );
 }
