@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { useCookies } from 'react-cookie';
 
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
 import './Profile.scss';
 
@@ -13,8 +13,8 @@ import Contributions from './Contributions';
 
 const Profile = () => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
-  const user_id = cookies.user_id;
   const username = cookies.username;
+  const logged_in = cookies.logged_in;
 
   const [userData, setUserData] = useState<any>(null);
   const [userDataList, setUserDataList] = useState<any>(null);
@@ -126,11 +126,20 @@ const Profile = () => {
 
   return (
     <div className='profile'>
-      Hello, {username}!
 
-      <br />
-      Contributions:
-      {userDataList}
+      { !logged_in
+      ? <Navigate to='/' />
+      :
+
+      <div>
+        Hello, {username}!
+
+        <br />
+        Contributions:
+        {userDataList}
+      </div>
+      }
+      
     </div>
   );
 }
