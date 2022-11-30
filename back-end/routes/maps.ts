@@ -26,5 +26,29 @@ module.exports = (db: any) => {
   });
 
 
+  // Get the comments of a specific map:
+  router.get('/maps/:map_id/comments', (req: Request, res: Response) => {
+    const map_id: string | number = req.params.map_id;
+
+    const queryParams: (string | number)[] = [map_id];
+    
+    const queryString: string = 
+      `SELECT map_comments.*, users.username, users.profile_image, users.first_name, users.last_name
+      FROM map_comments
+      JOIN users ON map_comments.user_id = users.id
+      WHERE map_comments.map_id = $1;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        console.log('Get comments', data.rows);
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
   return router;
 };
