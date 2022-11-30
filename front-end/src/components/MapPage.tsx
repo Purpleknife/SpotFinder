@@ -15,6 +15,7 @@ const MapPage = () => {
 
   const [mapComments, setMapComments] = useState<any>(null);
   const [allMapComments, setAllMapComments] = useState<any>(null);
+  const [totalComments, setTotalComments] = useState<number>(0);
 
   const location = useLocation();
 
@@ -25,6 +26,7 @@ const MapPage = () => {
       .then((res) => {
         console.log('comments', res.data);
         setMapComments(res.data);
+        setTotalComments(res.data.length);
       })
       .catch((error) => {
         console.log(error.message);
@@ -84,7 +86,7 @@ const MapPage = () => {
         longitude={location.state.longitude}
         allPins={location.state.allPins} 
       />
-
+      {totalComments} Comments
       {allMapComments}
 
     </div>
