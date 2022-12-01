@@ -14,7 +14,7 @@ import MapComments from './MapComments';
 import MapLikes from './MapLikes';
 
 const MapPage = () => {
-  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
+  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked']);
   const user_id = cookies.user_id;
 
   const [show, setShow] = useState(false);
@@ -29,6 +29,8 @@ const MapPage = () => {
   const [mapLikes, setMapLikes] = useState<any>(null);
   const [allMapLikes, setAllMapLikes] = useState<any>(null);
   const [totalLikes, setTotalLikes] = useState<number>(0);
+  const [color, setColor] = useState('');
+  const [alreadyLiked, setAlreadyLiked] = useState<boolean>(false);
 
   const location = useLocation();
 
@@ -75,6 +77,50 @@ const MapPage = () => {
     .catch((error) => {
       console.log(error.message);
     });
+  };
+
+
+  // Check if a user already liked a map:
+  const checkIfMapLikedByUser = () => {
+    for (const like in mapLikes) {
+      if (mapLikes[like].user_id === user_id) {
+        return setCookie('alreadyLiked', 'yes', {path: `/maps/${location.state.id}`});
+      }
+    }
+    return setCookie('alreadyLiked', 'no', {path: `/maps/${location.state.id}`});
+  };
+  
+  console.log('cookie', cookies.alreadyLiked);
+
+  // Add or remove a like depending on checkIfMapLikedByUser:
+  const addOrRemoveLike = async() => {
+    if (cookies.alreadyLiked === 'yes') {
+      return axios.delete(`/maps/${location.state.id}/likes/${user_id}`)
+        .then((res) => {
+          loadLikes();
+          setCookie('alreadyLiked', 'no', {path: `/maps/${location.state.id}`});
+          setColor('#000000');
+          console.log('delete likes');
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+
+    if (cookies.alreadyLiked === 'no') {
+      return axios.post(`/maps/${location.state.id}/likes`, {
+        user_id: user_id
+      })
+        .then((res) => {
+          loadLikes();
+          setColor('#FF0000');
+          setCookie('alreadyLiked', 'yes', {path: `/maps/${location.state.id}`});
+          console.log('add likes');
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
   };
 
   interface Like {
@@ -152,13 +198,24 @@ const MapPage = () => {
   useEffect(() => {
     if (mapLikes) {
       generateMapLikes();
+      //checkIfMapLikedByUser();
     }
   }, [mapLikes]);
 
   useEffect(() => {
     loadComments();
     loadLikes();
+    checkIfMapLikedByUser();
   }, []);
+
+  useEffect(() => {    
+    if (cookies.alreadyLiked) {
+      setColor('#FF0000');
+    }
+    if (!cookies.alreadyLiked) {
+      setColor('#000000');
+    }
+  }, [cookies.alreadyLiked])
 
 
   return (
@@ -170,16 +227,20 @@ const MapPage = () => {
         longitude={location.state.longitude}
         allPins={location.state.allPins} 
       />
-      {totalComments} Comments 
-      {totalLikes} <Button onClick={handleShow}>Likes</Button>
+      <i 
+        className="fa-solid fa-heart"
+        onClick={addOrRemoveLike}
+        style={ {color: `${color}`} }
+      ></i> <Button onClick={handleShow}>{totalLikes}</Button>&nbsp;&nbsp;
+      {totalComments} <i className="fa-solid fa-comment"></i>
 
-      <div>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{totalLikes} Likes</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{allMapLikes}</Modal.Body>
-      </Modal>
+      <div className='all_likes'>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{totalLikes} Likes</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{allMapLikes}</Modal.Body>
+        </Modal>
       </div>
       <br />
 
