@@ -58,5 +58,21 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Get the likes of a specific map:
+    router.get('/maps/:map_id/likes', (req, res) => {
+        const map_id = req.params.map_id;
+        const queryParams = [map_id];
+        const queryString = `SELECT map_likes.*, users.username, users.profile_image, users.first_name, users.last_name
+      FROM map_likes
+      JOIN users ON map_likes.user_id = users.id
+      WHERE map_likes.map_id = $1;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };
