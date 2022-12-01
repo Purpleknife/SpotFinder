@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
@@ -19,18 +19,35 @@ const MapPage = () => {
 
   const location = useLocation();
 
-  console.log('location', location.state)
+  const commentInput = useRef<HTMLInputElement>(null);
+
 
   const loadComments = async() => {
     return axios.get(`/maps/${location.state.id}/comments`)
       .then((res) => {
-        console.log('comments', res.data);
         setMapComments(res.data);
         setTotalComments(res.data.length);
       })
       .catch((error) => {
         console.log(error.message);
       });
+  };
+
+
+
+  const addMapComment = async() => {
+    return axios.post(`/maps/${location.state.id}/comments`, {
+      content: commentInput.current!.value,
+      user_id: user_id,
+    })
+    .then((res) => {
+      console.log('addComment', res.data);
+      commentInput.current!.value = '';
+      loadComments();
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
   };
 
   interface Comment {
@@ -87,6 +104,18 @@ const MapPage = () => {
         allPins={location.state.allPins} 
       />
       {totalComments} Comments
+      <br />
+
+      <input 
+        type='text'
+        name='comment'
+        placeholder='Write a comment here...'
+        ref={commentInput}
+      />
+
+      <button onClick={addMapComment}>Add</button>
+
+      <br />
       {allMapComments}
 
     </div>
