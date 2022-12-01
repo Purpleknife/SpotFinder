@@ -33,7 +33,25 @@ module.exports = (db) => {
       WHERE map_comments.map_id = $1;`;
         db.query(queryString, queryParams)
             .then((data) => {
-            console.log('Get comments', data.rows);
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
+    // Route to post a comment on a map:
+    router.post('/maps/:map_id/comments', (req, res) => {
+        const map_id = req.params.map_id;
+        const user_id = req.body.user_id;
+        const content = req.body.content;
+        const queryParams = [map_id, user_id, content];
+        const queryString = `
+      INSERT INTO map_comments (map_id, user_id, content, date_commented)
+      VALUES ($1, $2, $3, Now())
+      RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            console.log('add comments', data.rows);
             res.json(data.rows);
         })
             .catch((error) => {
