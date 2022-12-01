@@ -74,5 +74,40 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Delete a like in a specific map:
+    router.delete('/maps/:map_id/likes/:user_id', (req, res) => {
+        const map_id = req.params.map_id;
+        const user_id = req.params.user_id;
+        const queryParams = [map_id, user_id];
+        const queryString = `
+      DELETE FROM map_likes
+      WHERE map_id = $1
+      AND user_id = $2
+      RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
+    // Add a like in a specific map:
+    router.post('/maps/:map_id/likes', (req, res) => {
+        const user_id = req.body.user_id;
+        const map_id = req.params.map_id;
+        const queryParams = [user_id, map_id];
+        const queryString = `
+      INSERT INTO map_likes (user_id, map_id, date_liked)
+      VALUES ($1, $2, Now())
+      RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };

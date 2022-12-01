@@ -97,5 +97,52 @@ module.exports = (db: any) => {
   });
 
 
+  // Delete a like in a specific map:
+  router.delete('/maps/:map_id/likes/:user_id', (req: Request, res: Response) => {
+    const map_id: string | number = req.params.map_id;
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [map_id, user_id];
+    
+    const queryString: string = `
+      DELETE FROM map_likes
+      WHERE map_id = $1
+      AND user_id = $2
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+  // Add a like in a specific map:
+  router.post('/maps/:map_id/likes', (req: Request, res: Response) => {
+    const user_id: string | number = req.body.user_id;
+    const map_id: string | number = req.params.map_id;
+
+    const queryParams: (string | number)[] = [user_id, map_id];
+    
+    const queryString: string = `
+      INSERT INTO map_likes (user_id, map_id, date_liked)
+      VALUES ($1, $2, Now())
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
   return router;
 };
