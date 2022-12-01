@@ -50,10 +50,15 @@ const NavBar = () => {
     };
   });
 
+  const returnToHomePage = () => {
+    navigate('/');
+    window.location.reload();
+  };
+
 
   return (
     <nav>
-      <div className='logo'>SpotFinder</div>
+      <div className='logo' onClick={returnToHomePage}>SpotFinder</div>
 
       { logged_in
       ?
