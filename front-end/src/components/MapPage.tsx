@@ -215,9 +215,13 @@ const MapPage = () => {
 
   return (
     <div className='map_page'>
+      Title: {location.state.title} <br />
+      Created on: {location.state.date_created}
       <MapView 
         key={location.state.key}
         id={location.state.id}
+        title={location.state.title}
+        date_created={location.state.date_created}
         latitude={location.state.latitude}
         longitude={location.state.longitude}
         allPins={location.state.allPins} 

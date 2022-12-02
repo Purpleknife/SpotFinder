@@ -7,6 +7,8 @@ import Pins from './Pins';
 interface MapViewProps {
   id: number;
   key: number;
+  title: string;
+  date_created: string;
   latitude: number;
   longitude: number;
   allPins: any[];

@@ -77,6 +77,8 @@ const CreateMap = (props: CreateMapProps) => {
           { state: {
               id: res.data[0].map_id, 
               key: res.data[0].map_id,
+              title: titleInput,
+              date_created: res.data[0].date_contributed,
               latitude: latitude,
               longitude: longitude,
               allPins: []

@@ -29,7 +29,7 @@ const Map = (props: MapProps) => {
       <br />
       Location: {props.city}, {props.province}, {props.country}
       
-      <MapView id={props.id} key={props.id} latitude={props.latitude} longitude={props.longitude} allPins={props.pins}/>
+      <MapView id={props.id} key={props.id} title={props.title} date_created={props.date_created} latitude={props.latitude} longitude={props.longitude} allPins={props.pins}/>
 
       Created by:
       <span onClick={() => navigate(`/profile/${props.creator}`)}> {props.username}</span>, on {props.date_created}
@@ -39,6 +39,8 @@ const Map = (props: MapProps) => {
         { state: {
             id: props.id, 
             key: props.id,
+            title: props.title,
+            date_created: props.date_created,
             latitude: props.latitude,
             longitude: props.longitude,
             allPins: props.pins

@@ -38,7 +38,7 @@ const Contributions = (props: ContributionsProps) => {
   return (
     <div className='contributions'>
       <div className='contri_map'>
-        <MapView key={props.id} id={props.id} latitude={props.latitude} longitude={props.longitude} allPins={props.pins} />
+        <MapView key={props.id} id={props.id} title={props.title} date_created={props.date_created} latitude={props.latitude} longitude={props.longitude} allPins={props.pins} />
       </div>
       Title: {props.title}
       <br />
@@ -52,6 +52,8 @@ const Contributions = (props: ContributionsProps) => {
         { state: {
             id: props.id, 
             key: props.id,
+            title: props.title,
+            date_created: props.date_created,
             latitude: props.latitude,
             longitude: props.longitude,
             allPins: props.pins
