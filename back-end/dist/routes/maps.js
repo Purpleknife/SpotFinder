@@ -109,5 +109,16 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Get coordinates from 09_coordinates.sql:
+    router.get('/coordinates', (req, res) => {
+        const queryString = `SELECT * FROM coordinates;`;
+        db.query(queryString)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };

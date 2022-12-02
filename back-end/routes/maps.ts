@@ -144,5 +144,21 @@ module.exports = (db: any) => {
   });
 
 
+  // Get coordinates from 09_coordinates.sql:
+  router.get('/coordinates', (req: Request, res: Response) => {
+    const queryString: string = 
+      `SELECT * FROM coordinates;`;
+
+    db.query(queryString)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+
   return router;
 };
