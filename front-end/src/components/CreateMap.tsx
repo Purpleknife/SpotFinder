@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+
+import { useCookies } from 'react-cookie';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
 
 interface CreateMapProps {
   handleClose: () => void;
@@ -13,10 +16,20 @@ interface CreateMapProps {
 }
 
 const CreateMap = (props: CreateMapProps) => {
+  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
+  const user_id = cookies.user_id;
+
   const navigate = useNavigate();
-  
+
+  const [locationInput, setLocationInput] = useState<string>('');
+  const [titleInput, setTitleInput] = useState<string>('');
+
+  // console.log('location', locationInput);
+  // console.log('test', locationInput.split(', '));
+
   const [coordinatesList, setCoordinatesList] = useState<any>(null);
-  
+  //const [createNewMap, setCreateNewMap] = useState<any>(null);
+
   interface Coordinates {
     id: number;
     city: string;
@@ -28,18 +41,57 @@ const CreateMap = (props: CreateMapProps) => {
   };
 
 
-  const generateCoordinatesList = () => {
+  const generateLocationList = () => {
     const coorList = props.coordinates.map((coor: Coordinates) => {
       return (
-        <option key={coor.id} value={coor.city}>{coor.city}, {coor.province}, {coor.country}</option>
+        <option key={coor.id} value={coor.latitude +', '+ coor.longitude +', '+ coor.city +', '+ coor.province+', '+ coor.country}>
+          {coor.city}, {coor.province}, {coor.country}
+        </option>
       )
     });
     setCoordinatesList(coorList);
   };
 
+
+  const createMap = async() => {
+    const data = locationInput.split(', ');
+    const latitude = data[0];
+    const longitude = data[1];
+    const city = data[2];
+    const province = data[3];
+    const country = data[4];
+
+
+    return axios.post(`/maps/${user_id}`, {
+      creator: user_id,
+      title: titleInput,
+      city: city,
+      province: province,
+      country: country,
+      latitude: latitude,
+      longitude: longitude
+    })
+      .then((res) => {
+        console.log('data we got back', res.data);
+        navigate(`/maps/${res.data[0].map_id}`, 
+          { state: {
+              id: res.data[0].map_id, 
+              key: res.data[0].map_id,
+              latitude: latitude,
+              longitude: longitude,
+              allPins: []
+            }
+          }
+        )
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
     if (props.coordinates) {
-      generateCoordinatesList();
+      generateLocationList();
     }
   }, [props.coordinates]);
 
@@ -61,7 +113,9 @@ const CreateMap = (props: CreateMapProps) => {
               name='title'
               autoFocus
               placeholder="Best Dog Parks, Best Restaurants in Town..."
-
+              onChange = {(event) => {
+                setTitleInput(event.target.value)}
+              }
               required
             />
           </Form.Group>
@@ -74,7 +128,11 @@ const CreateMap = (props: CreateMapProps) => {
             <Form.Control
               required
               as='select'
-            >
+              onChange = {(event) => {
+                setLocationInput(event.target.value)}
+              }
+              >
+              
               <option value="Choose a province">Choose a province</option>
               {coordinatesList}
             </Form.Control>
@@ -85,7 +143,7 @@ const CreateMap = (props: CreateMapProps) => {
       </Modal.Body>
       <Modal.Footer>
 
-        <Button >
+        <Button onClick={createMap}>
           Create
         </Button>
       </Modal.Footer>
