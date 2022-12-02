@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from "leaflet";
 
 interface PinProps {
-  id: number | string;
+  //id: number | string;
   latitude: number;
   longitude: number;
   title: string;
@@ -17,7 +17,10 @@ const Pins = (props: PinProps) => {
   const icon = L.icon({ iconUrl: "/images/marker-icon.png" });
 
   return (
-    <Marker position={[props.latitude, props.longitude]} icon={icon}>
+    <>
+    { props && 
+      
+      <Marker position={[props.latitude, props.longitude]} icon={icon}>
       <Popup>
         {props.title} <br />
         <img
@@ -28,6 +31,9 @@ const Pins = (props: PinProps) => {
         {props.description}
       </Popup>
     </Marker>
+    
+  }
+  </>
   );
 }
  

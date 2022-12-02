@@ -11,6 +11,7 @@ import axios from 'axios';
 
 interface CreateMapProps {
   handleClose: () => void;
+  refetch: () => void;
   show: boolean;
   coordinates: any[];
 }
@@ -73,6 +74,7 @@ const CreateMap = (props: CreateMapProps) => {
     })
       .then((res) => {
         console.log('data we got back', res.data);
+        props.refetch();
         navigate(`/maps/${res.data[0].map_id}`, 
           { state: {
               id: res.data[0].map_id, 
@@ -84,7 +86,8 @@ const CreateMap = (props: CreateMapProps) => {
               allPins: []
             }
           }
-        )
+        );
+        
       })
       .catch((error) => {
         console.log(error.message);

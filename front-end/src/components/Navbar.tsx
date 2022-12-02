@@ -17,6 +17,7 @@ import axios from 'axios';
 
 interface NavBarProps {
   coordinates: any[];
+  refetch: () => void;
 }
 
 
@@ -78,7 +79,7 @@ const NavBar = (props: NavBarProps) => {
           <Button onClick={handleCreateShow}>
             Create New Map
           </Button>
-          <CreateMap handleClose={handleCreateClose} show={showCreate} coordinates={props.coordinates} />
+          <CreateMap refetch={props.refetch} handleClose={handleCreateClose} show={showCreate} coordinates={props.coordinates} />
 
           <span>Welcome, {username}!</span>
           { showButton && <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>}
