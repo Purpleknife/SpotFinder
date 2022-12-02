@@ -6,21 +6,12 @@ import axios from 'axios';
 
 import './LandingPage.scss';
 
-const LandingPage = () => {
+interface LandingPageProps {
+  mapData: any[];
+}
+
+const LandingPage = (props: LandingPageProps) => {
   const [mapList, setMapList] = useState<any>(null);
-  const [mapData, setMapData] = useState<any>(null);
-
-  const loadAllMaps = async() => {
-    return axios.get('/maps')
-      .then((res) => {
-        console.log('maps from front-end', res.data);
-        setMapData(res.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
 
   interface Map {
     id: number;
@@ -37,7 +28,7 @@ const LandingPage = () => {
   }
 
   const generateMapList = () => {
-    const allMaps = mapData.map((mp: Map) => {
+    const allMaps = props.mapData.map((mp: Map) => {
       return (
         <Map
           key={mp.id}
@@ -59,14 +50,11 @@ const LandingPage = () => {
   };
 
   useEffect(() => {
-    if (mapData) {
+    if (props.mapData) {
       generateMapList();
     }
-  }, [mapData]);
+  }, [props.mapData]);
 
-  useEffect(() => {
-    loadAllMaps();
-  }, []);
 
 
   return (
