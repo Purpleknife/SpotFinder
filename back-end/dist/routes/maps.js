@@ -13,7 +13,8 @@ module.exports = (db) => {
         const queryString = `SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username AS username FROM maps
       LEFT JOIN pins ON map_id = maps.id
       JOIN users ON maps.creator = users.id
-      GROUP BY maps.id, users.username;`;
+      GROUP BY maps.id, users.username
+      ORDER BY maps.id DESC;`;
         db.query(queryString)
             .then((data) => {
             //console.log('Get MAPS', data.rows);
