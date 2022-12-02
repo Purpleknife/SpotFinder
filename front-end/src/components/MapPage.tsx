@@ -29,8 +29,7 @@ const MapPage = () => {
   const [mapLikes, setMapLikes] = useState<any>(null);
   const [allMapLikes, setAllMapLikes] = useState<any>(null);
   const [totalLikes, setTotalLikes] = useState<number>(0);
-  const [color, setColor] = useState('');
-  const [alreadyLiked, setAlreadyLiked] = useState<boolean>(false);
+  const [color, setColor] = useState('#000000');
 
   const location = useLocation();
 
@@ -81,41 +80,36 @@ const MapPage = () => {
 
 
   // Check if a user already liked a map:
-  const checkIfMapLikedByUser = () => {
+  const checkIfMapLikedByUser = (id: number) => {
     for (const like in mapLikes) {
-      if (mapLikes[like].user_id === user_id) {
-        return setCookie('alreadyLiked', 'yes', {path: `/maps/${location.state.id}`});
+      if (mapLikes[like].user_id === Number(id)) { //=> Had to convert to Number because the user_id from cookies is a string.
+        return true;
       }
     }
-    return setCookie('alreadyLiked', 'no', {path: `/maps/${location.state.id}`});
+    return false;
   };
-  
-  console.log('cookie', cookies.alreadyLiked);
+
 
   // Add or remove a like depending on checkIfMapLikedByUser:
-  const addOrRemoveLike = async() => {
-    if (cookies.alreadyLiked === 'yes') {
+  const addOrRemoveLike = async() => {    
+    if (checkIfMapLikedByUser(user_id)) {
       return axios.delete(`/maps/${location.state.id}/likes/${user_id}`)
         .then((res) => {
-          loadLikes();
           setCookie('alreadyLiked', 'no', {path: `/maps/${location.state.id}`});
-          setColor('#000000');
-          console.log('delete likes');
+          loadLikes();
         })
         .catch((error) => {
           console.log(error.message);
         });
     }
 
-    if (cookies.alreadyLiked === 'no') {
+    if (!checkIfMapLikedByUser(user_id)) {
       return axios.post(`/maps/${location.state.id}/likes`, {
         user_id: user_id
       })
         .then((res) => {
-          loadLikes();
-          setColor('#FF0000');
           setCookie('alreadyLiked', 'yes', {path: `/maps/${location.state.id}`});
-          console.log('add likes');
+          loadLikes();
         })
         .catch((error) => {
           console.log(error.message);
@@ -198,21 +192,22 @@ const MapPage = () => {
   useEffect(() => {
     if (mapLikes) {
       generateMapLikes();
-      //checkIfMapLikedByUser();
     }
+    
   }, [mapLikes]);
 
   useEffect(() => {
     loadComments();
     loadLikes();
-    checkIfMapLikedByUser();
   }, []);
 
-  useEffect(() => {    
-    if (cookies.alreadyLiked) {
+
+  // To change the color of the like button to red if the user already liked the map.
+  useEffect(() => {
+    if (cookies.alreadyLiked === 'yes') {
       setColor('#FF0000');
     }
-    if (!cookies.alreadyLiked) {
+    if (cookies.alreadyLiked === 'no') {
       setColor('#000000');
     }
   }, [cookies.alreadyLiked])
