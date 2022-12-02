@@ -10,10 +10,11 @@ module.exports = (db: any) => {
   router.get('/maps', (req: Request, res: Response) => {
     const queryString: string = 
       `SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username AS username FROM maps
-      JOIN pins ON map_id = maps.id
+      LEFT JOIN pins ON map_id = maps.id
       JOIN users ON maps.creator = users.id
       GROUP BY maps.id, users.username;`
       ;
+
 
     db.query(queryString)
       .then((data: any) => {
