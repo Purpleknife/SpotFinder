@@ -1,33 +1,22 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-import LocationList from './LocationList';
-
-
 interface CreateMapProps {
   handleClose: () => void;
   show: boolean;
+  coordinates: any[];
 }
 
 const CreateMap = (props: CreateMapProps) => {
-  const [coordinates, setCoordinates] = useState<any>(null);
+  const navigate = useNavigate();
+  
   const [coordinatesList, setCoordinatesList] = useState<any>(null);
-
-  const getCoordinates = async() => {
-    return axios.get('/coordinates')
-      .then((res) => {
-        console.log('coordinates', res.data);
-        setCoordinates(res.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
+  
   interface Coordinates {
     id: number;
     city: string;
@@ -35,37 +24,25 @@ const CreateMap = (props: CreateMapProps) => {
     country: string;
     latitude: number;
     longitude: number;
+    
   };
 
 
   const generateCoordinatesList = () => {
-    const coorList = coordinates.map((coor: Coordinates) => {
+    const coorList = props.coordinates.map((coor: Coordinates) => {
       return (
-        <LocationList
-          key={coor.id}
-          id={coor.id}
-          city={coor.city}
-          province={coor.province}
-          country={coor.country}
-          latitude={coor.latitude}
-          longitude={coor.longitude}
-
-        />
+        <option key={coor.id} value={coor.city}>{coor.city}, {coor.province}, {coor.country}</option>
       )
     });
     setCoordinatesList(coorList);
   };
 
   useEffect(() => {
-    if (coordinates) {
+    if (props.coordinates) {
       generateCoordinatesList();
     }
-  }, [coordinates]);
+  }, [props.coordinates]);
 
-
-  useEffect(() => {
-    getCoordinates();
-  }, []);
 
   return (
     <>
@@ -83,7 +60,7 @@ const CreateMap = (props: CreateMapProps) => {
               type='title'
               name='title'
               autoFocus
-              placeholder="Best Dog Parks..."
+              placeholder="Best Dog Parks, Best Restaurants in Town..."
 
               required
             />
@@ -108,7 +85,7 @@ const CreateMap = (props: CreateMapProps) => {
       </Modal.Body>
       <Modal.Footer>
 
-        <Button>
+        <Button >
           Create
         </Button>
       </Modal.Footer>
