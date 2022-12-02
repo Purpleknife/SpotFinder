@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Login from './Login';
 import Register from './Register';
+import CreateMap from './CreateMap';
+
 import axios from 'axios';
 
 
@@ -24,6 +26,10 @@ const NavBar = () => {
   const [showButton, setShowButton] = useState<boolean>(true);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showCreate, setShowCreate] = useState<boolean>(false);
+
+  const handleCreateClose = () => setShowCreate(false);
+  const handleCreateShow = () => setShowCreate(true);
 
   const handleRegisterClose = () => setShowRegister(false);
   const handleRegisterShow = () => setShowRegister(true);
@@ -63,6 +69,11 @@ const NavBar = () => {
       { logged_in
       ?
         <div>
+          <Button onClick={handleCreateShow}>
+            Create New Map
+          </Button>
+          <CreateMap handleClose={handleCreateClose} show={showCreate}/>
+
           <span>Welcome, {username}!</span>
           { showButton && <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>}
           <button type='submit' onClick={logout}>Logout</button>
