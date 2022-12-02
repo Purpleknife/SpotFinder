@@ -16,7 +16,7 @@ module.exports = (db) => {
       GROUP BY maps.id, users.username;`;
         db.query(queryString)
             .then((data) => {
-            console.log('Get MAPS', data.rows);
+            //console.log('Get MAPS', data.rows);
             res.json(data.rows);
         })
             .catch((error) => {
@@ -51,7 +51,7 @@ module.exports = (db) => {
       RETURNING *;`;
         db.query(queryString, queryParams)
             .then((data) => {
-            console.log('add comments', data.rows);
+            //console.log('add comments', data.rows);
             res.json(data.rows);
         })
             .catch((error) => {
@@ -114,6 +114,34 @@ module.exports = (db) => {
         const queryString = `SELECT * FROM coordinates;`;
         db.query(queryString)
             .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
+    // Create a new map:
+    router.post('/maps/:user_id', (req, res) => {
+        const creator = req.body.creator;
+        const title = req.body.title;
+        const city = req.body.city;
+        const province = req.body.province;
+        const country = req.body.country;
+        const latitude = req.body.latitude;
+        const longitude = req.body.longitude;
+        const queryParams = [creator, title, city, province, country, latitude, longitude];
+        const queryString = `
+    WITH first_insert AS (
+      INSERT INTO maps (creator, date_created, title, city, province, country, latitude, longitude)
+      VALUES ($1, Now(), $2, $3, $4, $5, $6, $7)
+      RETURNING *
+    )
+    INSERT INTO contributions (user_id, map_id, date_contributed, contribution_type)
+    VALUES ($1, (SELECT id FROM first_insert), Now(), 'Created Map')
+    RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            console.log('weird query', data.rows);
             res.json(data.rows);
         })
             .catch((error) => {

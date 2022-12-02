@@ -17,7 +17,7 @@ module.exports = (db: any) => {
 
     db.query(queryString)
       .then((data: any) => {
-        console.log('Get MAPS', data.rows);
+        //console.log('Get MAPS', data.rows);
         res.json(data.rows);
       })
       .catch((error: Error) => {
@@ -65,7 +65,7 @@ module.exports = (db: any) => {
 
     db.query(queryString, queryParams)
       .then((data: any) => {
-        console.log('add comments', data.rows);
+        //console.log('add comments', data.rows);
         res.json(data.rows);
       })
       .catch((error: Error) => {
@@ -151,6 +151,40 @@ module.exports = (db: any) => {
 
     db.query(queryString)
       .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+  // Create a new map:
+  router.post('/maps/:user_id', (req: Request, res: Response) => {
+    const creator: string | number = req.body.creator;
+    const title: string = req.body.title;
+    const city: string = req.body.city;
+    const province: string = req.body.province;
+    const country: string = req.body.country;
+    const latitude: number = req.body.latitude;
+    const longitude: number = req.body.longitude;
+
+    const queryParams: (string | number)[] = [creator, title, city, province, country, latitude, longitude];
+    
+    const queryString: string = `
+    WITH first_insert AS (
+      INSERT INTO maps (creator, date_created, title, city, province, country, latitude, longitude)
+      VALUES ($1, Now(), $2, $3, $4, $5, $6, $7)
+      RETURNING *
+    )
+    INSERT INTO contributions (user_id, map_id, date_contributed, contribution_type)
+    VALUES ($1, (SELECT id FROM first_insert), Now(), 'Created Map')
+    RETURNING *;`
+    ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        console.log('weird query', data.rows);
         res.json(data.rows);
       })
       .catch((error: Error) => {
