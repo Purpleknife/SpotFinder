@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from "leaflet";
 
 interface PinProps {
-  //id: number | string;
+  id: number | string;
   latitude: number;
   longitude: number;
   title: string;

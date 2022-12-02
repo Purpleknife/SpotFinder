@@ -29,22 +29,43 @@ const LandingPage = (props: LandingPageProps) => {
 
   const generateMapList = () => {
     const allMaps = props.mapData.map((mp: Map) => {
-      return (
-        <Map
-          key={mp.id}
-          id={mp.id}
-          creator={mp.creator}
-          username={mp.username}
-          date_created={mp.date_created}
-          title={mp.title}
-          city={mp.city}
-          province={mp.province}
-          country={mp.country}
-          latitude={mp.latitude}
-          longitude={mp.longitude}
-          pins={mp.pins}
-        />
-      )
+      if (mp.pins[0] === null) { // => When you create a new map, its pins are null.
+        return (
+          <Map
+            key={mp.id}
+            id={mp.id}
+            creator={mp.creator}
+            username={mp.username}
+            date_created={mp.date_created}
+            title={mp.title}
+            city={mp.city}
+            province={mp.province}
+            country={mp.country}
+            latitude={mp.latitude}
+            longitude={mp.longitude}
+            pins={[]}
+          />
+        )
+      } else {
+        return (
+          <Map
+            key={mp.id}
+            id={mp.id}
+            creator={mp.creator}
+            username={mp.username}
+            date_created={mp.date_created}
+            title={mp.title}
+            city={mp.city}
+            province={mp.province}
+            country={mp.country}
+            latitude={mp.latitude}
+            longitude={mp.longitude}
+            
+            pins={mp.pins}
+          />
+        )
+      }
+      
     });
     setMapList(allMaps);
   };

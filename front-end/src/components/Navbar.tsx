@@ -65,7 +65,7 @@ const NavBar = (props: NavBarProps) => {
 
   const returnToHomePage = () => {
     navigate('/');
-    window.location.reload();
+    //window.location.reload();
   };
 
 

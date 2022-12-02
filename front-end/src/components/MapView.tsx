@@ -21,12 +21,13 @@ const MapView = (props: MapViewProps) => {
   const [pinList, setPinList] = useState<any>([]);
 
   const generatePins = () => {
-    if (props.allPins) {
-      const pinsForMaps = props.allPins?.map((pin) => {
+    if (props.allPins.length) {
+      const pinsForMaps = props.allPins.map((pin) => {
         //console.log('PIN', pin);
         return (
           <Pins
             key={pin.id}
+            id={pin.id}
             latitude={pin.latitude}
             longitude={pin.longitude}
             title={pin.title}
@@ -40,10 +41,10 @@ const MapView = (props: MapViewProps) => {
   };
 
   useEffect(() => {
-    if (props.allPins) {
+    if (props.allPins.length) {
       generatePins();
     }
-  }, [props.allPins])
+  }, [props.allPins.length])
 
 
   return (
@@ -54,7 +55,7 @@ const MapView = (props: MapViewProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      { props.allPins && pinList}
+      { props.allPins.length && pinList}
 
     </MapContainer>
 
