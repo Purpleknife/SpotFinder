@@ -15,7 +15,12 @@ import CreateMap from './CreateMap';
 import axios from 'axios';
 
 
-const NavBar = () => {
+interface NavBarProps {
+  coordinates: any[];
+}
+
+
+const NavBar = (props: NavBarProps) => {
   const [cookies, setCookie, removeCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const username = cookies.username;
   const logged_in = cookies.logged_in;
@@ -26,6 +31,7 @@ const NavBar = () => {
   const [showButton, setShowButton] = useState<boolean>(true);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
+  
   const [showCreate, setShowCreate] = useState<boolean>(false);
 
   const handleCreateClose = () => setShowCreate(false);
@@ -72,7 +78,7 @@ const NavBar = () => {
           <Button onClick={handleCreateShow}>
             Create New Map
           </Button>
-          <CreateMap handleClose={handleCreateClose} show={showCreate}/>
+          <CreateMap handleClose={handleCreateClose} show={showCreate} coordinates={props.coordinates} />
 
           <span>Welcome, {username}!</span>
           { showButton && <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>}

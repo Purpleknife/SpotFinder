@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import NavBar from "./Navbar";
 import Map from './Map';
 
 import axios from 'axios';
@@ -72,8 +71,6 @@ const LandingPage = () => {
 
   return (
     <div className='landing_page'>
-      <NavBar />
-
       <div className='map_container'>
         {mapList}
       </div>
