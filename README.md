@@ -19,7 +19,8 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [X] View comments and likes on maps.
   - [ ] View comments and likes on pins.
 - [ ] <strong>A logged-in user can :</strong>
-  - [ ] Create and delete maps.
+  - [X] Create new maps.
+  - [ ] Delete their own maps.
   - [ ] Edit their own maps.
   - [ ] Add pins to maps: with a title, a description and an image.
   - [ ] Edit and delete their own pins.
