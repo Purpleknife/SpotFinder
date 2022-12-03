@@ -64,10 +64,11 @@ module.exports = (db) => {
       SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username, users.first_name, users.last_name, users.email, 
       users.password, users.profile_image, users.id AS user_id, users.city AS user_city, users.province AS user_province, users.country AS user_country
       FROM maps
-      JOIN pins ON map_id = maps.id
+      LEFT JOIN pins ON map_id = maps.id
       JOIN users ON maps.creator = users.id
       WHERE maps.creator = $1
-      GROUP BY maps.id, users.id;
+      GROUP BY maps.id, users.id
+      ORDER BY maps.id DESC;
     `;
         db.query(queryString, queryParams)
             .then((data) => {
