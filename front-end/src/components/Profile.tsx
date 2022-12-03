@@ -10,8 +10,11 @@ import './Profile.scss';
 
 import Contributions from './Contributions';
 
+interface ProfileProps {
+  refetch: () => void;
+}
 
-const Profile = () => {
+const Profile = (props: ProfileProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const username = cookies.username;
   const logged_in = cookies.logged_in;
@@ -19,14 +22,17 @@ const Profile = () => {
   const [userData, setUserData] = useState<any>(null);
   const [userDataList, setUserDataList] = useState<any>(null);
   const [contributions, setContributions] = useState<any>(null);
+  const [refetch, setRefetch] = useState<boolean>(true);
+  
 
   const params = useParams(); // Used to dynamically visit other users's profiles.
 
   const loadProfileData = async(id: number | string) => {
     return axios.get(`/profile/${id}`)
       .then((res) => {
-        //console.log('profile', res.data);
+        console.log('profile', res.data);
         setUserData(res.data);
+        //setRefetch(false);
       })
       .catch((error) => {
         console.log(error.message);
@@ -39,6 +45,7 @@ const Profile = () => {
       .then((res) => {
         console.log('contributions', res.data);
         setContributions(res.data);
+        //setRefetch(false);
       })
       .catch((error) => {
         console.log(error.message);
@@ -90,32 +97,62 @@ const Profile = () => {
 
   const generateUserData = () => {
     const dataList = userData.map((data: Data) => {
-      return (
-        <Contributions
-          key={data.id}
-          id={data.id}
-          title={data.title}
-          city={data.city}
-          province={data.province}
-          country={data.country}
-          creator={data.creator}
-          date_created={data.date_created}
-          pins={data.pins}
-          latitude={data.latitude}
-          longitude={data.longitude}
-          username={data.username}
-          email={data.email}
-          first_name={data.first_name}
-          last_name={data.last_name}
-          password={data.password}
-          profile_image={data.profile_image}
-          user_country={data.user_country}
-          user_id={data.user_id}
-          user_province={data.user_province}
-          contributions_type={contributionsType(data.id)}
-          contributions_date={contributionsDate(data.id)}
-        />
-      )
+      if (data.pins[0] === null) { // => When you create a new map, its pins are null.
+        return (
+          <Contributions
+            key={data.id}
+            id={data.id}
+            title={data.title}
+            city={data.city}
+            province={data.province}
+            country={data.country}
+            creator={data.creator}
+            date_created={data.date_created}
+            pins={[]}
+            latitude={data.latitude}
+            longitude={data.longitude}
+            username={data.username}
+            email={data.email}
+            first_name={data.first_name}
+            last_name={data.last_name}
+            password={data.password}
+            profile_image={data.profile_image}
+            user_country={data.user_country}
+            user_id={data.user_id}
+            user_province={data.user_province}
+            contributions_type={contributionsType(data.id)}
+            contributions_date={contributionsDate(data.id)}
+          />
+        )
+      } else {
+        return (
+          <Contributions
+            key={data.id}
+            id={data.id}
+            title={data.title}
+            city={data.city}
+            province={data.province}
+            country={data.country}
+            creator={data.creator}
+            date_created={data.date_created}
+            pins={data.pins}
+            latitude={data.latitude}
+            longitude={data.longitude}
+            username={data.username}
+            email={data.email}
+            first_name={data.first_name}
+            last_name={data.last_name}
+            password={data.password}
+            profile_image={data.profile_image}
+            user_country={data.user_country}
+            user_id={data.user_id}
+            user_province={data.user_province}
+            contributions_type={contributionsType(data.id)}
+            contributions_date={contributionsDate(data.id)}
+          />
+        )
+      }
+      
     });
 
     setUserDataList(dataList);
@@ -131,7 +168,7 @@ const Profile = () => {
       loadProfileData(params.user_id);
       loadContributions(params.user_id);
     }
-  }, []);
+  }, [props.refetch]);
 
   useEffect(() => {
     if (userData) {

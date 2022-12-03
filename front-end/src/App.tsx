@@ -14,12 +14,12 @@ const App = () => {
   const [mapData, setMapData] = useState<any>([]);
   const [refetch, setRefetch] = useState<boolean>(true);
 
-  console.log('refecth', refetch);
+  //console.log('refecth', refetch);
 
   const loadAllMaps = async() => {
     return axios.get('/maps')
       .then((res) => {
-        console.log('maps from front-end', res.data);
+        //console.log('maps from front-end', res.data);
         setMapData(res.data);
         setRefetch(false);
       })
@@ -32,7 +32,7 @@ const App = () => {
   const getCoordinates = async() => {
     return axios.get('/coordinates')
       .then((res) => {
-        console.log('coordinates', res.data);
+        //console.log('coordinates', res.data);
         setCoordinates(res.data);
       })
       .catch((error) => {
@@ -46,7 +46,6 @@ const App = () => {
 
   useEffect(() => {
     getCoordinates();
-    
   }, []);
 
 
@@ -63,7 +62,11 @@ const App = () => {
             <NavBar coordinates={coordinates} refetch={() => setRefetch(true)} />
             <MapPage />
           </>} />
-        <Route path='/profile/:user_id' element={<><NavBar refetch={() => setRefetch(true)} coordinates={coordinates} /><Profile /></>} />
+        <Route path='/profile/:user_id' element={
+          <>
+            <NavBar refetch={() => setRefetch(true)} coordinates={coordinates} />
+            <Profile refetch={() => setRefetch(true)}/>
+          </>} />
       </Routes>
     </BrowserRouter>
   );
