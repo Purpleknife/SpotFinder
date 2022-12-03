@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -24,12 +24,7 @@ const CreateMap = (props: CreateMapProps) => {
 
   const [locationInput, setLocationInput] = useState<string>('');
   const [titleInput, setTitleInput] = useState<string>('');
-
-  // console.log('location', locationInput);
-  // console.log('test', locationInput.split(', '));
-
   const [coordinatesList, setCoordinatesList] = useState<any>(null);
-  //const [createNewMap, setCreateNewMap] = useState<any>(null);
 
   interface Coordinates {
     id: number;
@@ -73,8 +68,8 @@ const CreateMap = (props: CreateMapProps) => {
       longitude: longitude
     })
       .then((res) => {
-        console.log('data we got back', res.data);
-        props.refetch();
+        //console.log('data we got back', res.data);
+        props.refetch(); // => Load all the maps + the new one in the Landing Page.
         navigate(`/maps/${res.data[0].map_id}`, 
           { state: {
               id: res.data[0].map_id, 
@@ -87,6 +82,7 @@ const CreateMap = (props: CreateMapProps) => {
             }
           }
         );
+        props.handleClose();
         
       })
       .catch((error) => {

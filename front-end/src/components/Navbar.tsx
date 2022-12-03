@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 import { useCookies } from 'react-cookie';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Login from './Login';
 import Register from './Register';
@@ -28,8 +28,8 @@ const NavBar = (props: NavBarProps) => {
   const user_id = cookies.user_id;
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [showButton, setShowButton] = useState<boolean>(true);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
   
@@ -44,6 +44,7 @@ const NavBar = (props: NavBarProps) => {
   const handleLoginClose = () => setShowLogin(false);
   const handleLoginShow = () => setShowLogin(true);
 
+
   const logout =  async() => {
     return axios.get('/logout')
       .then((res) => {
@@ -57,21 +58,11 @@ const NavBar = (props: NavBarProps) => {
       });
   };
 
-  useEffect(() => {
-    if (document.title.includes('profile')) {
-      setShowButton(false);
-    };
-  });
-
-  const returnToHomePage = () => {
-    navigate('/');
-    //window.location.reload();
-  };
 
 
   return (
     <nav>
-      <div className='logo' onClick={returnToHomePage}>SpotFinder</div>
+      <div className='logo' onClick={() => navigate('/')}>SpotFinder</div>
 
       { logged_in
       ?
@@ -82,7 +73,7 @@ const NavBar = (props: NavBarProps) => {
           <CreateMap refetch={props.refetch} handleClose={handleCreateClose} show={showCreate} coordinates={props.coordinates} />
 
           <span>Welcome, {username}!</span>
-          { showButton && <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>}
+          { !location.pathname.includes('profile') && <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>}
           <button type='submit' onClick={logout}>Logout</button>
         </div>
       :
