@@ -18,22 +18,18 @@ const Pins = (props: PinProps) => {
 
   return (
     <>
-    { props && 
-      
       <Marker position={[props.latitude, props.longitude]} icon={icon}>
-      <Popup>
-        {props.title} <br />
-        <img
-          className='pin_img'
-          alt='pin_img'
-          src={props.image}
-        /><br />
-        {props.description}
-      </Popup>
-    </Marker>
-    
-  }
-  </>
+        <Popup>
+          {props.title} <br />
+          <img
+            className='pin_img'
+            alt='pin_img'
+            src={props.image}
+          /><br />
+          {props.description}
+        </Popup>
+      </Marker>
+    </>
   );
 }
  

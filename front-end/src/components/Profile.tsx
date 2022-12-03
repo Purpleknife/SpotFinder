@@ -22,7 +22,6 @@ const Profile = (props: ProfileProps) => {
   const [userData, setUserData] = useState<any>(null);
   const [userDataList, setUserDataList] = useState<any>(null);
   const [contributions, setContributions] = useState<any>(null);
-  const [refetch, setRefetch] = useState<boolean>(true);
   
 
   const params = useParams(); // Used to dynamically visit other users's profiles.
@@ -32,7 +31,6 @@ const Profile = (props: ProfileProps) => {
       .then((res) => {
         console.log('profile', res.data);
         setUserData(res.data);
-        //setRefetch(false);
       })
       .catch((error) => {
         console.log(error.message);
@@ -45,7 +43,6 @@ const Profile = (props: ProfileProps) => {
       .then((res) => {
         console.log('contributions', res.data);
         setContributions(res.data);
-        //setRefetch(false);
       })
       .catch((error) => {
         console.log(error.message);

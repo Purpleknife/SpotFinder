@@ -14,12 +14,9 @@ const App = () => {
   const [mapData, setMapData] = useState<any>([]);
   const [refetch, setRefetch] = useState<boolean>(true);
 
-  //console.log('refecth', refetch);
-
   const loadAllMaps = async() => {
     return axios.get('/maps')
       .then((res) => {
-        //console.log('maps from front-end', res.data);
         setMapData(res.data);
         setRefetch(false);
       })
@@ -32,7 +29,6 @@ const App = () => {
   const getCoordinates = async() => {
     return axios.get('/coordinates')
       .then((res) => {
-        //console.log('coordinates', res.data);
         setCoordinates(res.data);
       })
       .catch((error) => {

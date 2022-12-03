@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-
-
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import './MapView.scss';
@@ -18,33 +15,20 @@ interface MapViewProps {
 }
 
 const MapView = (props: MapViewProps) => {
-  const [pinList, setPinList] = useState<any>([]);
 
-  const generatePins = () => {
-    if (props.allPins.length) {
-      const pinsForMaps = props.allPins.map((pin) => {
-        //console.log('PIN', pin);
-        return (
-          <Pins
-            key={pin.id}
-            id={pin.id}
-            latitude={pin.latitude}
-            longitude={pin.longitude}
-            title={pin.title}
-            description={pin.description}
-            image={pin.image}
-          />
-        )
-      });
-      setPinList(pinsForMaps);
-    }
-  };
-
-  useEffect(() => {
-    if (props.allPins.length) {
-      generatePins();
-    }
-  }, [props.allPins.length])
+  const pinsForMaps = props.allPins.map((pin) => {
+    return (
+      <Pins
+        key={pin.id}
+        id={pin.id}
+        latitude={pin.latitude}
+        longitude={pin.longitude}
+        title={pin.title}
+        description={pin.description}
+        image={pin.image}
+      />
+    )
+  });
 
 
   return (
@@ -55,7 +39,7 @@ const MapView = (props: MapViewProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      { props.allPins.length && pinList}
+      {pinsForMaps}
 
     </MapContainer>
 
