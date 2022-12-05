@@ -195,6 +195,34 @@ module.exports = (db: any) => {
   });
 
 
+  // Add a pin in a specific map:
+  router.post('/pins', (req: Request, res: Response) => {
+    const creator: string | number = req.body.creator;
+    const map_id: string | number = req.body.map_id;
+    const title: string = req.body.title;
+    const description: string = req.body.description;
+    const image: string = req.body.image;
+    const latitude: number = req.body.latitude;
+    const longitude: number = req.body.longitude;
+
+    const queryParams: (string | number)[] = [creator, map_id, title, description, image, latitude, longitude];
+    
+    const queryString: string = `
+      INSERT INTO pins (creator, map_id, date_created, title, description, image, latitude, longitude)
+      VALUES ($1, $2, Now(), $3, $4, $5, $6, $7)
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
 
   return router;
 };
