@@ -12,22 +12,18 @@ const AddPin = () => {
   });
 
   const markerRef = useRef<any>(null);
+  const titleInput = useRef<HTMLInputElement>(null);
+  const descriptionInput = useRef<HTMLInputElement>(null);
 
   const map = useMapEvents({
     click: (event) => {
-      console.log('map', map.getCenter().lat);
-
-      console.log('event', event.latlng);
       setPinPosition({
         latitude: event.latlng.lat,
         longitude: event.latlng.lng,
       });
 
       const marker = markerRef.current;
-      console.log('marker', marker);
-      //if (marker) {
-        marker.openPopup();
-      //}
+      marker.openPopup();
     }
     
   });
@@ -48,7 +44,26 @@ const AddPin = () => {
         icon={icon}
       >
         <Popup autoPan={false}>
-          Test
+          Add title: 
+          <input
+            type='text'
+            ref={titleInput}
+          />
+          <br />
+
+          Add description: 
+          <input
+            type='text'
+            ref={descriptionInput}          
+          />
+          <br />
+
+          Upload image: 
+          <input 
+            type='file'
+          />
+          <br />
+          <button>Save</button>
         </Popup>
       </Marker>
 
