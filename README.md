@@ -22,7 +22,7 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [X] Create new maps (limited to 10 cities across Canada for the time being).
   - [ ] Delete their own maps.
   - [ ] Edit their own maps.
-  - [ ] Add pins to maps: with a title, a description and an image.
+  - [X] Add pins to maps: with a title, a description and an image.
   - [ ] Edit and delete their own pins.
   - [X] Like and comment on maps.
   - [ ] Like and comment on pins.
