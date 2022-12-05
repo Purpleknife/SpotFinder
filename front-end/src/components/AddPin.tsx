@@ -2,18 +2,75 @@ import { useState, useRef } from 'react';
 
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 
+import { useCookies } from 'react-cookie';
+
 import 'leaflet/dist/leaflet.css';
 import L from "leaflet";
 
-const AddPin = () => {
+import axios from 'axios';
+
+interface AddPinProps {
+  map_id: number;
+  refetch: () => void;
+}
+
+const AddPin = (props: AddPinProps) => {
+  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
+  const user_id = cookies.user_id;
+
   const [pinPosition, setPinPosition] = useState({
     latitude: 0,
     longitude: 0
   });
 
+  const [pinImage, setPinImage] = useState<string>('');
+
   const markerRef = useRef<any>(null);
   const titleInput = useRef<HTMLInputElement>(null);
   const descriptionInput = useRef<HTMLInputElement>(null);
+
+
+  const uploadImage = async() => {
+    const upload_preset: any = process.env.REACT_APP_UPLOAD_PRESET;
+    const cloud_name = process.env.REACT_APP_CLOUDNAME;
+
+    const files = document.querySelector<HTMLInputElement>(".uploadInput")!.files;
+    const formData = new FormData();
+
+    formData.append('file', files![0]);
+    formData.append('upload_preset', upload_preset);
+      axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        formData
+      )
+      .then(res => {
+        setPinImage(res.data.secure_url);
+        console.log('img uploaded');
+      })
+      .catch(error => {
+        console.log('Upload error', error);
+      })
+  };
+
+
+  const savePin = async() => {
+    return axios.post('/pins', {
+      creator: user_id,
+      map_id: props.map_id,
+      title: titleInput.current!.value,
+      description: descriptionInput.current!.value,
+      latitude: pinPosition.latitude,
+      longitude: pinPosition.longitude,
+      image: pinImage
+    })
+      .then((res) => {
+        console.log('add pin', res.data);
+        props.refetch();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      })
+  };
+
 
   const map = useMapEvents({
     click: (event) => {
@@ -27,7 +84,6 @@ const AddPin = () => {
     }
     
   });
-
 
   const icon = L.icon({ 
     iconUrl: "/images/marker-icon.png",
@@ -61,9 +117,11 @@ const AddPin = () => {
           Upload image: 
           <input 
             type='file'
+            className="uploadInput"
           />
+          <button onClick={uploadImage}>Load</button>
           <br />
-          <button>Save</button>
+          <button onClick={savePin}>Save</button>
         </Popup>
       </Marker>
 
