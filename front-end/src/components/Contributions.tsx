@@ -28,6 +28,7 @@ interface ContributionsProps {
   user_province: string;
   contributions_type: string;
   contributions_date: string;
+  refetch: () => void;
 };
 
 
@@ -38,7 +39,7 @@ const Contributions = (props: ContributionsProps) => {
   return (
     <div className='contributions'>
       <div className='contri_map'>
-        <MapView key={props.id} id={props.id} title={props.title} date_created={props.date_created} latitude={props.latitude} longitude={props.longitude} allPins={props.pins} />
+        <MapView refetch={props.refetch} key={props.id} id={props.id} title={props.title} date_created={props.date_created} latitude={props.latitude} longitude={props.longitude} allPins={props.pins} />
       </div>
       Title: {props.title}
       <br />

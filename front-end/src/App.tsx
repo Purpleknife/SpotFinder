@@ -51,12 +51,12 @@ const App = () => {
         <Route path='/' element={
           <>
             <NavBar coordinates={coordinates} refetch={() => setRefetch(true)} />
-            <LandingPage mapData={mapData} />
+            <LandingPage mapData={mapData} refetch={() => setRefetch(true)}/>
           </>}
         />
         <Route path='/maps/:map_id' element={<>
             <NavBar coordinates={coordinates} refetch={() => setRefetch(true)} />
-            <MapPage />
+            <MapPage refetch={() => setRefetch(true)} />
           </>} />
         <Route path='/profile/:user_id' element={
           <>

@@ -8,6 +8,7 @@ import './LandingPage.scss';
 
 interface LandingPageProps {
   mapData: any[];
+  refetch: () => void;
 }
 
 const LandingPage = (props: LandingPageProps) => {
@@ -44,6 +45,7 @@ const LandingPage = (props: LandingPageProps) => {
             latitude={mp.latitude}
             longitude={mp.longitude}
             pins={[]}
+            refetch={props.refetch}
           />
         )
       } else {
@@ -60,8 +62,8 @@ const LandingPage = (props: LandingPageProps) => {
             country={mp.country}
             latitude={mp.latitude}
             longitude={mp.longitude}
-            
             pins={mp.pins}
+            refetch={props.refetch}
           />
         )
       }

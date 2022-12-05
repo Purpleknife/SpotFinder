@@ -119,6 +119,7 @@ const Profile = (props: ProfileProps) => {
             user_province={data.user_province}
             contributions_type={contributionsType(data.id)}
             contributions_date={contributionsDate(data.id)}
+            refetch={props.refetch}
           />
         )
       } else {
@@ -146,6 +147,7 @@ const Profile = (props: ProfileProps) => {
             user_province={data.user_province}
             contributions_type={contributionsType(data.id)}
             contributions_date={contributionsDate(data.id)}
+            refetch={props.refetch}
           />
         )
       }

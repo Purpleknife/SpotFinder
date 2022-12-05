@@ -13,7 +13,11 @@ import MapView from './MapView';
 import MapComments from './MapComments';
 import MapLikes from './MapLikes';
 
-const MapPage = () => {
+interface MapPageProps {
+  refetch: () => void;
+}
+
+const MapPage = (props: MapPageProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked']);
   const user_id = cookies.user_id;
 
@@ -224,8 +228,10 @@ const MapPage = () => {
         date_created={location.state.date_created}
         latitude={location.state.latitude}
         longitude={location.state.longitude}
-        allPins={location.state.allPins} 
+        allPins={location.state.allPins}
+        refetch={props.refetch}
       />
+      {location.state.allPins.length} pins in total &nbsp;
       <i 
         className="fa-solid fa-heart"
         onClick={addOrRemoveLike}
