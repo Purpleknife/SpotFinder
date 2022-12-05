@@ -3,6 +3,7 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import './MapView.scss';
 
 import Pins from './Pins';
+import AddPin from './AddPin';
 
 interface MapViewProps {
   id: number;
@@ -33,13 +34,18 @@ const MapView = (props: MapViewProps) => {
 
   return (
 
-    <MapContainer center={[props.latitude, props.longitude]} zoom={13} scrollWheelZoom={false}>
+    <MapContainer 
+      center={[props.latitude, props.longitude]}
+      zoom={13}
+      scrollWheelZoom={false}
+    >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
       {pinsForMaps}
+      <AddPin />
 
     </MapContainer>
 
