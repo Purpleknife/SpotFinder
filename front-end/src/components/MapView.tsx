@@ -3,7 +3,6 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import './MapView.scss';
 
 import Pins from './Pins';
-import AddPin from './AddPin';
 
 interface MapViewProps {
   id: number;
@@ -30,6 +29,8 @@ const MapView = (props: MapViewProps) => {
         title={pin.title}
         description={pin.description}
         image={pin.image}
+        refetch={props.refetch}
+        map_id={props.id}
       />
     )
   });
@@ -48,7 +49,7 @@ const MapView = (props: MapViewProps) => {
       />
 
       {pinsForMaps}
-      <AddPin map_id={props.id} refetch={props.refetch}/>
+      {/* <AddPin map_id={props.id} refetch={props.refetch}/> */}
 
     </MapContainer>
 
