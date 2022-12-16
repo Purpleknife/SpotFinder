@@ -30,7 +30,6 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [ ] Search for maps and users.
   - [X] Visit other users profiles.
   - [ ] Edit their own profile.
-  - [ ] Chat with other users (maybe?).
 
 ## Other
 The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-%20SpotFinder.png) is in the back-end folder. I might modify it as I'm working on the app.
