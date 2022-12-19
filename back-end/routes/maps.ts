@@ -241,7 +241,7 @@ module.exports = (db: any) => {
 
     db.query(queryString, queryParams)
       .then((data: any) => {
-        res.json(data.rows);
+        res.json(data.rows[0]);
       })
       .catch((error: Error) => {
         console.log(error.message);

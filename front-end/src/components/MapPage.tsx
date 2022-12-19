@@ -16,7 +16,22 @@ import MapLikes from './MapLikes';
 interface MapPageProps {
   mapData: any[];
   refetch: () => void;
-}
+};
+
+interface SpecificMap {
+  id: number;
+  title: string;
+  date_created: string;
+  city: string;
+  country: string;
+  province: string;
+  username: string;
+  creator: number;
+  latitude: number;
+  longitude: number;
+  pins: any[];
+};
+
 
 const MapPage = (props: MapPageProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked']);
@@ -26,21 +41,6 @@ const MapPage = (props: MapPageProps) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  interface SpecificMap {
-    id: number;
-    title: string;
-    date_created: string;
-    city: string;
-    country: string;
-    province: string;
-    username: string;
-    creator: number;
-    latitude: number;
-    longitude: number;
-    pins: any[];
-  }
-
 
   const [specificMap, setSpecificMap] = useState<SpecificMap | null>();
 
@@ -56,6 +56,31 @@ const MapPage = (props: MapPageProps) => {
   const location = useLocation();
 
   const commentInput = useRef<HTMLInputElement>(null);
+
+
+  // Load the data of a specific map:
+  const loadSpecificMap = async() => {
+    return axios.get(`/maps/${location.state.id}`)
+    .then((res) => {
+      setSpecificMap({
+        id: res.data.id,
+        title: res.data.title,
+        date_created: res.data.date_created,
+        city: res.data.city,
+        country: res.data.country,
+        province: res.data.province,
+        username: res.data.username,
+        creator: res.data.creator,
+        latitude: res.data.latitude,
+        longitude: res.data.longitude,
+        pins: res.data.pins
+      });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+  }
+
 
   // Load the comments of a map:
   const loadComments = async() => {
@@ -234,30 +259,7 @@ const MapPage = (props: MapPageProps) => {
   }, [cookies.alreadyLiked])
 
 
-  const loadSpecificMap = async() => {
-    return axios.get(`/maps/${location.state.id}`)
-    .then((res) => {
-      console.log('MAP VIEW HERE', res.data[0].title);
-      setSpecificMap({
-        id: res.data[0].id,
-        title: res.data[0].title,
-        date_created: res.data[0].date_created,
-        city: res.data[0].city,
-        country: res.data[0].country,
-        province: res.data[0].province,
-        username: res.data[0].username,
-        creator: res.data[0].creator,
-        latitude: res.data[0].latitude,
-        longitude: res.data[0].longitude,
-        pins: res.data[0].pins
-      });
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-  }
-
-  //console.log('specific map', specificMap)
+  
 
   return (
     <div className='map_page'>
