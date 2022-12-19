@@ -24,6 +24,8 @@ interface MapProps {
 const Map = (props: MapProps) => {
   const navigate = useNavigate();
 
+  //console.log('pins from MAP', props.pins);
+
   return (
     <div className='map'>
       Title: {props.title}
@@ -38,13 +40,7 @@ const Map = (props: MapProps) => {
       <br />
       <button type='submit' onClick={() => navigate(`/maps/${props.id}`, 
         { state: {
-            id: props.id, 
-            key: props.id,
-            title: props.title,
-            date_created: props.date_created,
-            latitude: props.latitude,
-            longitude: props.longitude,
-            allPins: props.pins
+            id: props.id
           }
         }
       )}>

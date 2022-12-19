@@ -14,6 +14,7 @@ import MapComments from './MapComments';
 import MapLikes from './MapLikes';
 
 interface MapPageProps {
+  mapData: any[];
   refetch: () => void;
 }
 
@@ -25,6 +26,23 @@ const MapPage = (props: MapPageProps) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  interface SpecificMap {
+    id: number;
+    title: string;
+    date_created: string;
+    city: string;
+    country: string;
+    province: string;
+    username: string;
+    creator: number;
+    latitude: number;
+    longitude: number;
+    pins: any[];
+  }
+
+
+  const [specificMap, setSpecificMap] = useState<SpecificMap | null>();
 
   const [mapComments, setMapComments] = useState<any>(null);
   const [allMapComments, setAllMapComments] = useState<any>(null);
@@ -59,7 +77,6 @@ const MapPage = (props: MapPageProps) => {
       user_id: user_id,
     })
     .then((res) => {
-      console.log('addComment', res.data);
       commentInput.current!.value = '';
       loadComments();
     })
@@ -73,7 +90,6 @@ const MapPage = (props: MapPageProps) => {
   const loadLikes = async() => {
     return axios.get(`/maps/${location.state.id}/likes`)
     .then((res) => {
-      console.log('likes', res.data);
       setTotalLikes(res.data.length);
       setMapLikes(res.data);
     })
@@ -203,6 +219,7 @@ const MapPage = (props: MapPageProps) => {
   useEffect(() => {
     loadComments();
     loadLikes();
+    loadSpecificMap();
   }, []);
 
 
@@ -217,21 +234,53 @@ const MapPage = (props: MapPageProps) => {
   }, [cookies.alreadyLiked])
 
 
+  const loadSpecificMap = async() => {
+    return axios.get(`/maps/${location.state.id}`)
+    .then((res) => {
+      console.log('MAP VIEW HERE', res.data[0].title);
+      setSpecificMap({
+        id: res.data[0].id,
+        title: res.data[0].title,
+        date_created: res.data[0].date_created,
+        city: res.data[0].city,
+        country: res.data[0].country,
+        province: res.data[0].province,
+        username: res.data[0].username,
+        creator: res.data[0].creator,
+        latitude: res.data[0].latitude,
+        longitude: res.data[0].longitude,
+        pins: res.data[0].pins
+      });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+  }
+
+  //console.log('specific map', specificMap)
+
   return (
     <div className='map_page'>
-      Title: {location.state.title} <br />
-      Created on: {location.state.date_created}
-      <MapView 
-        key={location.state.key}
-        id={location.state.id}
-        title={location.state.title}
-        date_created={location.state.date_created}
-        latitude={location.state.latitude}
-        longitude={location.state.longitude}
-        allPins={location.state.allPins}
+      
+      { specificMap && 
+      <>
+      Title: {specificMap.title} <br />
+      Created on: {specificMap.date_created}
+
+      <MapView
+        key={specificMap.id}
+        id={specificMap.id}
+        title={specificMap.title}
+        date_created={specificMap.date_created}
+        latitude={specificMap.latitude}
+        longitude={specificMap.longitude}
+        allPins={specificMap.pins}
         refetch={props.refetch}
       />
-      {location.state.allPins.length} pins in total &nbsp;
+      {specificMap.pins.length} pins in total
+      </>
+      }
+      
       <i 
         className="fa-solid fa-heart"
         onClick={addOrRemoveLike}

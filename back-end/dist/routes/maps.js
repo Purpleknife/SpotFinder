@@ -171,5 +171,24 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Get the info of a specific map:
+    router.get('/maps/:map_id', (req, res) => {
+        const map_id = req.params.map_id;
+        const queryParams = [map_id];
+        const queryString = `SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username AS username FROM maps
+    LEFT JOIN pins ON map_id = maps.id
+    JOIN users ON maps.creator = users.id
+    WHERE maps.id = $1
+    GROUP BY maps.id, users.username
+    ORDER BY maps.id DESC;`;
+        ;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };

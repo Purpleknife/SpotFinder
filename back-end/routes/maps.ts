@@ -223,6 +223,32 @@ module.exports = (db: any) => {
   });
 
 
+  // Get the info of a specific map:
+  router.get('/maps/:map_id', (req: Request, res: Response) => {
+    const map_id: string | number = req.params.map_id;
+
+    const queryParams: (string | number)[] = [map_id];
+    
+    const queryString: string = 
+    `SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username AS username FROM maps
+    LEFT JOIN pins ON map_id = maps.id
+    JOIN users ON maps.creator = users.id
+    WHERE maps.id = $1
+    GROUP BY maps.id, users.username
+    ORDER BY maps.id DESC;`
+    ;
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
 
   return router;
 };

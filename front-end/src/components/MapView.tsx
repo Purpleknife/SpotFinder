@@ -20,7 +20,7 @@ interface MapViewProps {
 
 
 const MapView = (props: MapViewProps) => {
-  console.log('ALL PINS', props.allPins);
+  //console.log('ALL PINS', props.allPins);
   const pinsForMaps = props.allPins.map((pin) => {
     return (
       <Pins
@@ -37,6 +37,7 @@ const MapView = (props: MapViewProps) => {
   });
 
 
+
   return (
 
     <MapContainer 
@@ -51,7 +52,8 @@ const MapView = (props: MapViewProps) => {
 
       {pinsForMaps}
       
-      <AddPin map_id={props.id} refetch={props.refetch}/>
+      <AddPin map_id={props.id} refetch={props.refetch} latitude={props.latitude} longitude={props.longitude}
+      date_created={props.date_created} title={props.title} allPins={props.allPins} />
 
     </MapContainer>
 

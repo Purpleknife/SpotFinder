@@ -51,14 +51,7 @@ const Contributions = (props: ContributionsProps) => {
       <br />
       <button type='submit' onClick={() => navigate(`/maps/${props.id}`, 
         { state: {
-            id: props.id, 
-            key: props.id,
-            title: props.title,
-            date_created: props.date_created,
-            latitude: props.latitude,
-            longitude: props.longitude,
-            allPins: props.pins
-          }
+            id: props.id }
         }
       )}>
         View

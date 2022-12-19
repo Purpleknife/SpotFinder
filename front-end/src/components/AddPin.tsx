@@ -1,8 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 
 import { useCookies } from 'react-cookie';
+
+import { useLocation, useNavigate } from "react-router-dom";
 
 import 'leaflet/dist/leaflet.css';
 import L from "leaflet";
@@ -12,11 +14,19 @@ import axios from 'axios';
 interface AddPinProps {
   map_id: number;
   refetch: () => void;
+  title: string;
+  date_created: string;
+  latitude: number;
+  longitude: number;
+  allPins: any[];
 }
 
 const AddPin = (props: AddPinProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const user_id = cookies.user_id;
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [pinPosition, setPinPosition] = useState({
     latitude: 0,
@@ -24,6 +34,7 @@ const AddPin = (props: AddPinProps) => {
   });
 
   const [pinImage, setPinImage] = useState<string>('');
+  const [pinAdded, setPinAdded] = useState<boolean>(false);
 
   const markerRef = useRef<any>(null);
   const titleInput = useRef<HTMLInputElement>(null);
@@ -70,6 +81,14 @@ const AddPin = (props: AddPinProps) => {
         console.log(error.message);
       })
   };
+
+  // useEffect(() => {
+  //   if (pinAdded) {
+  //     props.refetch();
+  //   }
+  // }, [pinAdded]);
+
+  
 
 
   const map = useMapEvents({
