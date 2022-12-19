@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from "react-router-dom";
 
 import 'leaflet/dist/leaflet.css';
-import L from "leaflet";
+import L, { marker } from "leaflet";
 
 import axios from 'axios';
 
@@ -76,6 +76,7 @@ const AddPin = (props: AddPinProps) => {
       .then((res) => {
         console.log('add pin', res.data);
         props.refetch();
+        markerRef.current.closePopup();
       })
       .catch((error) => {
         console.log(error.message);

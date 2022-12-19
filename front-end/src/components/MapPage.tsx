@@ -42,6 +42,8 @@ const MapPage = (props: MapPageProps) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [refetch, setRefetch] = useState<boolean>(true);
+
   const [specificMap, setSpecificMap] = useState<SpecificMap | null>();
 
   const [mapComments, setMapComments] = useState<any>(null);
@@ -75,6 +77,7 @@ const MapPage = (props: MapPageProps) => {
         longitude: res.data.longitude,
         pins: res.data.pins
       });
+      setRefetch(false);
     })
     .catch((error) => {
       console.log(error.message);
@@ -244,8 +247,12 @@ const MapPage = (props: MapPageProps) => {
   useEffect(() => {
     loadComments();
     loadLikes();
-    loadSpecificMap();
+    
   }, []);
+
+  useEffect(() => {
+    loadSpecificMap();
+  }, [refetch]);
 
 
   // To change the color of the like button to red if the user already liked the map.
@@ -266,20 +273,20 @@ const MapPage = (props: MapPageProps) => {
       
       { specificMap && 
       <>
-      Title: {specificMap.title} <br />
-      Created on: {specificMap.date_created}
+        Title: {specificMap.title} <br />
+        Created on: {specificMap.date_created}
 
-      <MapView
-        key={specificMap.id}
-        id={specificMap.id}
-        title={specificMap.title}
-        date_created={specificMap.date_created}
-        latitude={specificMap.latitude}
-        longitude={specificMap.longitude}
-        allPins={specificMap.pins}
-        refetch={props.refetch}
-      />
-      {specificMap.pins.length} pins in total
+        <MapView
+          key={specificMap.id}
+          id={specificMap.id}
+          title={specificMap.title}
+          date_created={specificMap.date_created}
+          latitude={specificMap.latitude}
+          longitude={specificMap.longitude}
+          allPins={specificMap.pins}
+          refetch={() => setRefetch(true)}
+        />
+        {specificMap.pins.length} pins in total
       </>
       }
       
