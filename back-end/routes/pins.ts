@@ -124,5 +124,30 @@ module.exports = (db: any) => {
 
 
 
+  // Delete a pin:
+  router.delete('/pins/:pin_id/:user_id', (req: Request, res: Response) => {
+    const pin_id: string | number = req.params.pin_id;
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [pin_id, user_id];
+    
+    const queryString: string = `
+      DELETE FROM pins
+      WHERE id = $1
+      AND creator = $2
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+
   return router;
 };

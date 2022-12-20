@@ -93,5 +93,23 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Delete a pin:
+    router.delete('/pins/:pin_id/:user_id', (req, res) => {
+        const pin_id = req.params.pin_id;
+        const user_id = req.params.user_id;
+        const queryParams = [pin_id, user_id];
+        const queryString = `
+      DELETE FROM pins
+      WHERE id = $1
+      AND creator = $2
+      RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };
