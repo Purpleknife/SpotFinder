@@ -21,7 +21,6 @@ module.exports = (db: any) => {
 
     db.query(queryString, queryParams)
       .then((data: any) => {
-        console.log('all like pins', data.rows);
         res.json(data.rows);
       })
       .catch((error: Error) => {
@@ -69,7 +68,53 @@ module.exports = (db: any) => {
 
     db.query(queryString, queryParams)
       .then((data: any) => {
-        console.log('pin like', data.rows);
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+  // Get the comments of a specific pin:
+  router.get('/pins/:pin_id/comments', (req: Request, res: Response) => {
+    const pin_id: string | number = req.params.pin_id;
+
+    const queryParams: (string | number)[] = [pin_id];
+    
+    const queryString: string = 
+      `SELECT pin_comments.*, users.username, users.profile_image, users.first_name, users.last_name
+      FROM pin_comments
+      JOIN users ON pin_comments.user_id = users.id
+      WHERE pin_comments.pin_id = $1;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+  // Route to post a comment on a pin:
+  router.post('/pins/:pin_id/comments', (req: Request, res: Response) => {
+    const pin_id: string | number = req.params.pin_id;
+    const user_id: string | number = req.body.user_id;
+    const content: string = req.body.content;
+
+    const queryParams: (string | number)[] = [pin_id, user_id, content];
+    
+    const queryString: string = `
+      INSERT INTO pin_comments (pin_id, user_id, content, date_commented)
+      VALUES ($1, $2, $3, Now())
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
         res.json(data.rows);
       })
       .catch((error: Error) => {
