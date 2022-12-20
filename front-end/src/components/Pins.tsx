@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { Marker, Popup } from 'react-leaflet';
 
@@ -15,6 +15,8 @@ import './Pins.scss';
 import axios from 'axios';
 
 import PinLikes from './PinLikes';
+import PinComments from './PinComments';
+
 
 interface PinProps {
   id: number | string;
@@ -25,7 +27,31 @@ interface PinProps {
   image: string;
   refetch: () => void;
   map_id: number;
-}
+};
+
+interface PinLike {
+  date_liked: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  map_id: number;
+  profile_image: string;
+  user_id: number;
+  username: string;
+};
+
+
+interface PinComment {
+  content: string;
+  date_commented: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  map_id: number;
+  profile_image: string;
+  user_id: number;
+  username: string;
+};
 
 
 const Pins = (props: PinProps) => {
@@ -36,6 +62,11 @@ const Pins = (props: PinProps) => {
   const [showComments, setShowComments] = useState<boolean>(false);
   const [pinLikes, setPinLikes] = useState<any>(null);
   const [totalLikes, setTotalLikes] = useState<number>(0);
+
+  const [pinComments, setPinComments] = useState<any>(null);
+  const [totalComments, setTotalComments] = useState<number>(0);
+
+  const commentInput = useRef<HTMLInputElement>(null);
 
   const handleLikeClose = () => setShowLikes(false);
   const handleLikeShow = () => setShowLikes(true);
@@ -104,10 +135,6 @@ const Pins = (props: PinProps) => {
     }
   };
 
-  useEffect(() => {
-    loadLikes();    
-  }, []);
-
 
   // To change the color of the like button to red if the user already liked the map.
   useEffect(() => {
@@ -118,20 +145,6 @@ const Pins = (props: PinProps) => {
       setColor('#000000');
     }
   }, [cookies.pinLiked])
-
-
-
-  interface PinLike {
-    date_liked: string;
-    first_name: string;
-    id: number;
-    last_name: string;
-    map_id: number;
-    profile_image: string;
-    user_id: number;
-    username: string;
-  };
-
 
 
   // Get a list of the users who liked a specific pin:
@@ -152,6 +165,59 @@ const Pins = (props: PinProps) => {
   });
 
 
+  // Load the comments of a pin:
+  const loadComments = async() => {
+    return axios.get(`/pins/${props.id}/comments`)
+      .then((res) => {
+        setPinComments(res.data);
+        setTotalComments(res.data.length);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+
+  // Add a comment to a pin:
+  const addMapComment = async() => {
+    return axios.post(`/pins/${props.id}/comments`, {
+      content: commentInput.current!.value,
+      user_id: user_id,
+    })
+    .then((res) => {
+      commentInput.current!.value = '';
+      loadComments();
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+  };
+
+
+  // Get a list of the comments in a specific pin:
+  const commentsList = pinComments?.map((comment: PinComment) => {
+    return (
+      <PinComments
+        key={comment.id}
+        id={comment.id}
+        comment_creator={comment.user_id}
+        content={comment.content}
+        date_commented={comment.date_commented}
+        first_name={comment.first_name}
+        last_name={comment.last_name}
+        map_id={comment.map_id}
+        profile_image={comment.profile_image}
+        username={comment.username}
+      />
+    )
+  });
+
+  useEffect(() => {
+    loadLikes();
+    loadComments();
+  }, []);
+  
+
   return (
     <>
       <Marker position={[props.latitude, props.longitude]} icon={icon}>
@@ -171,20 +237,34 @@ const Pins = (props: PinProps) => {
               style={ {color: `${color}`} }
             ></i>
             <Button onClick={handleLikeShow}> {totalLikes} Likes</Button>&nbsp;&nbsp;
-            <Button onClick={handleCommentShow}>Comments</Button>
+            <Button onClick={handleCommentShow}> {totalComments} Comments</Button>
 
             <Modal show={showLikes} onHide={handleLikeClose}>
               <Modal.Header closeButton>
-                <Modal.Title> Likes</Modal.Title>
+                <Modal.Title> {totalLikes} Likes</Modal.Title>
               </Modal.Header>
               <Modal.Body>{likesList}</Modal.Body>
             </Modal>
 
             <Modal show={showComments} onHide={handleCommentClose}>
               <Modal.Header closeButton>
-                <Modal.Title> Comments</Modal.Title>
+                <Modal.Title> {totalComments} Comments</Modal.Title>
               </Modal.Header>
-              <Modal.Body>test1</Modal.Body>
+
+              <Modal.Body>
+                <input 
+                  type='text'
+                  name='comment'
+                  placeholder='Write a comment here...'
+                  ref={commentInput}
+                />
+
+                <button onClick={addMapComment}>Add</button>
+                <br />
+
+                {commentsList}
+
+              </Modal.Body>
             </Modal>
           </div>
 
