@@ -208,5 +208,26 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Delete a map comment:
+    router.delete('/maps/:map_id/:comment_id/:user_id', (req, res) => {
+        const comment_id = req.params.comment_id;
+        const user_id = req.params.user_id;
+        const map_id = req.params.map_id;
+        const queryParams = [comment_id, user_id, map_id];
+        const queryString = `
+      DELETE FROM map_comments
+      WHERE id = $1
+      AND user_id = $2
+      AND map_id = $3
+      RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            console.log('commet', data.rows);
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };

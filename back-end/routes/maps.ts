@@ -275,5 +275,33 @@ module.exports = (db: any) => {
 
 
 
+  // Delete a map comment:
+  router.delete('/maps/:map_id/:comment_id/:user_id', (req: Request, res: Response) => {
+    const comment_id: string | number = req.params.comment_id;
+    const user_id: string | number = req.params.user_id;
+    const map_id: string | number = req.params.map_id;
+
+    const queryParams: (string | number)[] = [comment_id, user_id, map_id];
+    
+    const queryString: string = `
+      DELETE FROM map_comments
+      WHERE id = $1
+      AND user_id = $2
+      AND map_id = $3
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        console.log('commet', data.rows);
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+
   return router;
 };
