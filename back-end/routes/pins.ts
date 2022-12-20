@@ -172,6 +172,33 @@ module.exports = (db: any) => {
   });
 
 
+  // Edit a pin:
+  router.put('/pins/:pin_id/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+    const pin_id: string | number = req.params.pin_id;
+    const title: string = req.body.title;
+    const description: string = req.body.description;
+    const image: string = req.body.image;
+
+    const queryParams: (string | number)[] = [user_id, pin_id, title, description, image];
+    
+    const queryString: string = `
+    UPDATE pins
+    SET title = $3, description = $4, image = $5
+    WHERE id = $2
+    AND creator = $1
+    RETURNING *;`
+    ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
 
   return router;
 };
