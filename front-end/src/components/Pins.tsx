@@ -27,6 +27,7 @@ interface PinProps {
   image: string;
   refetch: () => void;
   map_id: number;
+  creator: number;
 };
 
 interface PinLike {
@@ -56,7 +57,7 @@ interface PinComment {
 
 const Pins = (props: PinProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked', 'pinLiked']);
-  const user_id = cookies.user_id;
+  const user_id = Number(cookies.user_id);
 
   const [showLikes, setShowLikes] = useState<boolean>(false);
   const [showComments, setShowComments] = useState<boolean>(false);
@@ -211,6 +212,20 @@ const Pins = (props: PinProps) => {
     )
   });
 
+
+  // The user can delete their own pins:
+  const deletePin = async() => {
+    return axios.delete(`/pins/${props.id}/${user_id}`)
+      .then((res) => {
+        console.log('Pin deleted.');
+        props.refetch();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+
   useEffect(() => {
     loadLikes();
     loadComments();
@@ -228,6 +243,10 @@ const Pins = (props: PinProps) => {
             src={props.image}
           /><br />
           {props.description}
+
+          <br />
+
+          { props.creator === user_id && <button onClick={deletePin}>Delete</button> }
 
           <div className='pin_likes'>
             <i 
