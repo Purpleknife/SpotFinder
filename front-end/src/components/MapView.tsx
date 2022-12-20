@@ -32,6 +32,7 @@ const MapView = (props: MapViewProps) => {
         description={pin.description}
         image={pin.image}
         refetch={props.refetch}
+        map_id={props.id}
       />
     )
   });

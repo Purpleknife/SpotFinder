@@ -37,7 +37,7 @@ const MapPage = (props: MapPageProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked']);
   const user_id = cookies.user_id;
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -53,7 +53,7 @@ const MapPage = (props: MapPageProps) => {
   const [mapLikes, setMapLikes] = useState<any>(null);
   const [allMapLikes, setAllMapLikes] = useState<any>(null);
   const [totalLikes, setTotalLikes] = useState<number>(0);
-  const [color, setColor] = useState('#000000');
+  const [color, setColor] = useState<string>('#000000');
 
   const location = useLocation();
 
