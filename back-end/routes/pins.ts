@@ -86,7 +86,8 @@ module.exports = (db: any) => {
       `SELECT pin_comments.*, users.username, users.profile_image, users.first_name, users.last_name
       FROM pin_comments
       JOIN users ON pin_comments.user_id = users.id
-      WHERE pin_comments.pin_id = $1;`
+      WHERE pin_comments.pin_id = $1
+      ORDER BY date_commented;`
       ;
 
     db.query(queryString, queryParams)
@@ -187,6 +188,33 @@ module.exports = (db: any) => {
     SET title = $3, description = $4, image = $5
     WHERE id = $2
     AND creator = $1
+    RETURNING *;`
+    ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+
+   // Edit a pin's comment:
+   router.put('/pins/comments/:comment_id/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+    const comment_id: string | number = req.params.comment_id;
+    const content: string = req.body.content;
+
+    const queryParams: (string | number)[] = [user_id, comment_id, content];
+    
+    const queryString: string = `
+    UPDATE pin_comments
+    SET content = $3
+    WHERE id = $2
+    AND user_id = $1
     RETURNING *;`
     ;
 
