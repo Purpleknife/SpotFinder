@@ -250,5 +250,30 @@ module.exports = (db: any) => {
 
 
 
+  // Delete a map:
+  router.delete('/maps/:map_id/:user_id', (req: Request, res: Response) => {
+    const map_id: string | number = req.params.map_id;
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [map_id, user_id];
+    
+    const queryString: string = `
+      DELETE FROM maps
+      WHERE id = $1
+      AND creator = $2
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+
   return router;
 };

@@ -190,5 +190,23 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Delete a map:
+    router.delete('/maps/:map_id/:user_id', (req, res) => {
+        const map_id = req.params.map_id;
+        const user_id = req.params.user_id;
+        const queryParams = [map_id, user_id];
+        const queryString = `
+      DELETE FROM maps
+      WHERE id = $1
+      AND creator = $2
+      RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };
