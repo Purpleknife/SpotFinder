@@ -249,5 +249,25 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Edit a map's title:
+    router.put('/maps/comments/:comment_id/:user_id', (req, res) => {
+        const user_id = req.params.user_id;
+        const comment_id = req.params.comment_id;
+        const content = req.body.content;
+        const queryParams = [user_id, comment_id, content];
+        const queryString = `
+    UPDATE map_comments
+    SET content = $3
+    WHERE id = $2
+    AND user_id = $1
+    RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };

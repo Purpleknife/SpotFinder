@@ -329,6 +329,32 @@ module.exports = (db: any) => {
   });
 
 
+  // Edit a map's title:
+  router.put('/maps/comments/:comment_id/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+    const comment_id: string | number = req.params.comment_id;
+    const content: string = req.body.content;
+
+    const queryParams: (string | number)[] = [user_id, comment_id, content];
+    
+    const queryString: string = `
+    UPDATE map_comments
+    SET content = $3
+    WHERE id = $2
+    AND user_id = $1
+    RETURNING *;`
+    ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
 
   return router;
 };
