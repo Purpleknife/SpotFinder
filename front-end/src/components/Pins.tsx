@@ -87,7 +87,6 @@ const Pins = (props: PinProps) => {
   const loadLikes = async() => {
     return axios.get(`/pins/${props.id}/likes`)
       .then((res) => {
-        console.log('pin likes', res.data);
         setTotalLikes(res.data.length);
         setPinLikes(res.data);
       })

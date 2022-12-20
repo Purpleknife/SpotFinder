@@ -25,8 +25,6 @@ interface MapProps {
 const Map = (props: MapProps) => {
   const navigate = useNavigate();
 
-  //console.log('pins from MAP', props.pins);
-
   return (
     <div className='map'>
       Title: {props.title}
@@ -40,7 +38,7 @@ const Map = (props: MapProps) => {
 
       <br />
 
-      <Buttons map_id={props.id} />
+      <Buttons map_id={props.id} refetch={props.refetch} creator={props.creator} />
 
     </div>
   );

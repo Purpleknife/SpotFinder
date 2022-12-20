@@ -49,7 +49,7 @@ const Contributions = (props: ContributionsProps) => {
 
       <br />
       
-      <Buttons map_id={props.id} />
+      <Buttons map_id={props.id} refetch={props.refetch} creator={props.creator} />
 
     </div>
   );
