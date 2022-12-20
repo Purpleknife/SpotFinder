@@ -148,6 +148,30 @@ module.exports = (db: any) => {
   });
 
 
+  // Delete a pin comment:
+  router.delete('/pins/:user_id/:comment_id/:map_id', (req: Request, res: Response) => {
+    const comment_id: string | number = req.params.comment_id;
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [comment_id, user_id];
+    
+    const queryString: string = `
+      DELETE FROM pin_comments
+      WHERE id = $1
+      AND user_id = $2
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
 
   return router;
 };
