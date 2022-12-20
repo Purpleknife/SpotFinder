@@ -43,7 +43,6 @@ const App = () => {
 
   
   const allMaps = mapData?.map((mp: Map) => {
-    if (mp.pins[0] === null) { // => When you create a new map, its pins are null.
       return (
         <Map
           key={mp.id}
@@ -57,30 +56,10 @@ const App = () => {
           country={mp.country}
           latitude={mp.latitude}
           longitude={mp.longitude}
-          pins={[]}
+          pins={mp.pins[0] === null ? [] : mp.pins} // => When you create a new map, its pins are null.
           refetch={() => setRefetch(true)}
         />
       )
-    } else {
-      return (
-        <Map
-          key={mp.id}
-          id={mp.id}
-          creator={mp.creator}
-          username={mp.username}
-          date_created={mp.date_created}
-          title={mp.title}
-          city={mp.city}
-          province={mp.province}
-          country={mp.country}
-          latitude={mp.latitude}
-          longitude={mp.longitude}
-          pins={mp.pins}
-          refetch={() => setRefetch(true)}
-        />
-      )
-    }
-    
   });
 
 
