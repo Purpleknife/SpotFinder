@@ -20,11 +20,13 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [X] View comments and likes on pins.
 - [ ] <strong>A logged-in user can :</strong>
   - [X] Create new maps (limited to 10 cities across Canada for the time being).
-  - [ ] Delete their own maps.
+  - [X] Delete their own maps + comments on maps.
+  - [X] Delete their own comments on maps.
   - [ ] Edit their own maps (title).
   - [ ] Edit their own pins (title, description, image).
   - [X] Add pins to maps: with a title, a description and an image.
-  - [ ] Edit and delete their own pins.
+  - [X] Delete their own pins.
+  - [X] Delete their own comments on pins.
   - [X] Like and comment on maps.
   - [X] Like and comment on pins.
   - [ ] Search for maps and users.
