@@ -3,6 +3,7 @@ import './Map.scss';
 import 'leaflet/dist/leaflet.css';
 
 import MapView from './MapView';
+import Buttons from './Buttons';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -38,14 +39,9 @@ const Map = (props: MapProps) => {
       <span onClick={() => navigate(`/profile/${props.creator}`)}> {props.username}</span>, on {props.date_created}
 
       <br />
-      <button type='submit' onClick={() => navigate(`/maps/${props.id}`, 
-        { state: {
-            id: props.id
-          }
-        }
-      )}>
-        View
-      </button>
+
+      <Buttons map_id={props.id} />
+
     </div>
   );
 }
