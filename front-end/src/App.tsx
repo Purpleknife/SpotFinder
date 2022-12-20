@@ -7,7 +7,6 @@ import MapPage from './components/MapPage';
 import Profile from './components/Profile';
 import NavBar from './components/Navbar';
 import Map from './components/Map';
-import MapView from './components/MapView';
 
 import axios from 'axios';
 
@@ -103,7 +102,6 @@ const App = () => {
     getCoordinates();
   }, []);
 
-  //console.log('MAP DATA', mapData);
 
 
   return (
@@ -117,7 +115,7 @@ const App = () => {
         />
         <Route path='/maps/:map_id' element={<>
             <NavBar coordinates={coordinates} refetch={() => setRefetch(true)} />
-            <MapPage mapData={mapData} refetch={() => setRefetch(true)} />
+            <MapPage />
           </>} />
         <Route path='/profile/:user_id' element={
           <>

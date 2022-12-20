@@ -13,10 +13,6 @@ import MapView from './MapView';
 import MapComments from './MapComments';
 import MapLikes from './MapLikes';
 
-interface MapPageProps {
-  mapData: any[];
-  refetch: () => void;
-};
 
 interface SpecificMap {
   id: number;
@@ -32,8 +28,31 @@ interface SpecificMap {
   pins: any[];
 };
 
+interface Like {
+  date_liked: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  map_id: number;
+  profile_image: string;
+  user_id: number;
+  username: string;
+};
 
-const MapPage = (props: MapPageProps) => {
+interface Comment {
+  content: string;
+  date_commented: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  map_id: number;
+  profile_image: string;
+  user_id: number;
+  username: string;
+};
+
+
+const MapPage = () => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked']);
   const user_id = cookies.user_id;
 
@@ -47,11 +66,9 @@ const MapPage = (props: MapPageProps) => {
   const [specificMap, setSpecificMap] = useState<SpecificMap | null>();
 
   const [mapComments, setMapComments] = useState<any>(null);
-  const [allMapComments, setAllMapComments] = useState<any>(null);
   const [totalComments, setTotalComments] = useState<number>(0);
 
   const [mapLikes, setMapLikes] = useState<any>(null);
-  const [allMapLikes, setAllMapLikes] = useState<any>(null);
   const [totalLikes, setTotalLikes] = useState<number>(0);
   const [color, setColor] = useState<string>('#000000');
 
@@ -165,84 +182,43 @@ const MapPage = (props: MapPageProps) => {
     }
   };
 
-  interface Like {
-    date_liked: string;
-    first_name: string;
-    id: number;
-    last_name: string;
-    map_id: number;
-    profile_image: string;
-    user_id: number;
-    username: string;
-  };
+
+  // Get a list of the users who liked a specific map:
+  const likesList = mapLikes?.map((like: Like) => {
+    return (
+      <MapLikes
+        key={like.id}
+        id={like.id}
+        like_creator={like.user_id}
+        date_liked={like.date_liked}
+        first_name={like.first_name}
+        last_name={like.last_name}
+        map_id={like.map_id}
+        profile_image={like.profile_image}
+        username={like.username}
+      />
+    )
+  });
 
 
-  const generateMapLikes = () => {
-    const likesList = mapLikes.map((like: Like) => {
-      return (
-        <MapLikes
-          key={like.id}
-          id={like.id}
-          like_creator={like.user_id}
-          date_liked={like.date_liked}
-          first_name={like.first_name}
-          last_name={like.last_name}
-          map_id={like.map_id}
-          profile_image={like.profile_image}
-          username={like.username}
-        />
-      )
-    });
-    setAllMapLikes(likesList);
-  };
+  // Get a list of the comments on a specific map:
+  const commentsList = mapComments?.map((comment: Comment) => {
+    return (
+      <MapComments
+        key={comment.id}
+        id={comment.id}
+        comment_creator={comment.user_id}
+        content={comment.content}
+        date_commented={comment.date_commented}
+        first_name={comment.first_name}
+        last_name={comment.last_name}
+        map_id={comment.map_id}
+        profile_image={comment.profile_image}
+        username={comment.username}
+      />
+    )
+  });
 
-
-
-  interface Comment {
-    content: string;
-    date_commented: string;
-    first_name: string;
-    id: number;
-    last_name: string;
-    map_id: number;
-    profile_image: string;
-    user_id: number;
-    username: string;
-  };
-
-  const generateMapComments = () => {
-    const commentsList = mapComments.map((comment: Comment) => {
-      return (
-        <MapComments
-          key={comment.id}
-          id={comment.id}
-          comment_creator={comment.user_id}
-          content={comment.content}
-          date_commented={comment.date_commented}
-          first_name={comment.first_name}
-          last_name={comment.last_name}
-          map_id={comment.map_id}
-          profile_image={comment.profile_image}
-          username={comment.username}
-        />
-      )
-    });
-    setAllMapComments(commentsList);
-
-  };
-
-  useEffect(() => {
-    if (mapComments) {
-      generateMapComments();
-    }
-  }, [mapComments]);
-
-  useEffect(() => {
-    if (mapLikes) {
-      generateMapLikes();
-    }
-    
-  }, [mapLikes]);
 
   useEffect(() => {
     loadComments();
@@ -302,7 +278,7 @@ const MapPage = (props: MapPageProps) => {
           <Modal.Header closeButton>
             <Modal.Title>{totalLikes} Likes</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{allMapLikes}</Modal.Body>
+          <Modal.Body>{likesList}</Modal.Body>
         </Modal>
       </div>
       <br />
@@ -317,7 +293,7 @@ const MapPage = (props: MapPageProps) => {
       <button onClick={addMapComment}>Add</button>
 
       <br />
-      {allMapComments}
+      {commentsList}
 
     </div>
   );
