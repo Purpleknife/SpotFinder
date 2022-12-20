@@ -259,7 +259,7 @@ const MapPage = () => {
           date_created={specificMap.date_created}
           latitude={specificMap.latitude}
           longitude={specificMap.longitude}
-          allPins={specificMap.pins}
+          allPins={specificMap.pins[0] !== null ? specificMap.pins : []}
           refetch={() => setRefetch(true)}
         />
         {specificMap.pins.length} pins in total

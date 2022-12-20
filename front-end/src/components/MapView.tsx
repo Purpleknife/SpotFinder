@@ -21,7 +21,8 @@ interface MapViewProps {
 
 const MapView = (props: MapViewProps) => {
   //console.log('ALL PINS', props.allPins);
-  const pinsForMaps = props.allPins.map((pin) => {
+  
+  const pinsForMaps = props.allPins?.map((pin) => {
     return (
       <Pins
         key={pin.id}

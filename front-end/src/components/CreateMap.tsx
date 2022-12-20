@@ -72,13 +72,7 @@ const CreateMap = (props: CreateMapProps) => {
         props.refetch(); // => Load all the maps + the new one in the Landing Page.
         navigate(`/maps/${res.data[0].map_id}`, 
           { state: {
-              id: res.data[0].map_id, 
-              key: res.data[0].map_id,
-              title: titleInput,
-              date_created: res.data[0].date_contributed,
-              latitude: latitude,
-              longitude: longitude,
-              allPins: []
+              id: res.data[0].map_id
             }
           }
         );
