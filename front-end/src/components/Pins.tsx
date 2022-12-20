@@ -16,6 +16,7 @@ import axios from 'axios';
 
 import PinsLikes from './PinsLikes';
 import PinComments from './PinComments';
+import { EditState } from './Map';
 
 
 interface PinProps {
@@ -28,6 +29,8 @@ interface PinProps {
   refetch: () => void;
   map_id: number;
   creator: number;
+  uploadImage: () => void;
+  pinImage: string;
 };
 
 interface PinLike {
@@ -77,12 +80,101 @@ const Pins = (props: PinProps) => {
 
   const [color, setColor] = useState<string>('#000000');
 
+  const [inputTitle, setInputTitle] = useState<string>(props.title);
+  const [inputDescription, setInputDescription] = useState<string>(props.description);
+
+  const [editInput, setEditInput] = useState<EditState>({
+    editing: false,
+    viewMode: {
+      display: ''
+    },
+    editMode: {
+      display: ''
+    }
+  });
+
+
   const icon = L.icon({ 
     iconUrl: "/images/marker-icon.png",
     iconSize: [26, 36], // Icon size.
     iconAnchor: [16,32], // Where the popup points.
     popupAnchor:  [0, 0]
   });
+
+
+
+  // When the user clicks on edit:
+  const edit = () => {
+    setEditInput(prev => {
+      return {
+        ...prev, 
+        editing: true
+      }
+    });
+
+  };
+
+
+  // To show or hide the input field (for editing):
+  useEffect(() => {
+    if (editInput.editing) {
+      setEditInput(prev => {
+        return {
+          ...prev, 
+          viewMode: {
+            display: 'none'
+          },
+          editMode: {
+            display: ''
+          }
+        }
+      });
+    } else {
+      setEditInput(prev => {
+        return {
+          ...prev,
+          viewMode: {
+            display: ''
+          },
+          editMode: {
+            display: 'none'
+          }
+        }
+      });
+    };
+  }, [editInput.editing])
+
+
+  // When the user clicks on save:
+  const editIt = () => {
+    setEditInput(prev => {
+      return {
+        ...prev, 
+        editing: false
+      }
+    });
+
+    editPin();
+  };
+
+
+  //To edit a pin => title, description and image:
+  const editPin = async() => {
+    return axios.put(`/pins/${props.id}/${user_id}`, { 
+      title: inputTitle,
+      description: inputDescription,
+      image: props.pinImage
+    })
+      .then((res) => {
+        console.log('edit pin', res.data);
+        props.refetch();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+
 
   // Load the likes of a pin:
   const loadLikes = async() => {
@@ -231,23 +323,71 @@ const Pins = (props: PinProps) => {
     loadLikes();
     loadComments();
   }, []);
+
+
+
+
+
   
 
   return (
     <>
       <Marker position={[props.latitude, props.longitude]} icon={icon}>
         <Popup>
-          {props.title} <br />
-          <img
-            className='pin_img'
-            alt='pin_img'
-            src={props.image}
-          /><br />
-          {props.description}
-
+          {/* Title */}
+          <span style={editInput.viewMode}>{inputTitle ? inputTitle : props.title}</span>
+          <input 
+            className="input-field-post"
+            type="text"
+            style={editInput.editMode}
+            placeholder={props.title}
+            value={inputTitle}
+            onChange = {(event) => {
+              setInputTitle(event.target.value)}
+            }
+          />
+          
           <br />
 
-          { props.creator === user_id && <button onClick={deletePin}>Delete</button> }
+          {/* Image */}
+          <img
+            className='pin_img'
+            style={editInput.viewMode}
+            alt='pin_img'
+            src={props.image}
+          />
+
+          <input 
+            type='file'
+            style={editInput.editMode}
+            className="uploadInput"
+          />
+          <button style={editInput.editMode} onClick={() => props.uploadImage()}>Load</button>
+          
+          
+          <br />
+
+          {/* Description */}
+          <span style={editInput.viewMode}>{inputTitle ? inputTitle : props.description}</span>
+          <input 
+            className="input-field-post"
+            type="text"
+            style={editInput.editMode}
+            placeholder={props.description}
+            value={inputDescription}
+            onChange = {(event) => {
+              setInputDescription(event.target.value)}
+            }
+          />
+          <br />
+
+          { props.creator === user_id && 
+            <>
+              <button onClick={deletePin}>Delete</button>
+              <button style={editInput.viewMode} onClick={edit} >Edit</button>
+              <button style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i>Save</button>
+            </>
+          }
 
           <div className='pin_likes'>
             <i 

@@ -28,11 +28,11 @@ interface MapProps {
   refetch: () => void;
 };
 
-interface ViewOrEdit {
+export interface ViewOrEdit {
   display: string;
 };
 
-interface EditState {
+export interface EditState {
   editing: boolean;
   viewMode: ViewOrEdit;
   editMode: ViewOrEdit;
@@ -136,7 +136,7 @@ const Map = (props: MapProps) => {
       Title:
       <span style={editInput.viewMode}>{inputTitle ? inputTitle : props.title}</span>
         <input 
-          className="input-field-post"
+          className="input-field-map"
           type="text"
           style={editInput.editMode}
           placeholder={props.title}

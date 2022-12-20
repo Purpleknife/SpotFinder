@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import './MapView.scss';
@@ -5,6 +7,7 @@ import './MapView.scss';
 import Pins from './Pins';
 import AddPin from './AddPin';
 
+import axios from 'axios';
 
 interface MapViewProps {
   id: number;
@@ -20,8 +23,33 @@ interface MapViewProps {
 
 
 const MapView = (props: MapViewProps) => {
-  //console.log('ALL PINS', props.allPins);
+  const [pinImage, setPinImage] = useState<string>('');
   
+
+  // To upload a picture when a pin is created or edited:
+  const uploadImage = async() => {
+    const upload_preset: any = process.env.REACT_APP_UPLOAD_PRESET;
+    const cloud_name = process.env.REACT_APP_CLOUDNAME;
+
+    const files = document.querySelector<HTMLInputElement>(".uploadInput")!.files;
+    const formData = new FormData();
+
+    formData.append('file', files![0]);
+    formData.append('upload_preset', upload_preset);
+      axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        formData
+      )
+      .then(res => {
+        setPinImage(res.data.secure_url);
+        console.log('img uploaded');
+      })
+      .catch(error => {
+        console.log('Upload error', error);
+      })
+  };
+
+
+  // To load all the pins of a map:
   const pinsForMaps = props.allPins?.map((pin) => {
     return (
       <Pins
@@ -35,6 +63,8 @@ const MapView = (props: MapViewProps) => {
         refetch={props.refetch}
         map_id={props.id}
         creator={pin.creator}
+        uploadImage={uploadImage}
+        pinImage={pinImage}
       />
     )
   });
@@ -55,8 +85,17 @@ const MapView = (props: MapViewProps) => {
 
       {pinsForMaps}
       
-      <AddPin map_id={props.id} refetch={props.refetch} latitude={props.latitude} longitude={props.longitude}
-      date_created={props.date_created} title={props.title} allPins={props.allPins} />
+      <AddPin 
+        map_id={props.id}
+        refetch={props.refetch}
+        latitude={props.latitude}
+        longitude={props.longitude}
+        date_created={props.date_created}
+        title={props.title}
+        allPins={props.allPins}
+        uploadImage={uploadImage}
+        pinImage={pinImage}
+      />
 
     </MapContainer>
 

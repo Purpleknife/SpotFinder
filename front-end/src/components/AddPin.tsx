@@ -4,8 +4,6 @@ import { Marker, Popup, useMapEvents } from 'react-leaflet';
 
 import { useCookies } from 'react-cookie';
 
-import { useLocation, useNavigate } from "react-router-dom";
-
 import 'leaflet/dist/leaflet.css';
 import L, { marker } from "leaflet";
 
@@ -19,50 +17,25 @@ interface AddPinProps {
   latitude: number;
   longitude: number;
   allPins: any[];
+  uploadImage: () => void;
+  pinImage: string;
 }
 
 const AddPin = (props: AddPinProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const user_id = cookies.user_id;
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
   const [pinPosition, setPinPosition] = useState({
     latitude: 0,
     longitude: 0
   });
-
-  const [pinImage, setPinImage] = useState<string>('');
-  const [pinAdded, setPinAdded] = useState<boolean>(false);
 
   const markerRef = useRef<any>(null);
   const titleInput = useRef<HTMLInputElement>(null);
   const descriptionInput = useRef<HTMLInputElement>(null);
 
 
-  const uploadImage = async() => {
-    const upload_preset: any = process.env.REACT_APP_UPLOAD_PRESET;
-    const cloud_name = process.env.REACT_APP_CLOUDNAME;
-
-    const files = document.querySelector<HTMLInputElement>(".uploadInput")!.files;
-    const formData = new FormData();
-
-    formData.append('file', files![0]);
-    formData.append('upload_preset', upload_preset);
-      axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
-        formData
-      )
-      .then(res => {
-        setPinImage(res.data.secure_url);
-        console.log('img uploaded');
-      })
-      .catch(error => {
-        console.log('Upload error', error);
-      })
-  };
-
-
+  // Save the pin to the db:
   const savePin = async() => {
     return axios.post('/pins', {
       creator: user_id,
@@ -71,7 +44,7 @@ const AddPin = (props: AddPinProps) => {
       description: descriptionInput.current!.value,
       latitude: pinPosition.latitude,
       longitude: pinPosition.longitude,
-      image: pinImage
+      image: props.pinImage
     })
       .then((res) => {
         console.log('add pin', res.data);
@@ -82,16 +55,9 @@ const AddPin = (props: AddPinProps) => {
         console.log(error.message);
       })
   };
-
-  // useEffect(() => {
-  //   if (pinAdded) {
-  //     props.refetch();
-  //   }
-  // }, [pinAdded]);
-
   
 
-
+  // This gets triggered whenever a user clicks on a point in a map:
   const map = useMapEvents({
     click: (event) => {
       setPinPosition({
@@ -111,6 +77,7 @@ const AddPin = (props: AddPinProps) => {
     iconAnchor: [16,32], // Where the popup points.
     popupAnchor:  [0, 0]
   });
+  
 
   return (
     pinPosition === null ? null :
@@ -139,7 +106,7 @@ const AddPin = (props: AddPinProps) => {
             type='file'
             className="uploadInput"
           />
-          <button onClick={uploadImage}>Load</button>
+          <button onClick={() => props.uploadImage()}>Load</button>
           <br />
           <button onClick={savePin}>Save</button>
         </Popup>
