@@ -1,0 +1,83 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+import express, { Express, Request, Response } from 'express';
+const router  = express.Router();
+
+module.exports = (db: any) => {
+
+  // Get the likes of a specific pin:
+  router.get('/pins/:pin_id/likes', (req: Request, res: Response) => {
+    const pin_id: string | number = req.params.pin_id;
+
+    const queryParams: (string | number)[] = [pin_id];
+    
+    const queryString: string = 
+      `SELECT pin_likes.*, users.username, users.profile_image, users.first_name, users.last_name
+      FROM pin_likes
+      JOIN users ON pin_likes.user_id = users.id
+      WHERE pin_likes.pin_id = $1;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        console.log('all like pins', data.rows);
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+  // Delete a like in a specific pin:
+  router.delete('/pins/:pin_id/likes/:user_id', (req: Request, res: Response) => {
+    const pin_id: string | number = req.params.pin_id;
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [pin_id, user_id];
+    
+    const queryString: string = `
+      DELETE FROM pin_likes
+      WHERE pin_id = $1
+      AND user_id = $2
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+  // Add a like in a specific pin:
+  router.post('/pins/:pin_id/likes', (req: Request, res: Response) => {
+    const user_id: string | number = req.body.user_id;
+    const pin_id: string | number = req.params.pin_id;
+
+    const queryParams: (string | number)[] = [user_id, pin_id];
+    
+    const queryString: string = `
+      INSERT INTO pin_likes (user_id, pin_id, date_liked)
+      VALUES ($1, $2, Now())
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        console.log('pin like', data.rows);
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+
+  return router;
+};

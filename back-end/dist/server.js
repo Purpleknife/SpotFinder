@@ -28,8 +28,10 @@ app.use(express_1.default.static('public'));
 // Routes
 const userRoutes = require('./routes/users');
 const mapRoutes = require('./routes/maps');
+const pinRoutes = require('./routes/pins');
 app.use('/', userRoutes(db));
 app.use('/', mapRoutes(db));
+app.use('/', pinRoutes(db));
 app.listen(port, () => {
     console.log(`Express is listening on port ${port}!`);
 });

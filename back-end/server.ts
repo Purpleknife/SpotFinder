@@ -28,9 +28,11 @@ app.use(express.static('public'));
 // Routes
 const userRoutes = require('./routes/users');
 const mapRoutes = require('./routes/maps');
+const pinRoutes = require('./routes/pins');
 
 app.use('/', userRoutes(db));
 app.use('/', mapRoutes(db));
+app.use('/', pinRoutes(db));
 
 
 app.listen(port, () => {
