@@ -215,6 +215,7 @@ const MapPage = () => {
         map_id={comment.map_id}
         profile_image={comment.profile_image}
         username={comment.username}
+        refetch={loadComments}
       />
     )
   });
