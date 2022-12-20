@@ -303,5 +303,32 @@ module.exports = (db: any) => {
 
 
 
+  // Edit a map's title:
+  router.put('/maps/:map_id/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+    const map_id: string | number = req.params.map_id;
+    const title: string = req.body.title;
+
+    const queryParams: (string | number)[] = [user_id, map_id, title];
+    
+    const queryString: string = `
+    UPDATE maps
+    SET title = $3
+    WHERE id = $2
+    AND creator = $1
+    RETURNING *;`
+    ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
+
   return router;
 };
