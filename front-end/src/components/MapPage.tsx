@@ -53,7 +53,7 @@ interface Comment {
 
 
 const MapPage = () => {
-  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked']);
+  const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked', 'pinLiked']);
   const user_id = cookies.user_id;
 
   const [show, setShow] = useState<boolean>(false);
