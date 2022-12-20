@@ -38,7 +38,8 @@ module.exports = (db: any) => {
       `SELECT map_comments.*, users.username, users.profile_image, users.first_name, users.last_name
       FROM map_comments
       JOIN users ON map_comments.user_id = users.id
-      WHERE map_comments.map_id = $1;`
+      WHERE map_comments.map_id = $1
+      ORDER BY date_commented;`
       ;
 
     db.query(queryString, queryParams)
@@ -329,7 +330,7 @@ module.exports = (db: any) => {
   });
 
 
-  // Edit a map's title:
+  // Edit a map's comment:
   router.put('/maps/comments/:comment_id/:user_id', (req: Request, res: Response) => {
     const user_id: string | number = req.params.user_id;
     const comment_id: string | number = req.params.comment_id;
