@@ -14,7 +14,7 @@ import './Pins.scss';
 
 import axios from 'axios';
 
-import PinLikes from './PinLikes';
+import PinsLikes from './PinsLikes';
 import PinComments from './PinComments';
 
 
@@ -150,7 +150,7 @@ const Pins = (props: PinProps) => {
   // Get a list of the users who liked a specific pin:
   const likesList = pinLikes?.map((like: PinLike) => {
     return (
-      <PinLikes
+      <PinsLikes
         key={like.id}
         id={like.id}
         like_creator={like.user_id}

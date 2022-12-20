@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-interface PinLikesProps {
+interface PinsLikesProps {
   date_liked: string;
   first_name: string;
   id: number;
@@ -14,7 +14,7 @@ interface PinLikesProps {
 };
 
 
-const PinLikes = (props: PinLikesProps) => {
+const PinsLikes = (props: PinsLikesProps) => {
   const navigate = useNavigate();
   
   return (
@@ -24,4 +24,4 @@ const PinLikes = (props: PinLikesProps) => {
   );
 }
  
-export default PinLikes;
+export default PinsLikes;
