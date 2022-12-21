@@ -10,6 +10,7 @@ import './Profile.scss';
 
 import Contributions from './Contributions';
 import ProfileInfo from './ProfileInfo';
+import Favorites from './Favorites';
 
 
 interface ProfileProps {
@@ -30,6 +31,28 @@ export interface UserInfo {
   email: string;  
 };
 
+interface Data {
+  id: number;
+  title: string;
+  city: string;
+  province: string;
+  country: string;
+  creator: number;
+  date_created: string;
+  pins: any[];
+  latitude: number;
+  longitude: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  profile_image: string;
+  user_country: string;
+  user_id: number;
+  user_province: string;
+};
+
 
 const Profile = (props: ProfileProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
@@ -40,6 +63,7 @@ const Profile = (props: ProfileProps) => {
   const [userData, setUserData] = useState<any>(null);
   const [contributions, setContributions] = useState<any>(null);
   const [totalContributions, setTotalContributions] = useState<number>(0);
+  const [favorites, setFavorites] = useState<any>(null);
   
   const params = useParams(); // Used to dynamically visit other users's profiles.
 
@@ -47,7 +71,7 @@ const Profile = (props: ProfileProps) => {
   const LoadUserInfo = async(id: number | string) => {
     return axios.get(`/users/${id}`)
     .then((res) => {
-      console.log('info', res.data);
+      //console.log('info', res.data);
       setUserInfo({
         id: res.data.id,
         first_name: res.data.first_name,
@@ -72,7 +96,7 @@ const Profile = (props: ProfileProps) => {
   const loadProfileData = async(id: number | string) => {
     return axios.get(`/profile/${id}`)
       .then((res) => {
-        console.log('profile', res.data);
+        //console.log('profile', res.data);
         setUserData(res.data);
       })
       .catch((error) => {
@@ -115,29 +139,6 @@ const Profile = (props: ProfileProps) => {
   };
 
 
-  interface Data {
-    id: number;
-    title: string;
-    city: string;
-    province: string;
-    country: string;
-    creator: number;
-    date_created: string;
-    pins: any[];
-    latitude: number;
-    longitude: number;
-    username: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-    password: string;
-    profile_image: string;
-    user_country: string;
-    user_id: number;
-    user_province: string;
-  }
-
-
   // Get the list of contributions (maps created or edited by the user):
   const dataList = userData?.map((data: Data) => {
     return (
@@ -170,6 +171,69 @@ const Profile = (props: ProfileProps) => {
   });
 
 
+  // Load the user's favorites maps (maps liked):
+  const loadFavorites = async(id: number | string) => {
+    return axios.get(`/favorites/${id}`)
+      .then((res) => {
+        console.log('favorites', res.data);
+        setFavorites(res.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  interface Fav {
+    id: number;
+    title: string;
+    city: string;
+    province: string;
+    country: string;
+    creator: number;
+    date_created: string;
+    pins: any[];
+    latitude: number;
+    longitude: number;
+    username: string;
+    first_name: string;
+    last_name: string;
+    profile_image: string;
+    user_country: string;
+    user_id: number;
+    date_liked: number;
+    map_id_liked: number;
+  }
+
+
+  // Get the list of favorite maps (maps liked by the user):
+  const favList = favorites?.map((fav: Fav) => {
+    return (
+      <Favorites
+        key={fav.id}
+        id={fav.id}
+        title={fav.title}
+        city={fav.city}
+        province={fav.province}
+        country={fav.country}
+        creator={fav.creator}
+        date_created={fav.date_created}
+        pins={fav.pins[0] === null ? [] : fav.pins} // => When you create a new map, its pins are null.
+        latitude={fav.latitude}
+        longitude={fav.longitude}
+        username={fav.username}
+        first_name={fav.first_name}
+        last_name={fav.last_name}
+        profile_image={fav.profile_image}
+        user_country={fav.user_country}
+        user_id={fav.user_id}
+        date_liked={fav.date_liked}
+        map_id_liked={fav.map_id_liked}
+        refetch={props.refetch}
+      />
+    )
+  });
+
+
 
   useEffect(() => {
     document.title = `${username}'s profile`;
@@ -181,6 +245,7 @@ const Profile = (props: ProfileProps) => {
       LoadUserInfo(params.user_id);
       loadProfileData(params.user_id);
       loadContributions(params.user_id);
+      loadFavorites(params.user_id);
     }
   }, [props.refetch]);
 
@@ -214,6 +279,9 @@ const Profile = (props: ProfileProps) => {
         <br />
         Contributions:
         {dataList}
+
+        Favorites:
+        {favList}
       </div>
       }
       
