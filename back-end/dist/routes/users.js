@@ -56,6 +56,22 @@ module.exports = (db) => {
     router.get('/logout', (req, res) => {
         return res.json('You\'re logged out from SpotFinder!');
     });
+    // Route to load the user's info:
+    router.get('/users/:user_id', (req, res) => {
+        const user_id = req.params.user_id;
+        const queryParams = [user_id];
+        const queryString = `
+      SELECT * FROM users
+      WHERE id = $1;
+    `;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows[0]);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     // Route to load the user's profile:
     router.get('/profile/:user_id', (req, res) => {
         const user_id = req.params.user_id;
@@ -88,6 +104,37 @@ module.exports = (db) => {
     `;
         db.query(queryString, queryParams)
             .then((data) => {
+            res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
+    // Edit a user's info:
+    router.put('/users/:user_id', (req, res) => {
+        const user_id = req.params.user_id;
+        const username = req.body.username;
+        const first_name = req.body.first_name;
+        const last_name = req.body.last_name;
+        const city = req.body.city;
+        const province = req.body.province;
+        const country = req.body.country;
+        const profile_image = req.body.profile_image;
+        const queryParams = [user_id, username, first_name, last_name, city, province, country, profile_image];
+        const queryString = `
+    UPDATE users
+    SET username = $2,
+      first_name = $3,
+      last_name = $4,
+      city = $5,
+      province = $6,
+      country = $7,
+      profile_image = $8
+    WHERE id = $1
+    RETURNING *;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            console.log('user db', data.rows);
             res.json(data.rows);
         })
             .catch((error) => {

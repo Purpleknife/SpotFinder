@@ -67,6 +67,28 @@ module.exports = (db: any) => {
   });
 
 
+
+  // Route to load the user's info:
+  router.get('/users/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [user_id];
+    const queryString: string = `
+      SELECT * FROM users
+      WHERE id = $1;
+    `;
+
+    db.query(queryString, queryParams)
+    .then((data: any) => {
+      res.json(data.rows[0]);
+    })
+    .catch((error: Error) => {
+      console.log(error.message);
+    });
+  });
+
+
+
   // Route to load the user's profile:
   router.get('/profile/:user_id', (req: Request, res: Response) => {
     const user_id: string | number = req.params.user_id;
@@ -110,6 +132,43 @@ module.exports = (db: any) => {
     .catch((error: Error) => {
       console.log(error.message);
     });
+  });
+
+
+  // Edit a user's info:
+  router.put('/users/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+    const username: string = req.body.username;
+    const first_name: string = req.body.first_name;
+    const last_name: string = req.body.last_name;
+    const city: string = req.body.city;
+    const province: string = req.body.province;
+    const country: string = req.body.country;
+    const profile_image: string = req.body.profile_image;
+      
+    const queryParams: (string | number)[] = [user_id, username, first_name, last_name, city, province, country, profile_image];
+    
+    const queryString: string = `
+    UPDATE users
+    SET username = $2,
+      first_name = $3,
+      last_name = $4,
+      city = $5,
+      province = $6,
+      country = $7,
+      profile_image = $8
+    WHERE id = $1
+    RETURNING *;`
+    ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        console.log('user db', data.rows);
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
   });
 
 
