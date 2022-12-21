@@ -9,23 +9,66 @@ import { useParams, Navigate } from 'react-router-dom';
 import './Profile.scss';
 
 import Contributions from './Contributions';
+import ProfileInfo from './ProfileInfo';
+
 
 interface ProfileProps {
   refetch: () => void;
-}
+};
+
+export interface UserInfo {
+  id: number;
+  first_name: string;
+  last_name: string;
+  password: string;
+  password_confirmation: string;
+  profile_image: string;
+  province: string;
+  username: string;
+  city: string;
+  country: string;
+  email: string;  
+};
+
 
 const Profile = (props: ProfileProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const username = cookies.username;
   const logged_in = cookies.logged_in;
 
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [userData, setUserData] = useState<any>(null);
-  const [userDataList, setUserDataList] = useState<any>(null);
   const [contributions, setContributions] = useState<any>(null);
   
-
   const params = useParams(); // Used to dynamically visit other users's profiles.
+  console.log('param', params.user_id)
 
+  // Load the user's info: username, profile picture, first and last names, location:
+  const LoadUserInfo = async(id: number | string) => {
+    return axios.get(`/users/${id}`)
+    .then((res) => {
+      console.log('info', res.data);
+      setUserInfo({
+        id: res.data.id,
+        first_name: res.data.first_name,
+        last_name: res.data.last_name,
+        password: res.data.password,
+        password_confirmation: res.data.password_confirmation,
+        profile_image: res.data.profile_image,
+        province: res.data.province,
+        username: res.data.username,
+        city: res.data.city,
+        country: res.data.country,
+        email: res.data.email
+      });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+  };
+
+
+  // Load the user's contributions (maps):
   const loadProfileData = async(id: number | string) => {
     return axios.get(`/profile/${id}`)
       .then((res) => {
@@ -36,12 +79,13 @@ const Profile = (props: ProfileProps) => {
         console.log(error.message);
       });
   };
-  
 
+  
+  // Load the user's contributions (type of contribution):
   const loadContributions = async(id: number | string) => {
     return axios.get(`/contributions/${id}`)
       .then((res) => {
-        console.log('contributions', res.data);
+        //console.log('contributions', res.data);
         setContributions(res.data);
       })
       .catch((error) => {
@@ -92,70 +136,39 @@ const Profile = (props: ProfileProps) => {
     user_province: string;
   }
 
-  const generateUserData = () => {
-    const dataList = userData.map((data: Data) => {
-      if (data.pins[0] === null) { // => When you create a new map, its pins are null.
-        return (
-          <Contributions
-            key={data.id}
-            id={data.id}
-            title={data.title}
-            city={data.city}
-            province={data.province}
-            country={data.country}
-            creator={data.creator}
-            date_created={data.date_created}
-            pins={[]}
-            latitude={data.latitude}
-            longitude={data.longitude}
-            username={data.username}
-            email={data.email}
-            first_name={data.first_name}
-            last_name={data.last_name}
-            password={data.password}
-            profile_image={data.profile_image}
-            user_country={data.user_country}
-            user_id={data.user_id}
-            user_province={data.user_province}
-            contributions_type={contributionsType(data.id)}
-            contributions_date={contributionsDate(data.id)}
-            refetch={props.refetch}
-          />
-        )
-      } else {
-        return (
-          <Contributions
-            key={data.id}
-            id={data.id}
-            title={data.title}
-            city={data.city}
-            province={data.province}
-            country={data.country}
-            creator={data.creator}
-            date_created={data.date_created}
-            pins={data.pins}
-            latitude={data.latitude}
-            longitude={data.longitude}
-            username={data.username}
-            email={data.email}
-            first_name={data.first_name}
-            last_name={data.last_name}
-            password={data.password}
-            profile_image={data.profile_image}
-            user_country={data.user_country}
-            user_id={data.user_id}
-            user_province={data.user_province}
-            contributions_type={contributionsType(data.id)}
-            contributions_date={contributionsDate(data.id)}
-            refetch={props.refetch}
-          />
-        )
-      }
-      
-    });
 
-    setUserDataList(dataList);
-  };
+  // Get the list of contributions (maps created or edited by the user):
+  const dataList = userData?.map((data: Data) => {
+    return (
+      <Contributions
+        key={data.id}
+        id={data.id}
+        title={data.title}
+        city={data.city}
+        province={data.province}
+        country={data.country}
+        creator={data.creator}
+        date_created={data.date_created}
+        pins={data.pins[0] === null ? [] : data.pins} // => When you create a new map, its pins are null.
+        latitude={data.latitude}
+        longitude={data.longitude}
+        username={data.username}
+        email={data.email}
+        first_name={data.first_name}
+        last_name={data.last_name}
+        password={data.password}
+        profile_image={data.profile_image}
+        user_country={data.user_country}
+        user_id={data.user_id}
+        user_province={data.user_province}
+        contributions_type={contributionsType(data.id)}
+        contributions_date={contributionsDate(data.id)}
+        refetch={props.refetch}
+      />
+    )
+  });
+
+
 
   useEffect(() => {
     document.title = `${username}'s profile`;
@@ -164,16 +177,12 @@ const Profile = (props: ProfileProps) => {
 
   useEffect(() => {
     if (params.user_id) {
+      LoadUserInfo(params.user_id);
       loadProfileData(params.user_id);
       loadContributions(params.user_id);
     }
   }, [props.refetch]);
 
-  useEffect(() => {
-    if (userData) {
-      generateUserData();
-    }
-  }, [userData]);
 
   return (
     <div className='profile'>
@@ -183,11 +192,26 @@ const Profile = (props: ProfileProps) => {
       :
 
       <div>
-        Hello, {username}!
+        
+        { userInfo && 
+        
+        <ProfileInfo 
+          id={userInfo!.id}
+          first_name={userInfo!.first_name}
+          last_name={userInfo!.last_name}
+          password={userInfo!.password}
+          password_confirmation={userInfo!.password_confirmation}
+          profile_image={userInfo!.profile_image}
+          province={userInfo!.province}
+          username={userInfo!.username}
+          city={userInfo!.city}
+          country={userInfo!.country}
+          email={userInfo!.email}            
+        />}
 
         <br />
         Contributions:
-        {userDataList}
+        {dataList}
       </div>
       }
       
