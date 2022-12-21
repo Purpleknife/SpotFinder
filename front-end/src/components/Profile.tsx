@@ -39,9 +39,9 @@ const Profile = (props: ProfileProps) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [userData, setUserData] = useState<any>(null);
   const [contributions, setContributions] = useState<any>(null);
+  const [totalContributions, setTotalContributions] = useState<number>(0);
   
   const params = useParams(); // Used to dynamically visit other users's profiles.
-  console.log('param', params.user_id)
 
   // Load the user's info: username, profile picture, first and last names, location:
   const LoadUserInfo = async(id: number | string) => {
@@ -87,6 +87,7 @@ const Profile = (props: ProfileProps) => {
       .then((res) => {
         //console.log('contributions', res.data);
         setContributions(res.data);
+        setTotalContributions(res.data.length);
       })
       .catch((error) => {
         console.log(error.message);
@@ -206,7 +207,8 @@ const Profile = (props: ProfileProps) => {
           username={userInfo!.username}
           city={userInfo!.city}
           country={userInfo!.country}
-          email={userInfo!.email}            
+          email={userInfo!.email}
+          totalContributions={totalContributions}
         />}
 
         <br />

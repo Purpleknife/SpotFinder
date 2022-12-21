@@ -18,13 +18,14 @@ interface ProfileInfoProps {
   city: string;
   country: string;
   email: string;  
+  totalContributions: number;
 };
 
 const ProfileInfo = (props: ProfileInfoProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const user_id = Number(cookies.user_id);
 
-  const [profileImage, setProfileImage] = useState<string>('');
+  const [profileImage, setProfileImage] = useState<string>(props.profile_image);
 
   const [inputUsername, setInputUsername] = useState<string>(props.username);
   const [inputFirstName, setInputFirstName] = useState<string>(props.first_name);
@@ -109,7 +110,7 @@ const ProfileInfo = (props: ProfileInfoProps) => {
       city: inputCity,
       province: inputProvince,
       country: inputCountry,
-      profile_image: profileImage
+      ...(profileImage && { profile_image: profileImage })
     })
       .then((res) => {
         console.log('edit user', res.data);
@@ -255,7 +256,7 @@ const ProfileInfo = (props: ProfileInfoProps) => {
 
 
       <br />
-      Contributions: 
+      Contributions: {props.totalContributions}
       <br />
       Favorites:
 
