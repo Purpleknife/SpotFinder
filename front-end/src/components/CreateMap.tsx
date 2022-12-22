@@ -14,7 +14,17 @@ interface CreateMapProps {
   refetch: () => void;
   show: boolean;
   coordinates: any[];
-}
+};
+
+export interface Coordinates {
+  id: number;
+  city: string;
+  province: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  
+};
 
 const CreateMap = (props: CreateMapProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
@@ -24,29 +34,16 @@ const CreateMap = (props: CreateMapProps) => {
 
   const [locationInput, setLocationInput] = useState<string>('');
   const [titleInput, setTitleInput] = useState<string>('');
-  const [coordinatesList, setCoordinatesList] = useState<any>(null);
-
-  interface Coordinates {
-    id: number;
-    city: string;
-    province: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-    
-  };
 
 
-  const generateLocationList = () => {
-    const coorList = props.coordinates.map((coor: Coordinates) => {
-      return (
-        <option key={coor.id} value={coor.latitude +', '+ coor.longitude +', '+ coor.city +', '+ coor.province+', '+ coor.country}>
-          {coor.city}, {coor.province}, {coor.country}
-        </option>
-      )
-    });
-    setCoordinatesList(coorList);
-  };
+  const coorList = props.coordinates?.map((coor: Coordinates) => {
+    return (
+      <option key={coor.id} value={coor.latitude +', '+ coor.longitude +', '+ coor.city +', '+ coor.province+', '+ coor.country}>
+        {coor.city}, {coor.province}, {coor.country}
+      </option>
+    )
+  });
+
 
 
   const createMap = async() => {
@@ -84,11 +81,6 @@ const CreateMap = (props: CreateMapProps) => {
       });
   };
 
-  useEffect(() => {
-    if (props.coordinates) {
-      generateLocationList();
-    }
-  }, [props.coordinates]);
 
 
   return (
@@ -129,7 +121,7 @@ const CreateMap = (props: CreateMapProps) => {
               >
               
               <option value="Choose a province">Choose a province</option>
-              {coordinatesList}
+              {coorList}
             </Form.Control>
               
           </Form.Group>

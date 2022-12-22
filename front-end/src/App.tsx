@@ -7,6 +7,7 @@ import MapPage from './components/MapPage';
 import Profile from './components/Profile';
 import NavBar from './components/Navbar';
 import Map from './components/Map';
+import SearchBar from './components/SearchBar';
 
 import axios from 'axios';
 
@@ -89,7 +90,7 @@ const App = () => {
         <Route path='/' element={
           <>
             <NavBar coordinates={coordinates} refetch={() => setRefetch(true)} />
-            <LandingPage allMaps={allMaps} />
+            <><SearchBar coordinates={coordinates} /><LandingPage allMaps={allMaps} /></>
           </>}
         />
         <Route path='/maps/:map_id' element={<>
