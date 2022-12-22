@@ -29,9 +29,9 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [X] Delete their own comments on pins.
   - [X] Like and comment on maps.
   - [X] Like and comment on pins.
-  - [ ] Search for maps and users.
+  - [ ] Search for maps.
   - [X] Visit other users profiles.
-  - [ ] Edit their own profile.
+  - [X] Edit their own profile.
 
 ## Other
 The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-%20SpotFinder.png) is in the back-end folder. I might modify it as I'm working on the app.
