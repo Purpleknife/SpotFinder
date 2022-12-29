@@ -65,7 +65,6 @@ const CreateMap = (props: CreateMapProps) => {
       longitude: longitude
     })
       .then((res) => {
-        //console.log('data we got back', res.data);
         props.refetch(); // => Load all the maps + the new one in the Landing Page.
         navigate(`/maps/${res.data[0].map_id}`, 
           { state: {
@@ -74,7 +73,6 @@ const CreateMap = (props: CreateMapProps) => {
           }
         );
         props.handleClose();
-        
       })
       .catch((error) => {
         console.log(error.message);

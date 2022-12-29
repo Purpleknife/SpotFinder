@@ -34,6 +34,19 @@ const AddPin = (props: AddPinProps) => {
   const titleInput = useRef<HTMLInputElement>(null);
   const descriptionInput = useRef<HTMLInputElement>(null);
 
+  
+  // Change the contribution type that shows up in the profile:
+  const changeContributionType = async() => {
+    return axios.put(`/maps/contribution_type/${user_id}/${props.map_id}`, {
+      contribution_type: 'Added Pin'
+    })
+      .then((res) => {
+        console.log('contributions type', res.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   // Save the pin to the db:
   const savePin = async() => {
@@ -47,9 +60,9 @@ const AddPin = (props: AddPinProps) => {
       image: props.pinImage
     })
       .then((res) => {
-        console.log('add pin', res.data);
         props.refetch();
         markerRef.current.closePopup();
+        changeContributionType();
       })
       .catch((error) => {
         console.log(error.message);

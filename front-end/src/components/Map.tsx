@@ -113,6 +113,19 @@ const Map = (props: MapProps) => {
     editMap();
   };
 
+  // Change the contribution type that shows up in the profile:
+  const changeContributionType = async() => {
+    return axios.put(`/maps/contribution_type/${user_id}/${props.id}`, {
+      contribution_type: 'Edited Map'
+    })
+      .then((res) => {
+        console.log('contributions type', res.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
 
   //To edit a map's title:
   const editMap = async() => {
@@ -121,6 +134,7 @@ const Map = (props: MapProps) => {
     })
       .then((res) => {
         props.refetch();
+        changeContributionType();
       })
       .catch((error) => {
         console.log(error);
