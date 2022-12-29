@@ -7,13 +7,22 @@ const router  = express.Router();
 module.exports = (db: any) => {
 
   // Get ALL maps from db:
-  router.get('/maps', (req: Request, res: Response) => {
+  router.get('/map/:page', (req: Request, res: Response) => {
+    const page: string = req.params.page;
+    const limitPerPage: number = 6;
+    let offset: number = 0;
+
+    if (Number(page) >= 2) {
+      offset = limitPerPage * (Number(page) - 1);
+    }
+
     const queryString: string = 
       `SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username AS username FROM maps
       LEFT JOIN pins ON map_id = maps.id
       JOIN users ON maps.creator = users.id
       GROUP BY maps.id, users.username
-      ORDER BY maps.id DESC;`
+      ORDER BY maps.id DESC
+      LIMIT ${limitPerPage} OFFSET ${offset};`
       ;
 
 
@@ -26,6 +35,24 @@ module.exports = (db: any) => {
         console.log(error.message);
       });
   });
+
+
+
+  // Route to fetch maps count to setup number of pages dynamically in the front-end:
+  router.get('/maps', (req: Request, res: Response) => {
+    const queryString: string = `
+      SELECT COUNT(*) FROM maps;
+      `;
+
+    db.query(queryString)
+      .then((data: any) => {
+        res.json(data.rows[0]);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
 
 
   // Get the comments of a specific map:

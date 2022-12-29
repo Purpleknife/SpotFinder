@@ -9,16 +9,36 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 module.exports = (db) => {
     // Get ALL maps from db:
-    router.get('/maps', (req, res) => {
+    router.get('/map/:page', (req, res) => {
+        const page = req.params.page;
+        const limitPerPage = 6;
+        let offset = 0;
+        if (Number(page) >= 2) {
+            offset = limitPerPage * (Number(page) - 1);
+        }
         const queryString = `SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username AS username FROM maps
       LEFT JOIN pins ON map_id = maps.id
       JOIN users ON maps.creator = users.id
       GROUP BY maps.id, users.username
-      ORDER BY maps.id DESC;`;
+      ORDER BY maps.id DESC
+      LIMIT ${limitPerPage} OFFSET ${offset};`;
         db.query(queryString)
             .then((data) => {
             //console.log('Get MAPS', data.rows);
             res.json(data.rows);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
+    // Route to fetch maps count to setup number of pages dynamically in the front-end:
+    router.get('/maps', (req, res) => {
+        const queryString = `
+      SELECT COUNT(*) FROM maps;
+      `;
+        db.query(queryString)
+            .then((data) => {
+            res.json(data.rows[0]);
         })
             .catch((error) => {
             console.log(error.message);
