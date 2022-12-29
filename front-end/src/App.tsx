@@ -8,6 +8,7 @@ import Profile from './components/Profile';
 import NavBar from './components/Navbar';
 import Map from './components/Map';
 import SearchBar from './components/SearchBar';
+import Pagination from './components/Pagination';
 
 import axios from 'axios';
 
@@ -31,8 +32,23 @@ const App = () => {
   const [mapData, setMapData] = useState<any>([]);
   const [refetch, setRefetch] = useState<boolean>(true);
 
-  const loadAllMaps = async() => {
+  const [count, setCount] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // Get total of maps in the db to setup number of pages dynamically => Pagination :
+  const getTotalOfMaps = async() => {
     return axios.get('/maps')
+      .then((res) => {
+        setCount(res.data.count);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  // Load 6 maps at a time in each page:
+  const loadAllMaps = async(page: number) => {
+    return axios.get(`/map/${page}`)
       .then((res) => {
         setMapData(res.data);
         setRefetch(false);
@@ -63,7 +79,7 @@ const App = () => {
       )
   });
 
-
+  // Get the latitude and longitude of each city:
   const getCoordinates = async() => {
     return axios.get('/coordinates')
       .then((res) => {
@@ -75,12 +91,16 @@ const App = () => {
   };
 
   useEffect(() => {
-    loadAllMaps();
-  }, [refetch]);
+    loadAllMaps(currentPage);
+  }, [refetch, currentPage]);
 
   useEffect(() => {
     getCoordinates();
   }, []);
+
+  useEffect(() => {
+    getTotalOfMaps();
+  })
 
 
 
@@ -90,7 +110,11 @@ const App = () => {
         <Route path='/' element={
           <>
             <NavBar coordinates={coordinates} refetch={() => setRefetch(true)} />
-            <><SearchBar coordinates={coordinates} /><LandingPage allMaps={allMaps} /></>
+            <>
+              <SearchBar coordinates={coordinates} />
+              <LandingPage allMaps={allMaps} />
+              <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} count={count} />
+            </>
           </>}
         />
         <Route path='/maps/:map_id' element={<>

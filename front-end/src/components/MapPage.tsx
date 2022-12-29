@@ -243,7 +243,7 @@ const MapPage = () => {
   }, [cookies.alreadyLiked])
 
 
-  
+  console.log('specific map', specificMap);
 
   return (
     <div className='map_page'>
