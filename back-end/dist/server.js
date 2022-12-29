@@ -29,9 +29,11 @@ app.use(express_1.default.static('public'));
 const userRoutes = require('./routes/users');
 const mapRoutes = require('./routes/maps');
 const pinRoutes = require('./routes/pins');
+const searchRoutes = require('./routes/search');
 app.use('/', userRoutes(db));
 app.use('/', mapRoutes(db));
 app.use('/', pinRoutes(db));
+app.use('/', searchRoutes(db));
 app.listen(port, () => {
     console.log(`Express is listening on port ${port}!`);
 });
