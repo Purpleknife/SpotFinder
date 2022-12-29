@@ -11,14 +11,14 @@ This project's goal is to revisit an old project made with Node JS, Express and 
 - Manage an app that has a lot of features.
 
 ## Features
-- [ ] <strong>A non-logged-in user can :</strong>
+- [X] <strong>A non-logged-in user can :</strong>
   - [X] View all the maps.
   - [X] View all the pins.
-  - [ ] Search for maps.
+  - [X] Search for maps.
   - [X] Visit other users profiles.
   - [X] View comments and likes on maps.
   - [X] View comments and likes on pins.
-- [ ] <strong>A logged-in user can :</strong>
+- [X] <strong>A logged-in user can :</strong>
   - [X] Create new maps (limited to 10 cities across Canada for the time being).
   - [X] Delete their own maps + comments on maps.
   - [X] Delete their own comments on maps.
@@ -29,7 +29,7 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [X] Delete their own comments on pins.
   - [X] Like and comment on maps.
   - [X] Like and comment on pins.
-  - [ ] Search for maps.
+  - [X] Search for maps.
   - [X] Visit other users profiles.
   - [X] Edit their own profile.
 
