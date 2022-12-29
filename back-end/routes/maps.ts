@@ -383,6 +383,32 @@ module.exports = (db: any) => {
   });
 
 
+  // Add contribution type when a map is created:
+  router.put('/maps/contribution_type/:user_id/:map_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+    const map_id: string | number = req.params.map_id;
+    const contribution_type: string = req.body.contribution_type;
+
+    const queryParams: (string | number)[] = [user_id, map_id, contribution_type];
+    
+    const queryString: string = `
+      UPDATE contributions
+      SET contribution_type = $3, date_contributed = Now()
+      WHERE map_id = $2
+      AND user_id = $1
+      RETURNING *;`
+      ;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
 
   return router;
 };
