@@ -130,29 +130,28 @@ const SearchBar = (props: SearchBarProps) => {
         </button>
       </form>
 
-      {showSearch && 
-          (<div className='results'>
-            { results 
-              ? results.map((result) => (
-              <div 
-                className="dropdown"
-                key={result.id}
-                onMouseDown={() => navigate(`/maps/${result.id}`, 
-                  { state: {
-                      id: result.id }
-                  })}
-              >
-                <span>{result.title}</span>
-              </div>
-            ))
-            : <div 
-                className="dropdown"           
-              >
-            <span>No results.</span>
-          </div>
-            
-            }
-          </div>)}
+      { showSearch &&
+        results[0] !== 'No results.' ?
+        
+        <div className='results'>
+          {results?.map((result) => (
+            <div 
+              className="dropdown"
+              key={result.id}
+              onMouseDown={() => navigate(`/maps/${result.id}`, 
+              { state: {
+                  id: result.id }
+              })}
+            >
+              <span>{result.title}</span>
+
+            </div> 
+          ))}
+        </div>
+
+        : results[0] === 'No results.' && <div>No results.</div>
+      
+      }
 
     </div>
   );

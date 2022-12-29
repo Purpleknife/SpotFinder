@@ -32,7 +32,12 @@ module.exports = (db) => {
         queryString += `LIMIT $${queryParams.length};`;
         db.query(queryString, queryParams)
             .then((data) => {
-            res.json(data.rows);
+            if (!data.rows.length) {
+                res.json(['No results.']);
+            }
+            else {
+                res.json(data.rows);
+            }
         })
             .catch((error) => {
             console.log(error.message);
