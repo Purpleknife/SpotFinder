@@ -12,6 +12,8 @@ import Pagination from './components/Pagination';
 
 import axios from 'axios';
 
+import moment from "moment";
+
 interface Map {
   id: number;
   creator: number;
@@ -66,7 +68,7 @@ const App = () => {
           id={mp.id}
           creator={mp.creator}
           username={mp.username}
-          date_created={mp.date_created}
+          date_created={moment(mp.date_created).format('MMMM Do YYYY, h:mm:ss a')}
           title={mp.title}
           city={mp.city}
           province={mp.province}
