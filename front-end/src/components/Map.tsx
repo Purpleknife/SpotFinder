@@ -150,9 +150,15 @@ const Map = (props: MapProps) => {
         
         <div className="edit">
           { props.creator === user_id && 
-            <span style={editInput.viewMode} onClick={edit}><i className="fa-solid fa-pen-to-square"></i></span>
+            <span style={editInput.viewMode} onClick={edit}>
+              <i className="fa-solid fa-pen-to-square"></i>
+              <span className="tooltiptext">Edit</span>
+            </span>
           }
-            <span style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i></span>
+            <span style={editInput.editMode} className="save" onClick={editIt}>
+              <i className="fa-solid fa-floppy-disk"></i>
+              <span className="tooltiptext">Save</span>
+            </span>
         </div>
       </div>
       

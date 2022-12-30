@@ -47,11 +47,44 @@
     padding-left: 0.3em;
     //padding-top: 0.5em;
     cursor: pointer;
-    font-weight: bold;
+    //font-weight: bold;
     color: $another_color;
+    position: relative;
+    display: inline-block;
 
     &:hover {
       color: #74ca77;
+    }
+
+    .tooltiptext {
+      visibility: hidden;
+      width: 60px;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -30px;
+      background-color: grey;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 9999;
+      font-size: 15px;
+
+      &::after {
+        content: " ";
+        position: absolute;
+        top: 100%; /* At the bottom of the tooltip */
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: grey transparent transparent transparent;
+      }
+    }
+
+    &:hover .tooltiptext {
+      visibility: visible;
     }
   }
 

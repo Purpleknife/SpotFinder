@@ -35,15 +35,23 @@ const Buttons = (props: ButtonsProps) => {
 
   return (
     <div className='buttons'>
+
       <button className='view' type='submit' onClick={() => navigate(`/maps/${props.map_id}`, 
           { state: {
               id: props.map_id }
           }
         )}>
           <i className="fa-solid fa-magnifying-glass"></i>
+          <span className="tooltiptext">View</span>
       </button>
 
-      { props.creator === user_id && <button className='delete' type='submit' onClick={deleteMap} ><i className="fa-solid fa-trash"></i></button>}
+
+      { props.creator === user_id && 
+        <button className='delete' type='submit' onClick={deleteMap} >
+          <i className="fa-solid fa-trash"></i>
+          <span className="tooltiptext">Delete</span>
+        </button>
+      }
     </div>
   );
 }
