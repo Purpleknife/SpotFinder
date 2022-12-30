@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Coordinates } from './CreateMap';
 
 import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
+
+import './SearchBar.scss';
 
 
 interface SearchBarProps {
@@ -102,57 +105,63 @@ const SearchBar = (props: SearchBarProps) => {
 
 
   return (
-    <div>
-      <form onSubmit={event => event.preventDefault()}>
-        <input
-          className="search-field"
-          placeholder="Search for maps..."
-          spellCheck="false"
-          name="search"
-          type="search"
-          value={input}
-          onChange={event => setInput(event.target.value)}
-        />
+    <div className='search_container'>
+
+      <div className='search_bar'>
         
-        <select 
-          id="location"
-          name="location"
-          onChange = {(event) => {
-            setLocation(event.target.value)}
+
+        <form onSubmit={event => event.preventDefault()}>
+          <button id='glass'><i className="fa-solid fa-magnifying-glass"></i></button>
+
+          <input
+            className="search-field"
+            placeholder="Search for maps..."
+            spellCheck="false"
+            name="search"
+            type="search"
+            value={input}
+            onChange={event => setInput(event.target.value)}
+          />
+          
+          <select 
+            id="location"
+            name="location"
+            onChange = {(event) => {
+              setLocation(event.target.value)}
+            }
+          >
+            <option value="">Choose a location</option>
+            {coorList}
+          </select>
+        </form>
+
+        <div className='live_search'>
+          { showSearch &&
+            results[0] !== 'No results.' ?
+            
+            <div className='results'>
+              {results?.map((result) => (
+                <div 
+                  className="dropdown"
+                  key={result.id}
+                  onMouseDown={() => navigate(`/maps/${result.id}`, 
+                  { state: {
+                      id: result.id }
+                  })}
+                >
+                  <div className='search_results'>
+                    <span>{result.title}</span>
+                    <span><i className="fa-solid fa-location-dot"></i> {result.city + ', ' + result.province + ', ' + result.country}</span>
+                  </div>
+                </div> 
+              ))}
+            </div>
+
+            : results[0] === 'No results.' && <div>No results.</div>
+          
           }
-        >
-          <option value="">Choose a location</option>
-          {coorList}
-        </select>
-
-        <button type="submit">
-          <i className="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </form>
-
-      { showSearch &&
-        results[0] !== 'No results.' ?
-        
-        <div className='results'>
-          {results?.map((result) => (
-            <div 
-              className="dropdown"
-              key={result.id}
-              onMouseDown={() => navigate(`/maps/${result.id}`, 
-              { state: {
-                  id: result.id }
-              })}
-            >
-              <span>{result.title}</span>
-
-            </div> 
-          ))}
         </div>
-
-        : results[0] === 'No results.' && <div>No results.</div>
-      
-      }
-
+      </div>
     </div>
   );
 }
