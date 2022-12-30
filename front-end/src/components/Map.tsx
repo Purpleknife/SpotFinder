@@ -144,34 +144,46 @@ const Map = (props: MapProps) => {
 
   return (
     <div className='map'>
-      { props.creator === user_id && <span id="edit" style={editInput.viewMode} onClick={edit}><i className="fa-solid fa-pen-to-square"></i> Edit</span>}
       
-      <br />
-      Title:
-      <span style={editInput.viewMode}>{inputTitle ? inputTitle : props.title}</span>
-        <input 
-          className="input-field-map"
-          type="text"
-          style={editInput.editMode}
-          placeholder={props.title}
-          value={inputTitle}
-          onChange = {(event) => {
-            setInputTitle(event.target.value)}
+      <div className='map_btns'>
+        <Buttons map_id={props.id} refetch={props.refetch} creator={props.creator} />
+        
+        <div className="edit">
+          { props.creator === user_id && 
+            <span style={editInput.viewMode} onClick={edit}><i className="fa-solid fa-pen-to-square"></i></span>
           }
-        />
-        <span style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i></span>
-
-      <br />
-      Location: {props.city}, {props.province}, {props.country}
+            <span style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i></span>
+        </div>
+      </div>
       
+      <div className='map_info'>
+        <i className="fa-sharp fa-solid fa-thumbtack"></i>
+        
+        <span id='title' style={editInput.viewMode}> {inputTitle ? inputTitle : props.title}</span>
+          <input 
+            className="input-field-map"
+            type="text"
+            style={editInput.editMode}
+            placeholder={props.title}
+            value={inputTitle}
+            onChange = {(event) => {
+              setInputTitle(event.target.value)}
+            }
+          />
+          
+
+        <br />
+        <i className="fa-solid fa-location-dot"></i> {props.city}, {props.province}, {props.country}
+      
+      </div>
+
       <MapView refetch={props.refetch} id={props.id} key={props.id} title={props.title} date_created={props.date_created} latitude={props.latitude} longitude={props.longitude} allPins={props.pins}/>
 
-      Created by:
-      <span onClick={() => navigate(`/profile/${props.creator}`)}> {props.username}</span>, on {props.date_created}
+      <div className='created_by'><i className="fa-solid fa-user-secret"></i> <span id='created'>Created by</span>
+        <span id='username' onClick={() => navigate(`/profile/${props.creator}`)}> {props.username}</span>, on {props.date_created}.
+      </div>
 
-      <br />
-
-      <Buttons map_id={props.id} refetch={props.refetch} creator={props.creator} />
+      
 
     </div>
   );

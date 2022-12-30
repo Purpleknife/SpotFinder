@@ -1,27 +1,77 @@
-
-
+@import "../styles/variables";
 
 .map {
   margin-bottom: 3em;
-  margin-left: 5em;
+  margin-left: 4.1em;
+  border: 2px solid $other_color;
+  border-radius: 7px;
+  font-family: $secondary_font;
+
+  .map_btns {
+    color: red;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1em;
+    padding-top: 0.5em;
+  }
+
+  // i {
+  //   color: $primary_color;
+  // }
+
+  .map_info {
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+    margin-top: -1.5em;
+
+    #title {
+      font-weight: bold;
+    }
+
+    .input-field-map {
+      margin-left: 0.4em;
+    }
+  }
 
   .leaflet-container {
     height: 200px;
     width: 500px;
   }
 
-  .map_info {
-    display: flex;
-    justify-content: left;
-  }
-
   .pin_img {
     height: 70px;
   }
 
-  span {
-    font-weight: bold;
+  .edit {
+    //text-align: right;
+    padding-left: 0.3em;
+    //padding-top: 0.5em;
     cursor: pointer;
+    font-weight: bold;
+    color: $another_color;
+
+    &:hover {
+      color: #74ca77;
+    }
   }
+
+  .created_by {
+    padding-left: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    #created {
+      //color: $primary_color;
+      font-weight: bold;
+    }
+
+    #username {
+      cursor: pointer;
+      color: $secondary_color;
+      font-weight: bold;
+    }
+  }
+
+
 
 }
