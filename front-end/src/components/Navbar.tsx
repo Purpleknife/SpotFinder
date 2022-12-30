@@ -62,19 +62,20 @@ const NavBar = (props: NavBarProps) => {
 
   return (
     <nav>
-      <div className='logo' onClick={() => navigate('/')}>SpotFinder</div>
+      <div className='logo' onClick={() => navigate('/')}><i className="fa-solid fa-map-location-dot"></i> SpotFinder</div>
 
       { logged_in
       ?
-        <div>
-          <Button onClick={handleCreateShow}>
+        <div className='navbar_btn_lp_after_login'>
+          <Button className='create' onClick={handleCreateShow}>
             Create New Map
           </Button>
           <CreateMap refetch={props.refetch} handleClose={handleCreateClose} show={showCreate} coordinates={props.coordinates} />
 
-          <span>Welcome, {username}!</span>
-          { !location.pathname.includes('profile') && <button type='submit' onClick={() => navigate(`/profile/${user_id}`)}>Profile</button>}
-          <button type='submit' onClick={logout}>Logout</button>
+          
+          { !location.pathname.includes('profile') && <span id='welcome'>Welcome, <button type='submit' className='profile_btn' onClick={() => navigate(`/profile/${user_id}`)}>{username}</button>!</span>}
+          
+          <button type='submit' className='logout' onClick={logout}>Logout</button>
         </div>
       :
       <div className='navbar_btn_lp'>
