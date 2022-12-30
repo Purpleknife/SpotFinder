@@ -1,0 +1,27 @@
+@import "../styles/variables";
+
+.buttons {
+
+  .view {
+    padding-right: 0.5em;
+    border: unset;
+    background-color: transparent;
+    color: #179fc9;
+
+    &:hover {
+      color: #04799c;
+    }
+  }
+
+
+  .delete {
+    padding-right: 0.5em;
+    border: unset;
+    background-color: transparent;
+    color: rgb(233, 81, 81);
+
+    &:hover {
+      color: rgb(238, 20, 20);
+    }
+  }
+}

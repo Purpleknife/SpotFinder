@@ -6,6 +6,8 @@ import { useCookies } from 'react-cookie';
 
 import axios from 'axios';
 
+import './Buttons.scss';
+
 interface ButtonsProps {
   map_id: number;
   refetch: () => void;
@@ -32,16 +34,16 @@ const Buttons = (props: ButtonsProps) => {
   };
 
   return (
-    <div>
-      <button type='submit' onClick={() => navigate(`/maps/${props.map_id}`, 
+    <div className='buttons'>
+      <button className='view' type='submit' onClick={() => navigate(`/maps/${props.map_id}`, 
           { state: {
               id: props.map_id }
           }
         )}>
-          View
+          <i className="fa-solid fa-magnifying-glass"></i>
       </button>
 
-      { props.creator === user_id && <button type='submit' onClick={deleteMap} >Delete</button>}
+      { props.creator === user_id && <button className='delete' type='submit' onClick={deleteMap} ><i className="fa-solid fa-trash"></i></button>}
     </div>
   );
 }
