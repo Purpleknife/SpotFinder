@@ -179,7 +179,7 @@ const Map = (props: MapProps) => {
           
 
         <br />
-        <i className="fa-solid fa-location-dot"></i> {props.city}, {props.province}, {props.country}
+        <span className='location'><i className="fa-solid fa-location-dot"></i> {props.city}, {props.province}, {props.country}</span>
       
       </div>
 

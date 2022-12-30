@@ -6,6 +6,7 @@
   border: 2px solid $other_color;
   border-radius: 7px;
   font-family: $secondary_font;
+  height: auto;
 
   .map_btns {
     color: red;
@@ -15,9 +16,6 @@
     padding-top: 0.5em;
   }
 
-  // i {
-  //   color: $primary_color;
-  // }
 
   .map_info {
     padding-left: 1em;
@@ -26,11 +24,16 @@
 
     #title {
       font-weight: bold;
+      margin-bottom: 3em;
     }
 
     .input-field-map {
       margin-left: 0.4em;
+      width: 20em;
+      position: absolute;
+      margin-top: -0.3em;
     }
+
   }
 
   .leaflet-container {
