@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { createAPageArray, scrollToTopPage } from '../helpers/helpers';
 
+import './Pagination.scss';
+
+
 interface PaginationProps {
   currentPage: number;
   count: number;
@@ -51,7 +54,7 @@ const Pagination = (props: PaginationProps) => {
     
     if (!pagesLeft) {
       pagesLeft = true;
-      return <li key={page}>&hellip;</li>;
+      return <li id='ellipsis' key={page}>&hellip;</li>;
     }
     
   });
@@ -74,18 +77,22 @@ const Pagination = (props: PaginationProps) => {
 
   
   return (
-    <div className='pages_list'>
-      <ul>
-        <li>
-          <button onClick={handlePrevClick} disabled={props.currentPage === minPageLimit}>Prev</button>
-        </li>
-        {pagesList}
-        <li>
-          <button onClick={handleNextClick} disabled={props.currentPage === maxPageLimit}>Next</button>
-        </li>
-      </ul>
-      Page: {props.currentPage}
-    </div>
+    <>
+      <div className='pages_list'>
+        <ul>
+          <li>
+            <button onClick={handlePrevClick} disabled={props.currentPage === minPageLimit}><i className="fa-solid fa-angle-left"></i> Prev</button>
+          </li>
+          {pagesList}
+          <li>
+            <button onClick={handleNextClick} disabled={props.currentPage === maxPageLimit}>Next <i className="fa-solid fa-angle-right"></i></button>
+          </li>
+        </ul>
+      </div>
+
+      <span className='page_number'>Page {props.currentPage}</span>
+    </>
+    
   );
 }
  
