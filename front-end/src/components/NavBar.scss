@@ -15,7 +15,7 @@ nav {
     color: $primary_color;
     font-size: 35px;
     font-weight: bold;
-    padding-left: 1em;
+    padding-left: 2em;
     cursor: pointer;
     font-family: $primary_font;
     display: flex;
@@ -27,7 +27,7 @@ nav {
   }
 
   .navbar_btn_lp {
-    padding-right: 1em;
+    padding-right: 2em;
     display: flex;
     align-items: center;
 
@@ -43,7 +43,7 @@ nav {
   }
 
   .navbar_btn_lp_after_login {
-    padding-right: 1em;
+    padding-right: 2em;
     display: flex;
     align-items: center;
     font-family: $secondary_font;
