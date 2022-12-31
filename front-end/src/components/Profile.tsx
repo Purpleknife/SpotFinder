@@ -67,6 +67,8 @@ const Profile = (props: ProfileProps) => {
 
   const [showContri, setShowContri] = useState<boolean>(false);
   const [showFav, setShowFav] = useState<boolean>(true);
+
+  const [loadCounter, setLoadCounter] = useState<number>(1);
   
   const params = useParams(); // Used to dynamically visit other users's profiles.
 
@@ -97,7 +99,7 @@ const Profile = (props: ProfileProps) => {
 
   // Load the user's contributions (maps):
   const loadProfileData = async(id: number | string) => {
-    return axios.get(`/profile/${id}`)
+    return axios.get(`/profile/${id}/${loadCounter}`)
       .then((res) => {
         //console.log('profile', res.data);
         setUserData(res.data);
@@ -246,11 +248,16 @@ const Profile = (props: ProfileProps) => {
   useEffect(() => {
     if (params.user_id) {
       LoadUserInfo(params.user_id);
-      loadProfileData(params.user_id);
       loadContributions(params.user_id);
       loadFavorites(params.user_id);
     }
   }, [props.refetch]);
+
+  useEffect(() => {
+    if (params.user_id) {
+      loadProfileData(params.user_id);
+    }
+  }, [props.refetch, loadCounter]);
 
 
   return (
@@ -287,12 +294,21 @@ const Profile = (props: ProfileProps) => {
           {showContri && <div className='contri_fav'>
             Contributions:
             {dataList}
+
+            <span
+              className='load_more'
+              onClick={() => setLoadCounter((prev: number) => prev + 1)}
+            >
+              Load more contributions.
+            </span>
           </div>}
 
           {showFav && <div className='contri_fav'>
             Favorites:
             {favList}
           </div>}
+
+          
         </div>
       }
       
