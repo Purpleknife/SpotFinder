@@ -6,6 +6,8 @@ import { EditState } from './Map';
 
 import axios from 'axios';
 
+import './ProfileInfo.scss';
+
 interface ProfileInfoProps {
   id: number;
   first_name: string;
@@ -150,35 +152,37 @@ const ProfileInfo = (props: ProfileInfoProps) => {
 
 
   return (
-    <div>
+    <div className='profileInfo'>
 
       { props.id === user_id && 
         <>
-          <button style={editInput.viewMode} onClick={edit} >Edit</button>
+          <button style={editInput.viewMode} className="edit" onClick={edit} >
+            <i className="fa-solid fa-pen-to-square"></i>
+            <span className="tooltiptext_profile">Edit</span>
+          </button>
           <button style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i>Save</button>
         </>
       }
 
-      <br />
+      
 
       {/* Image */}
       <img
-            className='profile_img'
-            style={editInput.viewMode}
-            alt='profile_img'
-            src={props.profile_image}
-          />
+        className='profile_img'
+        style={editInput.viewMode}
+        alt='profile_img'
+        src={props.profile_image}
+      />
 
-          <input 
-            type='file'
-            style={editInput.editMode}
-            className="uploadInput"
-          />
-          <button style={editInput.editMode} onClick={uploadProfileImage}>Load</button>
+      <input 
+        type='file'
+        style={editInput.editMode}
+        className="uploadInput"
+      />
+      <button style={editInput.editMode} onClick={uploadProfileImage}>Load</button>
 
-      <br />
       {/* Username */}
-      <span style={editInput.viewMode}>Hello, {inputUsername ? inputUsername : props.username}!</span>
+      <span style={editInput.viewMode}>{inputUsername ? inputUsername : props.username}</span>
       <input 
         type="text"
         style={editInput.editMode}
@@ -189,7 +193,6 @@ const ProfileInfo = (props: ProfileInfoProps) => {
         }
       />
 
-      <br />
 
       {/* First and Last names */}
       <span style={editInput.viewMode}>
@@ -218,11 +221,11 @@ const ProfileInfo = (props: ProfileInfoProps) => {
         }
       />
 
-    <br />
+    
 
       {/* City, Province and Country */}
       <span style={editInput.viewMode}>
-        { inputCity || inputProvince || inputCountry
+      <i className="fa-solid fa-location-dot"></i> { inputCity || inputProvince || inputCountry
         ? inputCity + ', ' + inputProvince + ', ' + inputCountry
         : (props.city === null || props.province === null || props.country === null) ? '' : props.city + ', ' + props.province + ', ' + props.country
         }
@@ -258,10 +261,9 @@ const ProfileInfo = (props: ProfileInfoProps) => {
       />
 
 
-      <br />
-      <span onClick={props.showContri}>Contributions:</span> {props.totalContributions}
-      <br />
-      <span onClick={props.showFav}>Favorites:</span> {props.totalFavorites}
+      <span onClick={props.showContri}>Contributions: {props.totalContributions}</span>
+      
+      <span onClick={props.showFav}>Favorites: {props.totalFavorites}</span>
 
     </div>
   );
