@@ -173,5 +173,21 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Route to get maps liked count:
+    router.get('/maps_liked/:user_id', (req, res) => {
+        const user_id = req.params.user_id;
+        const queryParams = [user_id];
+        const queryString = `
+      SELECT COUNT(*) FROM map_likes
+      WHERE user_id = $1;
+      `;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows[0]);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };

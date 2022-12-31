@@ -210,6 +210,26 @@ module.exports = (db: any) => {
   });
 
 
+  // Route to get maps liked count:
+  router.get('/maps_liked/:user_id', (req: Request, res: Response) => {
+    const user_id: string | number = req.params.user_id;
+
+    const queryParams: (string | number)[] = [user_id];
+    const queryString: string = `
+      SELECT COUNT(*) FROM map_likes
+      WHERE user_id = $1;
+      `;
+
+    db.query(queryString, queryParams)
+      .then((data: any) => {
+        res.json(data.rows[0]);
+      })
+      .catch((error: Error) => {
+        console.log(error.message);
+      });
+  });
+
+
   return router;
 };
 
