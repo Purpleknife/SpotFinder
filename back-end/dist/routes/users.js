@@ -73,8 +73,11 @@ module.exports = (db) => {
         });
     });
     // Route to load the user's profile:
-    router.get('/profile/:user_id', (req, res) => {
+    router.get('/profile/:user_id/:counter', (req, res) => {
         const user_id = req.params.user_id;
+        const counter = req.params.counter;
+        const limitPerPage = 5;
+        const limit = limitPerPage * Number(counter);
         const queryParams = [user_id];
         const queryString = `
       SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username, users.first_name, users.last_name, users.email, 
@@ -84,7 +87,8 @@ module.exports = (db) => {
       JOIN users ON maps.creator = users.id
       WHERE maps.creator = $1
       GROUP BY maps.id, users.id
-      ORDER BY maps.id DESC;
+      ORDER BY maps.id DESC
+      LIMIT ${limit};
     `;
         db.query(queryString, queryParams)
             .then((data) => {

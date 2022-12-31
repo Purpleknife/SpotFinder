@@ -90,8 +90,12 @@ module.exports = (db: any) => {
 
 
   // Route to load the user's profile:
-  router.get('/profile/:user_id', (req: Request, res: Response) => {
+  router.get('/profile/:user_id/:counter', (req: Request, res: Response) => {
     const user_id: string | number = req.params.user_id;
+    const counter: string | number = req.params.counter;
+    const limitPerPage: number = 5;
+
+    const limit: number = limitPerPage * Number(counter);
 
     const queryParams: (string | number)[] = [user_id];
     const queryString: string = `
@@ -102,7 +106,8 @@ module.exports = (db: any) => {
       JOIN users ON maps.creator = users.id
       WHERE maps.creator = $1
       GROUP BY maps.id, users.id
-      ORDER BY maps.id DESC;
+      ORDER BY maps.id DESC
+      LIMIT ${limit};
     `;
 
     db.query(queryString, queryParams)
