@@ -53,6 +53,27 @@ interface Data {
   user_province: string;
 };
 
+interface Fav {
+  id: number;
+  title: string;
+  city: string;
+  province: string;
+  country: string;
+  creator: number;
+  date_created: string;
+  pins: any[];
+  latitude: number;
+  longitude: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  profile_image: string;
+  user_country: string;
+  user_id: number;
+  date_liked: number;
+  map_id_liked: number;
+};
+
 
 const Profile = (props: ProfileProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
@@ -178,36 +199,15 @@ const Profile = (props: ProfileProps) => {
 
   // Load the user's favorites maps (maps liked):
   const loadFavorites = async(id: number | string) => {
-    return axios.get(`/favorites/${id}`)
+    return axios.get(`/favorites/${id}/${loadCounter}`)
       .then((res) => {
-        console.log('favorites', res.data);
+        //console.log('favorites', res.data);
         setFavorites(res.data);
       })
       .catch((error) => {
         console.log(error.message);
       });
   };
-
-  interface Fav {
-    id: number;
-    title: string;
-    city: string;
-    province: string;
-    country: string;
-    creator: number;
-    date_created: string;
-    pins: any[];
-    latitude: number;
-    longitude: number;
-    username: string;
-    first_name: string;
-    last_name: string;
-    profile_image: string;
-    user_country: string;
-    user_id: number;
-    date_liked: number;
-    map_id_liked: number;
-  }
 
 
   // Get the list of favorite maps (maps liked by the user):
@@ -284,8 +284,8 @@ const Profile = (props: ProfileProps) => {
             country={userInfo!.country}
             email={userInfo!.email}
             totalContributions={totalContributions}
-            showFav={() => {setShowFav(true); setShowContri(false);}}
-            showContri={() => {setShowContri(true); setShowFav(false);}}
+            showFav={() => {setShowFav(true); setShowContri(false); setLoadCounter(1);}}
+            showContri={() => {setShowContri(true); setShowFav(false); setLoadCounter(1);}}
           />}
         </div>
 
@@ -306,6 +306,13 @@ const Profile = (props: ProfileProps) => {
           {showFav && <div className='contri_fav'>
             Favorites:
             {favList}
+
+            <span
+              className='load_more'
+              onClick={() => setLoadCounter((prev: number) => prev + 1)}
+            >
+              Load more favorites.
+            </span>
           </div>}
 
           
