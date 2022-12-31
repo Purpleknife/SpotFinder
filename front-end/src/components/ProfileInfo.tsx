@@ -19,6 +19,8 @@ interface ProfileInfoProps {
   country: string;
   email: string;  
   totalContributions: number;
+  showFav: () => void;
+  showContri: () => void;
 };
 
 const ProfileInfo = (props: ProfileInfoProps) => {
@@ -256,9 +258,9 @@ const ProfileInfo = (props: ProfileInfoProps) => {
 
 
       <br />
-      Contributions: {props.totalContributions}
+      <span onClick={props.showContri}>Contributions:</span> {props.totalContributions}
       <br />
-      Favorites:
+      <span onClick={props.showFav}>Favorites:</span>
 
     </div>
   );

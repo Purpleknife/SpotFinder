@@ -64,6 +64,9 @@ const Profile = (props: ProfileProps) => {
   const [contributions, setContributions] = useState<any>(null);
   const [totalContributions, setTotalContributions] = useState<number>(0);
   const [favorites, setFavorites] = useState<any>(null);
+
+  const [showContri, setShowContri] = useState<boolean>(false);
+  const [showFav, setShowFav] = useState<boolean>(true);
   
   const params = useParams(); // Used to dynamically visit other users's profiles.
 
@@ -251,41 +254,49 @@ const Profile = (props: ProfileProps) => {
 
 
   return (
-    <div className='profile'>
+    <>
 
       { !logged_in
       ? <Navigate to='/' />
       :
+      <div className='profile'>
+        <div className='profile_info'>
+          
+          { userInfo && 
+          
+          <ProfileInfo 
+            id={userInfo!.id}
+            first_name={userInfo!.first_name}
+            last_name={userInfo!.last_name}
+            password={userInfo!.password}
+            password_confirmation={userInfo!.password_confirmation}
+            profile_image={userInfo!.profile_image}
+            province={userInfo!.province}
+            username={userInfo!.username}
+            city={userInfo!.city}
+            country={userInfo!.country}
+            email={userInfo!.email}
+            totalContributions={totalContributions}
+            showFav={() => {setShowFav(true); setShowContri(false);}}
+            showContri={() => {setShowContri(true); setShowFav(false);}}
+          />}
+        </div>
 
-      <div>
-        
-        { userInfo && 
-        
-        <ProfileInfo 
-          id={userInfo!.id}
-          first_name={userInfo!.first_name}
-          last_name={userInfo!.last_name}
-          password={userInfo!.password}
-          password_confirmation={userInfo!.password_confirmation}
-          profile_image={userInfo!.profile_image}
-          province={userInfo!.province}
-          username={userInfo!.username}
-          city={userInfo!.city}
-          country={userInfo!.country}
-          email={userInfo!.email}
-          totalContributions={totalContributions}
-        />}
+          <br />
 
-        <br />
-        Contributions:
-        {dataList}
+          {showContri && <div className='contri_fav'>
+            Contributions:
+            {dataList}
+          </div>}
 
-        Favorites:
-        {favList}
-      </div>
+          {showFav && <div className='contri_fav'>
+            Favorites:
+            {favList}
+          </div>}
+        </div>
       }
       
-    </div>
+    </>
   );
 }
  
