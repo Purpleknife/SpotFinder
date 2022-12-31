@@ -84,6 +84,7 @@ const Profile = (props: ProfileProps) => {
   const [userData, setUserData] = useState<any>(null);
   const [contributions, setContributions] = useState<any>(null);
   const [totalContributions, setTotalContributions] = useState<number>(0);
+  const [totalFavorites, setTotalFavorites] = useState<number>(0);
   const [favorites, setFavorites] = useState<any>(null);
 
   const [showContri, setShowContri] = useState<boolean>(false);
@@ -239,10 +240,22 @@ const Profile = (props: ProfileProps) => {
   });
 
 
+  // Load the number of the user's favorites maps (maps liked):
+  const loadFavoritesCount = async(id: number | string) => {
+    return axios.get(`/maps_liked/${id}`)
+      .then((res) => {
+        //console.log('favorites', res.data);
+        setTotalFavorites(res.data.count);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
 
   useEffect(() => {
     document.title = `${username}'s profile`;
-  })
+  });
 
 
   useEffect(() => {
@@ -250,6 +263,7 @@ const Profile = (props: ProfileProps) => {
       LoadUserInfo(params.user_id);
       loadContributions(params.user_id);
       loadFavorites(params.user_id);
+      loadFavoritesCount(params.user_id);
     }
   }, [props.refetch]);
 
@@ -284,6 +298,7 @@ const Profile = (props: ProfileProps) => {
             country={userInfo!.country}
             email={userInfo!.email}
             totalContributions={totalContributions}
+            totalFavorites={totalFavorites}
             showFav={() => {setShowFav(true); setShowContri(false); setLoadCounter(1);}}
             showContri={() => {setShowContri(true); setShowFav(false); setLoadCounter(1);}}
           />}
