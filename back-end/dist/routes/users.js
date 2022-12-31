@@ -146,8 +146,11 @@ module.exports = (db) => {
         });
     });
     // Route to load the user's favorite maps (maps liked):
-    router.get('/favorites/:user_id', (req, res) => {
+    router.get('/favorites/:user_id/:counter', (req, res) => {
         const user_id = req.params.user_id;
+        const counter = req.params.counter;
+        const limitPerPage = 5;
+        const limit = limitPerPage * Number(counter);
         const queryParams = [user_id];
         const queryString = `
       SELECT maps.*, array_to_json(array_agg(pins)) AS pins, users.username, users.first_name,
@@ -159,7 +162,8 @@ module.exports = (db) => {
       WHERE map_likes.user_id = $1
       AND map_likes.map_id = maps.id
       GROUP BY maps.id, users.id, map_likes.date_liked, map_likes.map_id
-      ORDER BY maps.id DESC;
+      ORDER BY maps.id DESC
+      LIMIT ${limit};
     `;
         db.query(queryString, queryParams)
             .then((data) => {

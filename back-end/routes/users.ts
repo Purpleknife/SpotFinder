@@ -178,8 +178,12 @@ module.exports = (db: any) => {
 
 
   // Route to load the user's favorite maps (maps liked):
-  router.get('/favorites/:user_id', (req: Request, res: Response) => {
+  router.get('/favorites/:user_id/:counter', (req: Request, res: Response) => {
     const user_id: string | number = req.params.user_id;
+    const counter: string | number = req.params.counter;
+    const limitPerPage: number = 5;
+
+    const limit: number = limitPerPage * Number(counter);
 
     const queryParams: (string | number)[] = [user_id];
     const queryString: string = `
@@ -192,7 +196,8 @@ module.exports = (db: any) => {
       WHERE map_likes.user_id = $1
       AND map_likes.map_id = maps.id
       GROUP BY maps.id, users.id, map_likes.date_liked, map_likes.map_id
-      ORDER BY maps.id DESC;
+      ORDER BY maps.id DESC
+      LIMIT ${limit};
     `;
 
     db.query(queryString, queryParams)
