@@ -9,10 +9,9 @@
   height: auto;
 
   .map_btns {
-    color: red;
     display: flex;
     justify-content: flex-end;
-    padding-right: 1em;
+    //padding-right: 1em;
     padding-top: 0.5em;
   }
 
@@ -54,6 +53,7 @@
     color: $another_color;
     position: relative;
     display: inline-block;
+    padding-right: 0.5em;
 
     &:hover {
       color: #74ca77;
