@@ -3,6 +3,15 @@
 .map_page {
   margin-bottom: 2em;
 
+  .scroll_up {
+    position: fixed; 
+    left: 97.5%;
+    bottom: 2%;
+    font-size: 40px;
+    color: $primary_color;
+    cursor: pointer;
+  }
+
   .map_all {
     font-family: $secondary_font;
     display: flex;

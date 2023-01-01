@@ -13,6 +13,7 @@ import MapView from './MapView';
 import MapComments from './MapComments';
 import MapLikes from './MapLikes';
 import PinList from './PinList';
+import ScrollToTop from './ScrollToTop';
 
 import './MapPage.scss';
 
@@ -382,7 +383,9 @@ const MapPage = () => {
       
       {commentsList}
 
+      <ScrollToTop />
     </div>
+    
   );
 }
  
