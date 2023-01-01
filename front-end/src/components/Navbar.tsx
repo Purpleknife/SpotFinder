@@ -73,7 +73,7 @@ const NavBar = (props: NavBarProps) => {
           <CreateMap refetch={props.refetch} handleClose={handleCreateClose} show={showCreate} coordinates={props.coordinates} />
 
           
-          { !location.pathname.includes('profile') && <span id='welcome'>Welcome, <button type='submit' className='profile_btn' onClick={() => navigate(`/profile/${user_id}`)}>{username}</button>!</span>}
+          <span id='welcome'>Welcome, <button type='submit' className='profile_btn' onClick={() => navigate(`/profile/${user_id}`)}>{username}</button>!</span>
           
           <button type='submit' className='logout' onClick={logout}>Logout</button>
         </div>
