@@ -45,14 +45,18 @@ module.exports = (db) => {
         });
     });
     // Get the comments of a specific map:
-    router.get('/maps/:map_id/comments', (req, res) => {
+    router.get('/maps/:map_id/comments/:counter', (req, res) => {
         const map_id = req.params.map_id;
+        const counter = req.params.counter;
+        const limitPerPage = 5;
+        const limit = limitPerPage * Number(counter);
         const queryParams = [map_id];
         const queryString = `SELECT map_comments.*, users.username, users.profile_image, users.first_name, users.last_name
       FROM map_comments
       JOIN users ON map_comments.user_id = users.id
       WHERE map_comments.map_id = $1
-      ORDER BY date_commented;`;
+      ORDER BY date_commented
+      LIMIT ${limit};`;
         db.query(queryString, queryParams)
             .then((data) => {
             res.json(data.rows);

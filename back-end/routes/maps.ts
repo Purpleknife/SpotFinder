@@ -56,8 +56,12 @@ module.exports = (db: any) => {
 
 
   // Get the comments of a specific map:
-  router.get('/maps/:map_id/comments', (req: Request, res: Response) => {
+  router.get('/maps/:map_id/comments/:counter', (req: Request, res: Response) => {
     const map_id: string | number = req.params.map_id;
+    const counter: string | number = req.params.counter;
+    const limitPerPage: number = 5;
+
+    const limit: number = limitPerPage * Number(counter);
 
     const queryParams: (string | number)[] = [map_id];
     
@@ -66,7 +70,8 @@ module.exports = (db: any) => {
       FROM map_comments
       JOIN users ON map_comments.user_id = users.id
       WHERE map_comments.map_id = $1
-      ORDER BY date_commented;`
+      ORDER BY date_commented
+      LIMIT ${limit};`
       ;
 
     db.query(queryString, queryParams)
