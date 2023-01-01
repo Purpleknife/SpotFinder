@@ -2,8 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
+import { useNavigate } from 'react-router-dom';
+
 import { useCookies } from 'react-cookie';
 import { EditState } from './Map';
+
+import './MapComments.scss';
+
+import moment from "moment";
 
 interface MapCommentsProps {
   content: string;
@@ -22,6 +28,8 @@ interface MapCommentsProps {
 const MapComments = (props: MapCommentsProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked', 'pinLiked']);
   const user_id = Number(cookies.user_id);
+
+  const navigate = useNavigate();
 
   const [editInput, setEditInput] = useState<EditState>({
     editing: false,
@@ -116,31 +124,53 @@ const MapComments = (props: MapCommentsProps) => {
       });
   };
 
+  // Navigate to profile:
+  const navigateToProfile = () => {
+    navigate(`/profile/${props.comment_creator}`)
+  };
+
 
   return (
     <div className='comments'>
-      {props.username}
-      {props.date_commented}
-      
-      <span style={editInput.viewMode}>{inputContent ? inputContent : props.content}</span>
-        <input 
-          className="input-field-map"
-          type="text"
-          style={editInput.editMode}
-          placeholder={props.content}
-          value={inputContent}
-          onChange = {(event) => {
-            setInputContent(event.target.value)}
-          }
+    
+        <img
+          alt='comment_img'
+          src={props.profile_image}
+          onClick={navigateToProfile}
         />
+  
+        <div className='inner_comment'>
+          <div className='content'>
+            <div className='inner_content'>
+              <span className='username' onClick={navigateToProfile}>{props.username}</span>
+              <span className='text' style={editInput.viewMode}>{inputContent ? inputContent : props.content}</span>
+                <input 
+                  className="input-field-map"
+                  type="text"
+                  style={editInput.editMode}
+                  placeholder={props.content}
+                  value={inputContent}
+                  onChange = {(event) => {
+                    setInputContent(event.target.value)}
+                  }
+                />
+              </div>
+            </div>
 
-      { props.comment_creator === user_id && 
-        <>
-          <button onClick={deleteComment}>Delete</button>
-          <button style={editInput.viewMode} onClick={edit}>Edit</button>
-          <button style={editInput.editMode} onClick={editIt}><i className="fa-solid fa-floppy-disk"></i> Save</button>
-        </>
-      }
+        
+        <div className='info'>
+          <span className='date'>{moment(props.date_commented).startOf('day').fromNow()}</span>
+
+          { props.comment_creator === user_id && 
+            <>
+              <button onClick={deleteComment}><i className="fa-solid fa-trash"></i></button>
+              <button style={editInput.viewMode} onClick={edit}><i className="fa-solid fa-pen-to-square"></i></button>
+              <button style={editInput.editMode} onClick={editIt}><i className="fa-solid fa-floppy-disk"></i></button>
+            </>
+          }
+        </div>
+        </div>
+      
     </div>
   );
 }

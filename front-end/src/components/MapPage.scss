@@ -1,6 +1,7 @@
 @import "../styles/variables";
 
 .map_page {
+  margin-bottom: 2em;
 
   .map_all {
     font-family: $secondary_font;
@@ -100,6 +101,7 @@
   .add_comment {
     margin-left: 14em;
     margin-top: 2em;
+    margin-bottom: 1em;
     font-family: $secondary_font;
 
     img {
@@ -108,11 +110,13 @@
       object-fit: cover;
       border-radius: 50px;
       margin-right: 1.5em;
+      margin-bottom: 0.2em;
     }
 
     input {
       height: 2.7em;
       width: 80em;
+      padding-left: 0.5em;
     }
 
     .add {

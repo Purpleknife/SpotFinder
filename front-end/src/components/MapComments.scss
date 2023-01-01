@@ -1,0 +1,96 @@
+@import "../styles/variables";
+
+.comments {
+  margin-left: 12em;
+  font-family: $secondary_font;
+  width:  92.5em;
+  //margin-bottom: 1em;
+  padding-top: 1em;
+  padding-left: 2em;
+  padding-bottom: 1em;
+  //display: flexbox;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+    
+  .inner_comment {
+    background-color: rgb(231, 250, 250);
+    border-radius: 7px;
+    margin-left: 4.5em;
+    margin-top: -3em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    
+
+    .content {
+      display: inline-block;
+      margin-left: 1em;
+  
+      .inner_content {
+        display: flex;
+        flex-direction: column;
+    
+        .username {
+          padding-left: 0.5em;
+          cursor: pointer;
+          font-weight: bold;
+          
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+    
+        .text {
+          padding-left: 0.5em;
+          color: rgb(100, 100, 100);
+          
+        }
+      
+        .input-field-map {
+          //position: absolute;
+          margin-left: 0.5em;
+          //margin-top: 1em;
+          width: 70em;
+          height: 2.5em;
+        }
+    
+      }
+    }
+
+    .info {
+      float: right;
+
+      .date {
+        margin-right: 0.5em;
+        font-size: 15px;
+      }
+
+      button {
+        background: transparent;
+        border: none;
+      }
+
+      .fa-trash {
+        color: rgb(243, 140, 140);
+      }
+
+      .fa-pen-to-square {
+        color: $primary_color;
+      }
+
+      .fa-floppy-disk {
+        color: rgb(5, 189, 5);
+      }
+    }
+
+  }
+}
