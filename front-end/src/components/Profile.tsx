@@ -182,7 +182,7 @@ const Profile = (props: ProfileProps) => {
         province={data.province}
         country={data.country}
         creator={data.creator}
-        date_created={moment(data.date_created).format('MMMM Do YYYY, h:mm:ss a')}
+        date_created={moment(data.date_created).format('LL')}
         pins={data.pins[0] === null ? [] : data.pins} // => When you create a new map, its pins are null.
         latitude={data.latitude}
         longitude={data.longitude}
@@ -196,7 +196,7 @@ const Profile = (props: ProfileProps) => {
         user_id={data.user_id}
         user_province={data.user_province}
         contributions_type={contributionsType(data.id)}
-        contributions_date={moment(contributionsDate(data.id)).format('MMMM Do YYYY, h:mm:ss a')}
+        contributions_date={moment(contributionsDate(data.id)).format('LL')}
         refetch={props.refetch}
       />
     )
@@ -227,7 +227,7 @@ const Profile = (props: ProfileProps) => {
         province={fav.province}
         country={fav.country}
         creator={fav.creator}
-        date_created={moment(fav.date_created).format('MMMM Do YYYY, h:mm:ss a')}
+        date_created={moment(fav.date_created).format('LL')}
         pins={fav.pins[0] === null ? [] : fav.pins} // => When you create a new map, its pins are null.
         latitude={fav.latitude}
         longitude={fav.longitude}
@@ -237,7 +237,7 @@ const Profile = (props: ProfileProps) => {
         profile_image={fav.profile_image}
         user_country={fav.user_country}
         user_id={fav.user_id}
-        date_liked={moment(fav.date_liked).format('MMMM Do YYYY, h:mm:ss a')}
+        date_liked={moment(fav.date_liked).format('LL')}
         map_id_liked={fav.map_id_liked}
         refetch={props.refetch}
       />

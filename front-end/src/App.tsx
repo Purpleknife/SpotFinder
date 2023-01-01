@@ -68,7 +68,7 @@ const App = () => {
           id={mp.id}
           creator={mp.creator}
           username={mp.username}
-          date_created={moment(mp.date_created).format('MMMM Do YYYY, h:mm:ss a')}
+          date_created={moment(mp.date_created).format('LL')}
           title={mp.title}
           city={mp.city}
           province={mp.province}
