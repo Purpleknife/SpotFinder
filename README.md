@@ -2,7 +2,7 @@
 
 SpotFinder is an app that allows users to discover maps depending on their interests: 'Best Dog Parks', 'Best Restaurants in Town', etc. 
 
-This project's goal is to revisit an old project made with Node JS, Express and EJS templates: [Wiki Map](https://github.com/Purpleknife/Wiki-Map), and rebuild it using TypeScript, React JS and Express.
+This project's goal is to revisit and add more features to an old project made with Node JS, Express and EJS templates: [Wiki Map](https://github.com/Purpleknife/Wiki-Map) + rebuild it using TypeScript, React JS and Express.
 
 <strong><h3> 📌 This project's goals are:</h3></strong>
 - Develop my skills in TypeScript.
@@ -32,6 +32,9 @@ This project's goal is to revisit an old project made with Node JS, Express and 
   - [X] Search for maps.
   - [X] Visit other users profiles.
   - [X] Edit their own profile.
+- [X] <strong>Other :</strong>
+  - [X] Pagination: Load only 6 maps at a time for each page in Landing Page.
+  - [X] 'Load more': In Profile, only 5 Favorites and 5 Contributions are loaded at a time, if you want to see more, you need to click on 'Load more...' at the bottom of the page and it will load 5 more Favorites and Contributions.
 
 ## Other
 The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-%20SpotFinder.png) is in the back-end folder. I might modify it as I'm working on the app.
