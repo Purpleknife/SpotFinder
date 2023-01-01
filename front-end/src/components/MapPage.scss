@@ -97,6 +97,35 @@
     }
   }
 
+  .add_comment {
+    margin-left: 14em;
+    margin-top: 2em;
+    font-family: $secondary_font;
+
+    img {
+      height: 50px;
+      width: 50px;
+      object-fit: cover;
+      border-radius: 50px;
+      margin-right: 1.5em;
+    }
+
+    input {
+      height: 2.7em;
+      width: 80em;
+    }
+
+    .add {
+      background-color: $primary_color;
+      border: none;
+      margin-left: 1em;
+      width: 5em;
+      border-radius: 5px;
+      height: 2.7em;
+      font-weight: bold;
+    }
+  }
+
 }
 
 .modal-title.h4 {

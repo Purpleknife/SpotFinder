@@ -81,10 +81,22 @@ const MapPage = () => {
   const [mapLikes, setMapLikes] = useState<any>(null);
   const [totalLikes, setTotalLikes] = useState<number>(0);
   const [color, setColor] = useState<string>('#000000');
+  const [profileImg, setProfileImg] = useState<string>('');
 
   const location = useLocation();
 
   const commentInput = useRef<HTMLInputElement>(null);
+
+  // Load user's profile_image:
+  const loadProfileImage = async() => {
+    return axios.get(`/user_image/${user_id}`)
+      .then((res) => {
+        setProfileImg(res.data.profile_image);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
 
   // Load the data of a specific map:
@@ -265,7 +277,7 @@ const MapPage = () => {
   useEffect(() => {
     loadComments();
     loadLikes();
-    
+    loadProfileImage();
   }, []);
 
   useEffect(() => {
@@ -349,17 +361,23 @@ const MapPage = () => {
       <i className="fa-solid fa-comment"></i>
       <span className='comment_btn'>{totalComments} </span>
       </div>
-      <br />
+      
+      <div className='add_comment'>
 
-      <input 
-        type='text'
-        name='comment'
-        placeholder='Write a comment here...'
-        ref={commentInput}
-      />
+        <img
+          alt='comment_img'
+          src={profileImg}
+        />
 
-      <button onClick={addMapComment}>Add</button>
+        <input 
+          type='text'
+          name='comment'
+          placeholder='Write a comment here...'
+          ref={commentInput}
+        />
 
+        <button className='add' onClick={addMapComment}>Add</button>
+      </div>
       <br />
       {commentsList}
 
