@@ -225,13 +225,13 @@
       cursor: pointer;
 
       &:hover {
-        background-color: $other_color;
+        background-color: $primary_color;
       }
     }
 
     .fav {
       margin-top: 1em;
-      background-color: #f7c8bb;
+      background-color: #d0fad2;
       border-radius: 7px;
       width: 20em;
       height: 2em;
@@ -240,7 +240,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: $secondary_color;
+        background-color: $another_color;
       }
     }
   }

@@ -204,7 +204,7 @@ const Profile = (props: ProfileProps) => {
   const loadFavorites = async(id: number | string) => {
     return axios.get(`/favorites/${id}/${loadCounter}`)
       .then((res) => {
-        //console.log('favorites', res.data);
+        console.log('favorites', res.data);
         setFavorites(res.data);
       })
       .catch((error) => {
