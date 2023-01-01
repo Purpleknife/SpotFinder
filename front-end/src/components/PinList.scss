@@ -1,0 +1,28 @@
+@import "../styles/variables";
+
+.pins_list {
+  margin-bottom: 2em;
+  font-family: $secondary_font;
+
+  .img_pin {
+
+    img {
+      height: 50px;
+      width: 50px;
+      object-fit: cover;
+      border-radius: 50px;
+      margin-right: 0.5em;
+      display: inline-flexbox;
+      justify-content: flex-start;
+      align-content: flex-start;
+    }
+
+    .title {
+      font-weight: bold;
+    }
+
+    .description {
+      text-align: justify;
+    }
+  }
+}
