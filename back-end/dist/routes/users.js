@@ -189,5 +189,20 @@ module.exports = (db) => {
             console.log(error.message);
         });
     });
+    // Route to get the user's profile image:
+    router.get('/user_image/:user_id', (req, res) => {
+        const user_id = req.params.user_id;
+        const queryParams = [user_id];
+        const queryString = `
+      SELECT profile_image FROM users
+      WHERE id = $1;`;
+        db.query(queryString, queryParams)
+            .then((data) => {
+            res.json(data.rows[0]);
+        })
+            .catch((error) => {
+            console.log(error.message);
+        });
+    });
     return router;
 };
