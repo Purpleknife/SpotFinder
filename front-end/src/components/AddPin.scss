@@ -1,0 +1,48 @@
+@import "../styles/variables";
+
+
+
+.leaflet-popup-content-wrapper {
+  font-family: $secondary_font;
+  
+  #pin_title {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  #pin_description {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  #upload {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+
+    button {
+      margin-left: 19em;
+      margin-top: -2em;
+      background-color: $primary_color;
+      border: none;
+      border-radius: 5px;
+      height: 2em;
+      width: 4.3em;
+    }
+  }
+
+  #save {
+    background-color: rgb(17, 177, 17);
+    border: none;
+    border-radius: 5px;
+    height: 2em;
+    margin-left: 19em;
+    width: 4.3em;
+  }
+  
+}

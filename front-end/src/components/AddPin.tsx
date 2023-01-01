@@ -9,6 +9,8 @@ import L, { marker } from "leaflet";
 
 import axios from 'axios';
 
+import './AddPin.scss';
+
 interface AddPinProps {
   map_id: number;
   refetch: () => void;
@@ -100,28 +102,33 @@ const AddPin = (props: AddPinProps) => {
         icon={icon}
       >
         <Popup autoPan={false}>
-          Add title: 
+          <div id='pin_title'>Add title: 
           <input
+            className='input_title'
             type='text'
             ref={titleInput}
           />
+          </div>
           <br />
 
-          Add description: 
+          <div id='pin_description'>Add description: 
           <input
+            className='input_description'
             type='text'
             ref={descriptionInput}          
           />
+          </div>
           <br />
 
-          Upload image: 
-          <input 
-            type='file'
-            className="uploadInput"
-          />
-          <button onClick={() => props.uploadImage()}>Load</button>
-          <br />
-          <button onClick={savePin}>Save</button>
+          <div id='upload'>Upload image: 
+            <input 
+              type='file'
+              className="uploadInput"
+            />
+            <button onClick={() => props.uploadImage()}>Load</button>
+          </div>
+
+          <button id='save' onClick={savePin}>Save</button>
         </Popup>
       </Marker>
 
