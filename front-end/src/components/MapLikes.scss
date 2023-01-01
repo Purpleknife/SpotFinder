@@ -1,0 +1,40 @@
+@import "../styles/variables";
+
+.likes_list {
+  //display: inline;
+  font-family: $secondary_font;
+  display: inline;
+
+  img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50px;
+    margin-right: 0.5em;
+  }
+
+  .info {
+    
+    display: flex;
+    flex-direction: column;
+    margin-left: 4em;
+    margin-top: -3em;
+
+
+    .date {
+      color: grey;
+      font-size: 11px;
+    }
+
+    .username {
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+  }
+
+}

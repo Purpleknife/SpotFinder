@@ -340,7 +340,7 @@ const MapPage = () => {
       <div className='all_likes'>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>{totalLikes} Likes</Modal.Title>
+            <Modal.Title>Likes <i className="fa-solid fa-caret-right"></i> {totalLikes}</Modal.Title>
           </Modal.Header>
           <Modal.Body>{likesList}</Modal.Body>
         </Modal>
