@@ -244,7 +244,7 @@ const MapPage = () => {
 
 
   // Get a list of pins on a specific map:
-  const pinsList = specificMap!.pins?.map((pin: Pin) => {
+  const pinsList = specificMap?.pins?.map((pin: Pin) => {
     return (
       <PinList
         key={pin.id}
@@ -283,7 +283,6 @@ const MapPage = () => {
     }
   }, [cookies.alreadyLiked])
 
-  console.log('pins', specificMap!.pins);
 
   return (
     <div className='map_page'>
@@ -325,12 +324,18 @@ const MapPage = () => {
       </div>
       }
       
+      <div className='comments_likes'>
       <i 
         className="fa-solid fa-heart"
         onClick={addOrRemoveLike}
         style={ {color: `${color}`} }
-      ></i> <Button onClick={handleShow}>{totalLikes}</Button>&nbsp;&nbsp;
-      {totalComments} <i className="fa-solid fa-comment"></i>
+      ></i>
+      <Button 
+        onClick={handleShow}
+        className='like_btn'
+      >
+        {totalLikes}
+      </Button>
 
       <div className='all_likes'>
         <Modal show={show} onHide={handleClose}>
@@ -339,6 +344,10 @@ const MapPage = () => {
           </Modal.Header>
           <Modal.Body>{likesList}</Modal.Body>
         </Modal>
+      </div>
+
+      <i className="fa-solid fa-comment"></i>
+      <span className='comment_btn'>{totalComments} </span>
       </div>
       <br />
 
