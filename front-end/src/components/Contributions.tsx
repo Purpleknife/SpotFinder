@@ -5,7 +5,7 @@ import Buttons from './Buttons';
 
 import './Contributions.scss';
 
-
+import { useNavigate } from 'react-router-dom';
 
 interface ContributionsProps {
   id: number;
@@ -34,22 +34,29 @@ interface ContributionsProps {
 
 
 const Contributions = (props: ContributionsProps) => {
+  const navigate = useNavigate();
 
   return (
     <div className='contributions'>
+      
       <div className='contri_map'>
         <MapView refetch={props.refetch} key={props.id} id={props.id} title={props.title} date_created={props.date_created} latitude={props.latitude} longitude={props.longitude} allPins={props.pins} />
       </div>
-      Title: {props.title}
-      <br />
-      Location: {props.city}, {props.province}, {props.country}
-      <br />
-      Created by {props.username} on {props.date_created}
-      <br /> Last contribution: {props.contributions_type}, {props.contributions_date}.
 
-      <br />
+      <div className='contri_info'> 
+        <span className='title'><i className="fa-sharp fa-solid fa-thumbtack"></i> {props.title}</span>
+        
+        <span className='location'><i className="fa-solid fa-location-dot"></i> {props.city}, {props.province}, {props.country}</span>
+        
+        <span className='created_by'><i className="fa-solid fa-user-secret"></i> Created by <span id='username' onClick={() => navigate(`/profile/${props.creator}`)}> {props.username}</span>, on {props.date_created}</span>
+        
+        <span className='last_contribution'> <i className="fa-solid fa-check"></i> <span id='contribution'>Last contribution:</span> <span id='type'>{props.contributions_type}</span>, {props.contributions_date}.</span>
+
+      </div>
       
-      <Buttons map_id={props.id} refetch={props.refetch} creator={props.creator} />
+      <div className='contri_btn'>
+        <Buttons map_id={props.id} refetch={props.refetch} creator={props.creator} />
+      </div>
 
     </div>
   );

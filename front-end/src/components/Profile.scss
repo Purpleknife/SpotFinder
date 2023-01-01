@@ -3,17 +3,64 @@
 .profile {
   width: 80%;
   height: 200px;
-  margin: auto;
-  //padding: 10px;
+  margin-left: 4.7em;
 
   .profile_info {
     width: 15%;
     height: 200px;
     float: left;
   }
-  
-  .contri_fav {
-    margin-left: 45%;
+
+  .contri_profile {
+    margin-left: 42.1%;
     height: 200px;
+    
+
+    .contri_title {
+      font-family: $secondary_font;
+      background-color: $other_color;
+      border-radius: 7px;
+      width: 66em;
+      height: 3em;
+      padding-top: 0.8em;
+      padding-left: 1em;
+      font-size: 17px;
+      margin-top: 1.2em;
+      font-weight: bold;
+    }
+  }
+  
+  .fav_profile {
+    margin-left: 42.1%;
+    height: 200px;
+
+    .fav_title {
+      font-family: $secondary_font;
+      background-color: $secondary_color;
+      border-radius: 7px;
+      width: 66em;
+      height: 3em;
+      padding-top: 0.8em;
+      padding-left: 1em;
+      font-size: 17px;
+      margin-top: 1.2em;
+      font-weight: bold;
+    }
+  }
+
+  .load_more {
+    font-family: $secondary_font;
+    font-weight: bold;
+    font-size: 19px;
+    cursor: pointer;
+    color: grey;
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-left: 5em;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

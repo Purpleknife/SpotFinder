@@ -12,6 +12,8 @@ import Contributions from './Contributions';
 import ProfileInfo from './ProfileInfo';
 import Favorites from './Favorites';
 
+import moment from "moment";
+
 
 interface ProfileProps {
   refetch: () => void;
@@ -177,7 +179,7 @@ const Profile = (props: ProfileProps) => {
         province={data.province}
         country={data.country}
         creator={data.creator}
-        date_created={data.date_created}
+        date_created={moment(data.date_created).format('MMMM Do YYYY, h:mm:ss a')}
         pins={data.pins[0] === null ? [] : data.pins} // => When you create a new map, its pins are null.
         latitude={data.latitude}
         longitude={data.longitude}
@@ -191,7 +193,7 @@ const Profile = (props: ProfileProps) => {
         user_id={data.user_id}
         user_province={data.user_province}
         contributions_type={contributionsType(data.id)}
-        contributions_date={contributionsDate(data.id)}
+        contributions_date={moment(contributionsDate(data.id)).format('MMMM Do YYYY, h:mm:ss a')}
         refetch={props.refetch}
       />
     )
@@ -222,7 +224,7 @@ const Profile = (props: ProfileProps) => {
         province={fav.province}
         country={fav.country}
         creator={fav.creator}
-        date_created={fav.date_created}
+        date_created={moment(fav.date_created).format('MMMM Do YYYY, h:mm:ss a')}
         pins={fav.pins[0] === null ? [] : fav.pins} // => When you create a new map, its pins are null.
         latitude={fav.latitude}
         longitude={fav.longitude}
@@ -232,7 +234,7 @@ const Profile = (props: ProfileProps) => {
         profile_image={fav.profile_image}
         user_country={fav.user_country}
         user_id={fav.user_id}
-        date_liked={fav.date_liked}
+        date_liked={moment(fav.date_liked).format('MMMM Do YYYY, h:mm:ss a')}
         map_id_liked={fav.map_id_liked}
         refetch={props.refetch}
       />
@@ -306,28 +308,28 @@ const Profile = (props: ProfileProps) => {
 
           <br />
 
-          {showContri && <div className='contri_fav'>
-            Contributions:
+          {showContri && <div className='contri_profile'>
+            <div className='contri_title'><i className="fa-solid fa-list"></i> Contributions:</div>
             {dataList}
 
-            <span
+            <div
               className='load_more'
               onClick={() => setLoadCounter((prev: number) => prev + 1)}
             >
-              Load more contributions.
-            </span>
+              Load more...
+            </div>
           </div>}
 
-          {showFav && <div className='contri_fav'>
-            Favorites:
+          {showFav && <div className='fav_profile'>
+            <div className='fav_title'><i className="fa-solid fa-heart"></i> Favorites:</div>
             {favList}
 
-            <span
+            <div
               className='load_more'
               onClick={() => setLoadCounter((prev: number) => prev + 1)}
             >
-              Load more favorites.
-            </span>
+              Load more...
+            </div>
           </div>}
 
           

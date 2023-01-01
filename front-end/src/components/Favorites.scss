@@ -1,10 +1,48 @@
+@import "../styles/variables";
 
-
-.fav_map {
+.favorites {
+  border: 1px solid grey;
+  border-radius: 7px;
+  width: 70em;
   margin-top: 2em;
-  
-  .leaflet-container {
-    height: 200px;
-    width: 500px;
+  height: 25em;
+
+  .fav_map {
+    //margin-top: 2em;
+    
+    .leaflet-container {
+      height: 230px;
+      width: 1118px;
+    }
   }
+
+  .fave_info {
+    font-family: $secondary_font;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5em;
+    margin-left: 1em;
+
+    .title {
+      font-weight: bold;
+      margin-bottom: 0.3em;
+      font-size: 17px;
+    }
+
+    .created_by {
+
+      #username {
+        cursor: pointer;
+        color: $primary_color;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .fave_btn {
+    float: right;
+    margin-right: 0.5em;
+    font-size: 17px;
+  }
+
 }
