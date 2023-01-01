@@ -3,6 +3,20 @@
 .map_page {
   margin-bottom: 2em;
 
+  .load_more {
+    color: grey;
+    text-align: center;
+    font-size: 18px;
+    font-family: $secondary_font;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+    
+  }
+
   .scroll_up {
     position: fixed; 
     left: 97.5%;

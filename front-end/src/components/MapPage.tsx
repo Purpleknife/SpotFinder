@@ -84,6 +84,8 @@ const MapPage = () => {
   const [color, setColor] = useState<string>('#000000');
   const [profileImg, setProfileImg] = useState<string>('');
 
+  const [loadCounter, setLoadCounter] = useState<number>(1);
+
   const location = useLocation();
 
   const commentInput = useRef<HTMLInputElement>(null);
@@ -127,7 +129,7 @@ const MapPage = () => {
 
   // Load the comments of a map:
   const loadComments = async() => {
-    return axios.get(`/maps/${location.state.id}/comments`)
+    return axios.get(`/maps/${location.state.id}/comments/${loadCounter}`)
       .then((res) => {
         setMapComments(res.data);
         setTotalComments(res.data.length);
@@ -277,10 +279,13 @@ const MapPage = () => {
 
 
   useEffect(() => {
-    loadComments();
     loadLikes();
     loadProfileImage();
   }, []);
+
+  useEffect(() => {
+    loadComments();
+  }, [loadCounter]);
 
   useEffect(() => {
     loadSpecificMap();
@@ -382,6 +387,13 @@ const MapPage = () => {
       </div>
       
       {commentsList}
+
+      <div
+        className='load_more'
+        onClick={() => setLoadCounter((prev: number) => prev + 1)}
+      >
+        Load more...
+      </div>
 
       <ScrollToTop />
     </div>
