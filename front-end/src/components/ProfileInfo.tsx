@@ -155,116 +155,140 @@ const ProfileInfo = (props: ProfileInfoProps) => {
     <div className='profileInfo'>
 
       { props.id === user_id && 
-        <>
+        <div className='edit_btn'>
           <button style={editInput.viewMode} className="edit" onClick={edit} >
             <i className="fa-solid fa-pen-to-square"></i>
             <span className="tooltiptext_profile">Edit</span>
           </button>
-          <button style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i>Save</button>
-        </>
+          <button style={editInput.editMode} className="save" onClick={editIt}>
+            <i className="fa-solid fa-floppy-disk"></i>
+            <span className="tooltiptext_profile">Save</span>
+          </button>
+        </div>
       }
 
       
+      <div className='info'>
+        {/* Image */}
+        <div className='side_image'>
+          <img
+            className='profile_img'
+            // style={editInput.viewMode}
+            alt='profile_img'
+            src={props.profile_image}
+          />
 
-      {/* Image */}
-      <img
-        className='profile_img'
-        style={editInput.viewMode}
-        alt='profile_img'
-        src={props.profile_image}
-      />
+          <div className='change_img'>
+            <input 
+              type='file'
+              style={editInput.editMode}
+              className="uploadInput"
+            />
+            <button className='load' style={editInput.editMode} onClick={uploadProfileImage}>Load</button>
+          </div>
+        </div>
 
-      <input 
-        type='file'
-        style={editInput.editMode}
-        className="uploadInput"
-      />
-      <button style={editInput.editMode} onClick={uploadProfileImage}>Load</button>
+        <div className='user_info'>
+          {/* First and Last names */}
+          <span style={editInput.viewMode} className='name'>
+            { inputFirstName 
+            ? inputFirstName + ' ' + inputLastName
+            : (props.first_name === null || props.last_name === null) ? '' : props.first_name + ' ' + props.last_name
+            }
+          </span>
 
-      {/* Username */}
-      <span style={editInput.viewMode}>{inputUsername ? inputUsername : props.username}</span>
-      <input 
-        type="text"
-        style={editInput.editMode}
-        placeholder={props.username}
-        value={inputUsername || undefined}
-        onChange = {(event) => {
-          setInputUsername(event.target.value)}
-        }
-      />
+          <div className='name_input'>
+            <i style={editInput.editMode} className="fa-solid fa-user"></i>
+            <input 
+              type="text"
+              style={editInput.editMode}
+              placeholder={props.first_name ? props.first_name : 'First name'}
+              value={inputFirstName || undefined}
+              onChange = {(event) => {
+                setInputFirstName(event.target.value)}
+              }
+            />
+
+            <input 
+              type="text"
+              style={editInput.editMode}
+              placeholder={props.last_name ? props.last_name : 'Last name'}
+              value={inputLastName || undefined}
+              onChange = {(event) => {
+                setInputLastName(event.target.value)}
+              }
+            />
+
+          </div>
+
+          {/* Username */}
+          <span style={editInput.viewMode} className='username'>{inputUsername ? inputUsername : props.username}</span>
+          
+          <div className='username_input'>
+            <i style={editInput.editMode} className="fa-regular fa-user"></i>
+            <input 
+              type="text"
+              style={editInput.editMode}
+              placeholder={props.username}
+              value={inputUsername || undefined}
+              onChange = {(event) => {
+                setInputUsername(event.target.value)}
+              }
+            />
+          </div>
+        
+
+          {/* City, Province and Country */}
+          <span style={editInput.viewMode} className='location'>
+          <i className="fa-solid fa-location-dot"></i> { inputCity || inputProvince || inputCountry
+            ? inputCity + ', ' + inputProvince + ', ' + inputCountry
+            : (props.city === null || props.province === null || props.country === null) ? '' : props.city + ', ' + props.province + ', ' + props.country
+            }
+          </span>
+
+          <div className='location_input'>
+            <i style={editInput.editMode} className="fa-sharp fa-solid fa-location-dot"></i>
+            <input 
+              type="text"
+              style={editInput.editMode}
+              placeholder={props.city ? props.city : 'City'}
+              value={inputCity || undefined}
+              onChange = {(event) => {
+                setInputCity(event.target.value)}
+              }
+            />
+
+            <input 
+              type="text"
+              style={editInput.editMode}
+              placeholder={props.province ? props.province : 'Province'}
+              value={inputProvince || undefined}
+              onChange = {(event) => {
+                setInputProvince(event.target.value)}
+              }
+            />
+
+            <input 
+              type="text"
+              style={editInput.editMode}
+              placeholder={props.country ? props.country : 'Country'}
+              value={inputCountry || undefined}
+              onChange = {(event) => {
+                setInputCountry(event.target.value)}
+              }
+            />
+          </div>
+
+        </div>
+
+      </div>
 
 
-      {/* First and Last names */}
-      <span style={editInput.viewMode}>
-        { inputFirstName 
-        ? inputFirstName + ' ' + inputLastName
-        : (props.first_name === null || props.last_name === null) ? '' : props.first_name + ' ' + props.last_name
-        }
-      </span>
-      <input 
-        type="text"
-        style={editInput.editMode}
-        placeholder={props.first_name ? props.first_name : 'First name'}
-        value={inputFirstName || undefined}
-        onChange = {(event) => {
-          setInputFirstName(event.target.value)}
-        }
-      />
-
-      <input 
-        type="text"
-        style={editInput.editMode}
-        placeholder={props.last_name ? props.last_name : 'Last name'}
-        value={inputLastName || undefined}
-        onChange = {(event) => {
-          setInputLastName(event.target.value)}
-        }
-      />
-
-    
-
-      {/* City, Province and Country */}
-      <span style={editInput.viewMode}>
-      <i className="fa-solid fa-location-dot"></i> { inputCity || inputProvince || inputCountry
-        ? inputCity + ', ' + inputProvince + ', ' + inputCountry
-        : (props.city === null || props.province === null || props.country === null) ? '' : props.city + ', ' + props.province + ', ' + props.country
-        }
-      </span>
-      <input 
-        type="text"
-        style={editInput.editMode}
-        placeholder={props.city ? props.city : 'City'}
-        value={inputCity || undefined}
-        onChange = {(event) => {
-          setInputCity(event.target.value)}
-        }
-      />
-
-      <input 
-        type="text"
-        style={editInput.editMode}
-        placeholder={props.province ? props.province : 'Province'}
-        value={inputProvince || undefined}
-        onChange = {(event) => {
-          setInputProvince(event.target.value)}
-        }
-      />
-
-      <input 
-        type="text"
-        style={editInput.editMode}
-        placeholder={props.country ? props.country : 'Country'}
-        value={inputCountry || undefined}
-        onChange = {(event) => {
-          setInputCountry(event.target.value)}
-        }
-      />
-
-
-      <span onClick={props.showContri}>Contributions: {props.totalContributions}</span>
-      
-      <span onClick={props.showFav}>Favorites: {props.totalFavorites}</span>
-
+      <div className='stat'>
+        <span className='contri' onClick={props.showContri}><i className="fa-solid fa-list"></i> Contributions <span className='count'>{props.totalContributions}</span></span>
+        
+        <span className='fav' onClick={props.showFav}><i className="fa-solid fa-heart"></i> Favorites <span className='count'>{props.totalFavorites}</span></span>
+      </div>
     </div>
   );
 }

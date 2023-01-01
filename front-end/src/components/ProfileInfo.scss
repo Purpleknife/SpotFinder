@@ -2,64 +2,248 @@
 
 .profileInfo {
   margin-top: 3em;
-  border: 1px solid black;
+  border: 1px solid $primary_color;
+  border-radius: 5px;
   width: 30em;
   height: 100vh;
   //position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   font-family: $secondary_font;
 
-  .edit {
-    border: none;
-    background: transparent;
-    margin-top: 4em;
-    margin-bottom: 4em;
+  .edit_btn {
+    display: flex;
+    justify-content: flex-end;
 
-    &:hover {
-      color: #74ca77;
-    }
-
-    .tooltiptext_profile {
-      visibility: hidden;
-      width: 60px;
-      bottom: 100%;
-      left: 50%;
-      margin-left: -30px;
-      background-color: grey;
-      color: #fff;
-      text-align: center;
-      padding: 5px 0;
-      border-radius: 6px;
-      position: absolute;
-      z-index: 9999;
-      font-size: 15px;
-
+    .edit {
+      padding-right: 0.5em;
+      border: unset;
+      background-color: transparent;
+      color: #179fc9;
+      position: relative;
+  
+      &:hover {
+        color: #04799c;
+      }
+  
+      .tooltiptext_profile {
+        visibility: hidden;
+        width: 60px;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -30px;
+        background-color: grey;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 9999;
+        font-size: 15px;
+  
+        &::after {
+          content: " ";
+          position: absolute;
+          top: 100%; /* At the bottom of the tooltip */
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: grey transparent transparent transparent;
+        }
+      }
+  
       &:hover .tooltiptext_profile {
         visibility: visible;
       }
+    }
 
-      &::after {
-        content: " ";
-        position: absolute;
-        top: 100%;
+    .save {
+      padding-right: 0.5em;
+      border: unset;
+      background-color: transparent;
+      color: #179fc9;
+      position: relative;
+  
+      &:hover {
+        color: #04799c;
+      }
+  
+      .tooltiptext_profile {
+        visibility: hidden;
+        width: 60px;
+        bottom: 100%;
         left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: grey transparent transparent transparent;
+        margin-left: -30px;
+        background-color: grey;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 9999;
+        font-size: 15px;
+  
+        &::after {
+          content: " ";
+          position: absolute;
+          top: 100%; /* At the bottom of the tooltip */
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: grey transparent transparent transparent;
+        }
+      }
+  
+      &:hover .tooltiptext_profile {
+        visibility: visible;
+      }
+    }
+  }
+  
+
+  .info {
+    display: flex;
+    flex-direction: column;
+
+    .side_image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .profile_img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .change_img {
+        margin-left: 1em;
+
+        .uploadInput {
+          margin-top: 3em;
+        }
+
+        .load {
+          background-color: $secondary_color;
+          border: none;
+          border-radius: 7px;
+          font-weight: bold;
+          width: 4em;
+          margin-left: -2.5em;
+        }
+
+      }
+
+    }
+
+    .user_info {
+      display: flex;
+      flex-direction: column;
+      margin-top: 2em;
+      margin-left: 5em;
+
+      .name_input {
+        display: inline;
+        margin-left: -2em;
+      
+
+        input {
+          margin-left: 0.5em;
+          width: 10.7em;
+          margin-bottom: 1em;
+          color: grey;
+        }
+      }
+
+      .username_input {
+        display: inline;
+        margin-left: -2em;
+      
+
+        input {
+          margin-left: 0.5em;
+          width: 22em;
+          margin-bottom: 1em;
+          color: grey;
+        }
+      }
+
+      .location_input {
+        display: inline;
+        margin-left: -2em;
+      
+
+        input {
+          margin-left: 0.5em;
+          width: 7em;
+          margin-bottom: 1em;
+          color: grey;
+        }
+      }
+
+      .name {
+        font-weight: bold;
+        font-size: 20px;
+        color: $primary_color;
+      }
+
+      .username {
+        color: grey;
+      }
+
+      .location {
+        margin-top: 1em;
+      }
+
+    }
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5em;
+    margin-top: 3em;
+    font-weight: bold;
+    
+
+    .count {
+      float: right;
+      //margin-right: 6.5em;
+      padding-right: 1em;
+      cursor: pointer;
+    }
+
+    .contri {
+      background-color: #c5f4fa;
+      border-radius: 7px;
+      width: 20em;
+      height: 2em;
+      padding-left: 1em;
+      padding-top: 0.23em;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $other_color;
       }
     }
 
-    
+    .fav {
+      margin-top: 1em;
+      background-color: #f7c8bb;
+      border-radius: 7px;
+      width: 20em;
+      height: 2em;
+      padding-left: 1em;
+      padding-top: 0.23em;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $secondary_color;
+      }
+    }
   }
 
-  .profile_img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
 
 }
