@@ -6,6 +6,8 @@ import { useCookies } from 'react-cookie';
 
 import { useParams, Navigate } from 'react-router-dom';
 
+import { scrollToTopPage } from '../helpers/helpers';
+
 import './Profile.scss';
 
 import Contributions from './Contributions';
@@ -93,6 +95,9 @@ const Profile = (props: ProfileProps) => {
   const [showFav, setShowFav] = useState<boolean>(true);
 
   const [loadCounter, setLoadCounter] = useState<number>(1);
+
+  const [scrollVisible, setScrollVisible] = useState<boolean>(false);
+  
   
   const params = useParams(); // Used to dynamically visit other users's profiles.
 
@@ -255,6 +260,22 @@ const Profile = (props: ProfileProps) => {
   };
 
 
+  // Setup the 'scroll to top' button at the bottom of the page:
+  const toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop;
+    
+    if (scrolled > 100){
+      setScrollVisible(true)
+    } 
+    
+    if (scrolled <= 100){
+      setScrollVisible(false)
+    }
+  };
+
+  window.addEventListener('scroll', toggleVisible);
+
+
   useEffect(() => {
     document.title = `${username}'s profile`;
   });
@@ -330,12 +351,19 @@ const Profile = (props: ProfileProps) => {
             >
               Load more...
             </div>
+            <br />
           </div>}
 
           
+          <span 
+            className='scroll_up'
+            onClick={scrollToTopPage}
+            style={{display: scrollVisible ? 'inline' : 'none'}}
+          ><i className="fa-solid fa-circle-arrow-up"></i></span>
         </div>
       }
       
+
     </>
   );
 }

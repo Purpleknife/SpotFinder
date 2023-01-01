@@ -63,4 +63,14 @@
       text-decoration: underline;
     }
   }
+
+  .scroll_up {
+    position: fixed; 
+    left: 97.5%;
+    bottom: 2%;
+    font-size: 40px;
+    color: $secondary_color;
+    cursor: pointer;
+    
+  }
 }
