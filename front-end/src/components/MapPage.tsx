@@ -73,12 +73,12 @@ const MapPage = () => {
 
   const [refetch, setRefetch] = useState<boolean>(true);
 
-  const [specificMap, setSpecificMap] = useState<SpecificMap | null>();
+  const [specificMap, setSpecificMap] = useState<SpecificMap>();
 
-  const [mapComments, setMapComments] = useState<any>(null);
+  const [mapComments, setMapComments] = useState<any[]>([]);
   const [totalComments, setTotalComments] = useState<number>(0);
 
-  const [mapLikes, setMapLikes] = useState<any>(null);
+  const [mapLikes, setMapLikes] = useState<any[]>([]);
   const [totalLikes, setTotalLikes] = useState<number>(0);
   const [color, setColor] = useState<string>('#000000');
   const [profileImg, setProfileImg] = useState<string>('');
@@ -114,7 +114,7 @@ const MapPage = () => {
         creator: res.data.creator,
         latitude: res.data.latitude,
         longitude: res.data.longitude,
-        pins: res.data.pins
+        pins: res.data.pins[0] === null ? [] : res.data.pins
       });
       setRefetch(false);
     })
@@ -206,21 +206,22 @@ const MapPage = () => {
 
 
   // Get a list of the users who liked a specific map:
-  const likesList = mapLikes?.map((like: Like) => {
-    return (
-      <MapLikes
-        key={like.id}
-        id={like.id}
-        like_creator={like.user_id}
-        date_liked={moment(like.date_liked).format('LL')}
-        first_name={like.first_name}
-        last_name={like.last_name}
-        map_id={like.map_id}
-        profile_image={like.profile_image}
-        username={like.username}
-      />
-    )
-  });
+    const likesList = mapLikes?.map((like: Like) => {
+      return (
+        <MapLikes
+          key={like.id}
+          id={like.id}
+          like_creator={like.user_id}
+          date_liked={moment(like.date_liked).format('LL')}
+          first_name={like.first_name}
+          last_name={like.last_name}
+          map_id={like.map_id}
+          profile_image={like.profile_image}
+          username={like.username}
+        />
+      )
+    });
+
 
 
   // Get a list of the comments on a specific map:
@@ -354,7 +355,7 @@ const MapPage = () => {
           <Modal.Header closeButton>
             <Modal.Title>Likes <i className="fa-solid fa-caret-right"></i> {totalLikes}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{likesList}</Modal.Body>
+          <Modal.Body>{mapLikes && likesList}</Modal.Body>
         </Modal>
       </div>
 
@@ -378,7 +379,7 @@ const MapPage = () => {
 
         <button className='add' onClick={addMapComment}>Add</button>
       </div>
-      <br />
+      
       {commentsList}
 
     </div>
