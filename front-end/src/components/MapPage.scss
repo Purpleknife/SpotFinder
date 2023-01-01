@@ -1,0 +1,70 @@
+@import "../styles/variables";
+
+.map_page {
+
+  .map_all {
+    font-family: $secondary_font;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      margin-left: 11.5em;
+      margin-top: 1em;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .location {
+      margin-left: 15.5em;
+      color: grey;
+      font-size: 15px;
+    }
+
+    .created_by {
+      margin-left: 15.5em;
+      color: grey;
+      font-size: 15px;
+
+      #username {
+        cursor: pointer;
+        font-weight: bold;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .map_all_view {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2em;
+  
+      .leaflet-container {
+        height: 60em;
+        width: 120em;
+        border: 1px solid grey;
+        border-radius: 7px;
+        
+      }
+    }
+    
+    .pin_btn {
+      background-color: $another_color;
+      border-color: $another_color;
+      color: black;
+      width: 5em;
+      margin-left: 99.5em;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+
+  }
+
+}
+
+.modal-title.h4 {
+  font-family: $secondary_font !important;
+
+}

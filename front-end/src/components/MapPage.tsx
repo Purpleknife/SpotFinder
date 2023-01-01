@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useCookies } from 'react-cookie';
 
@@ -12,7 +12,11 @@ import axios from 'axios';
 import MapView from './MapView';
 import MapComments from './MapComments';
 import MapLikes from './MapLikes';
+import PinList from './PinList';
 
+import './MapPage.scss';
+
+import moment from "moment";
 
 interface SpecificMap {
   id: number;
@@ -56,10 +60,16 @@ const MapPage = () => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked', 'pinLiked']);
   const user_id = cookies.user_id;
 
+  const navigate = useNavigate();
+
   const [show, setShow] = useState<boolean>(false);
+  const [showPins, setShowPins] = useState<boolean>(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleClosePins = () => setShowPins(false);
+  const handleShowPins = () => setShowPins(true);
 
   const [refetch, setRefetch] = useState<boolean>(true);
 
@@ -84,7 +94,7 @@ const MapPage = () => {
       setSpecificMap({
         id: res.data.id,
         title: res.data.title,
-        date_created: res.data.date_created,
+        date_created: moment(res.data.date_created).format('LL'),
         city: res.data.city,
         country: res.data.country,
         province: res.data.province,
@@ -190,7 +200,7 @@ const MapPage = () => {
         key={like.id}
         id={like.id}
         like_creator={like.user_id}
-        date_liked={like.date_liked}
+        date_liked={moment(like.date_liked).format('LL')}
         first_name={like.first_name}
         last_name={like.last_name}
         map_id={like.map_id}
@@ -209,13 +219,44 @@ const MapPage = () => {
         id={comment.id}
         comment_creator={comment.user_id}
         content={comment.content}
-        date_commented={comment.date_commented}
+        date_commented={moment(comment.date_commented).format('LL')}
         first_name={comment.first_name}
         last_name={comment.last_name}
         map_id={comment.map_id}
         profile_image={comment.profile_image}
         username={comment.username}
         refetch={loadComments}
+      />
+    )
+  });
+
+  interface Pin {
+    id: number;
+    creator: number;
+    title: string;
+    date_created: string;
+    description: string;
+    image: string;
+    map_id: number;
+    latitude: number;
+    longitude: number;
+  };
+
+
+  // Get a list of pins on a specific map:
+  const pinsList = specificMap!.pins?.map((pin: Pin) => {
+    return (
+      <PinList
+        key={pin.id}
+        id={pin.id}
+        creator={pin.creator}
+        description={pin.description}
+        date_created={moment(pin.date_created).format('LL')}
+        map_id={pin.map_id}
+        image={pin.image}
+        title={pin.title}
+        latitude={pin.latitude}
+        longitude={pin.longitude}
       />
     )
   });
@@ -242,27 +283,46 @@ const MapPage = () => {
     }
   }, [cookies.alreadyLiked])
 
+  console.log('pins', specificMap!.pins);
 
   return (
     <div className='map_page'>
       
       { specificMap && 
-      <>
-        Title: {specificMap.title} <br />
-        Created on: {specificMap.date_created}
+      <div className='map_all'>
+        <span className='title'><i className="fa-sharp fa-solid fa-thumbtack"></i> {specificMap.title}</span>
+        <span className='location'><i className="fa-solid fa-location-dot"></i> {specificMap.city}, {specificMap.province}, {specificMap.country}</span>
+        <span className='created_by'><i className="fa-solid fa-user-secret"></i> Created by <span id='username' onClick={() => navigate(`/profile/${specificMap.creator}`)}> {specificMap.username}</span>, on {specificMap.date_created}</span>
 
-        <MapView
-          key={specificMap.id}
-          id={specificMap.id}
-          title={specificMap.title}
-          date_created={specificMap.date_created}
-          latitude={specificMap.latitude}
-          longitude={specificMap.longitude}
-          allPins={specificMap.pins[0] !== null ? specificMap.pins : []}
-          refetch={() => setRefetch(true)}
-        />
-        {specificMap.pins.length} pins in total
-      </>
+        <div className='map_all_view'>
+          <MapView
+            key={specificMap.id}
+            id={specificMap.id}
+            title={specificMap.title}
+            date_created={specificMap.date_created}
+            latitude={specificMap.latitude}
+            longitude={specificMap.longitude}
+            allPins={specificMap.pins[0] !== null ? specificMap.pins : []}
+            refetch={() => setRefetch(true)}
+          />
+        </div>
+        <Button 
+          onClick={handleShowPins}
+          className='pin_btn'
+        >
+          {specificMap.pins.length} pins
+        </Button>
+        
+        <div className='all_pins'>
+          <Modal show={showPins} onHide={handleClosePins}>
+            <Modal.Header closeButton>
+              <Modal.Title><i className="fa-sharp fa-solid fa-thumbtack"></i> {specificMap.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{pinsList}</Modal.Body>
+          </Modal>
+        </div>
+
+      </div>
       }
       
       <i 
