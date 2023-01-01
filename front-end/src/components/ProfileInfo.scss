@@ -5,7 +5,7 @@
   border: 1px solid grey;
   border-radius: 5px;
   width: 30em;
-  height: 100vh;
+  height: 95vh;
   //position: fixed;
   font-family: $secondary_font;
 
@@ -19,6 +19,7 @@
       background-color: transparent;
       color: #179fc9;
       position: relative;
+      font-size: 17px;
   
       &:hover {
         color: #04799c;

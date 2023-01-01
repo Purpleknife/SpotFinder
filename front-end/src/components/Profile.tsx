@@ -339,6 +339,7 @@ const Profile = (props: ProfileProps) => {
             >
               Load more...
             </div>
+            <br />
           </div>}
 
           {showFav && <div className='fav_profile'>
