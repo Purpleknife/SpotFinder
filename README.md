@@ -4,11 +4,23 @@ SpotFinder is an app that allows users to discover maps depending on their inter
 
 This project's goal is to revisit and add more features to an old project made with Node JS, Express and EJS templates: [Wiki Map](https://github.com/Purpleknife/Wiki-Map) + rebuild it using TypeScript, React JS and Express.
 
-<strong><h3> 📌 This project's goals are:</h3></strong>
+<strong><h3> 📌 This project's goals were:</h3></strong>
 - Develop my skills in TypeScript.
 - Develop my skills in React.
 - Learn how to use Leaflet Maps API with React.
 - Manage an app that has a lot of features.
+
+## ERD
+The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-%20SpotFinder.png) is in the back-end folder.
+
+
+## Setup
+1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
+2. Update the `.env` files with your correct local information : username, password, database, port + Your Cloudinary API 'upload_reset' and 'cloudname' to upload pictures.
+3. Install dependencies: `npm i` in both `front-end` and `back-end` folders.
+4. `cd back-end` then `npm start` to run the Server, and `cd front-end` to run the App.
+5. To reset the database: `npm run db:reset`.
+
 
 ## Features
 - [X] <strong>A non-logged-in user can :</strong>
@@ -34,8 +46,34 @@ This project's goal is to revisit and add more features to an old project made w
   - [X] Edit their own profile.
 - [X] <strong>Other :</strong>
   - [X] Pagination: Load only 6 maps at a time for each page in Landing Page.
-  - [X] 'Load more': In Profile, only 5 Favorites and 5 Contributions are loaded at a time, if you want to see more, you need to click on 'Load more...' at the bottom of the page and it will load 5 more Favorites and Contributions.
+  - [X] 'Load more': In Profile, only 5 Favorites and 5 Contributions are loaded at a time, if you want to see more, you need to click on 'Load more...' at the bottom of the page and it will load 5 more Favorites and Contributions. The same goes for the comments.
 
-## Other
-The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-%20SpotFinder.png) is in the back-end folder. I might modify it as I'm working on the app.
+## Final Product
+
+
+## Built With
+- Database
+  - PostgreSQL
+
+- Back-end:
+  - express
+  - TypeScript
+  - Node JS
+  - dotenv
+  - method-override
+  - morgan
+  - pg
+
+- Front-end
+  - React JS
+  - TypeScript
+  - React-Router
+  - React-Cookie
+  - React-Bootstrap
+  - SASS
+  - bcryptjs
+  - axios
+  - moment
+  - Cloudinary API
+  - Leaflet Maps API
 
