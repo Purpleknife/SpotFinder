@@ -16,7 +16,7 @@ The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-
 
 ## Setup
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
-2. Update the `.env` files with your correct local information : username, password, database, port + Your Cloudinary API 'upload_reset' and 'cloudname' to upload pictures.
+2. Update the `.env` files with your correct local information : username, password, database, port + Your `Cloudinary API keys`: 'upload_reset' and 'cloudname' to upload pictures.
 3. Install dependencies: `npm i` in both `front-end` and `back-end` folders.
 4. `cd back-end` then `npm start` to run the Server, and `cd front-end` to run the App.
 5. To reset the database: `npm run db:reset`.
@@ -56,7 +56,7 @@ The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-
 
 https://user-images.githubusercontent.com/107894342/210193314-28c47edd-65fd-4271-895e-121e169e8ad4.mp4
 
-
+*NB.: Couldn't show in the video how you can upload an image when you create a pin, because of an issue with the recording app.*
 
 ## Built With
 - Database
