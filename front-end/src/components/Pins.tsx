@@ -376,7 +376,7 @@ const Pins = (props: PinProps) => {
             <img
               className='pin_img'
               style={editInput.viewMode}
-              alt='pin_img'
+              alt=''
               src={props.image}
             />
 

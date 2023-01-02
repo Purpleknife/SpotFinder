@@ -159,7 +159,7 @@ const MapComments = (props: MapCommentsProps) => {
 
         
         <div className='info'>
-          <span className='date'>{moment(props.date_commented).startOf('day').fromNow()}</span>
+          <span className='date'>{moment(new Date(props.date_commented)).fromNow()}</span>
 
           { props.comment_creator === user_id && 
             <>

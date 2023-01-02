@@ -92,7 +92,7 @@ const MapPage = () => {
 
   // Load user's profile_image:
   const loadProfileImage = async() => {
-    return axios.get(`/user_image/${user_id}`)
+    return axios.get(`/user_image/${Number(user_id)}`)
       .then((res) => {
         setProfileImg(res.data.profile_image);
       })
@@ -235,7 +235,7 @@ const MapPage = () => {
         id={comment.id}
         comment_creator={comment.user_id}
         content={comment.content}
-        date_commented={moment(comment.date_commented).format('LL')}
+        date_commented={comment.date_commented}
         first_name={comment.first_name}
         last_name={comment.last_name}
         map_id={comment.map_id}
