@@ -11,6 +11,7 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 
+import './Register.scss';
 
 interface RegisterProps {
   handleClose: () => void;
@@ -83,7 +84,7 @@ const Register = (props: RegisterProps) => {
     <>
       <Modal show={props.show} onHide={props.handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Register</Modal.Title>
+          <Modal.Title id='register_title'>Register</Modal.Title>
         </Modal.Header>
 
         {showError && <Alert id='alert' key='danger' variant='danger'>
