@@ -9,6 +9,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
+import './CreateMap.scss';
+
 interface CreateMapProps {
   handleClose: () => void;
   refetch: () => void;
@@ -85,7 +87,7 @@ const CreateMap = (props: CreateMapProps) => {
     <>
     <Modal show={props.show} onHide={props.handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Create New Map</Modal.Title>
+        <Modal.Title id='title_popup'>Create New Map</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -128,7 +130,7 @@ const CreateMap = (props: CreateMapProps) => {
       </Modal.Body>
       <Modal.Footer>
 
-        <Button onClick={createMap}>
+        <Button id='create' onClick={createMap}>
           Create
         </Button>
       </Modal.Footer>

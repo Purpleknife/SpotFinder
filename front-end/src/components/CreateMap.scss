@@ -1,0 +1,35 @@
+@import "../styles/variables";
+
+.modal-header {
+  border-bottom: none !important;
+}
+
+.modal-footer {
+  border-top: none !important;
+}
+
+#title_popup {
+  padding-left: 8.1em;
+  font-family: $secondary-font;
+  font-weight: bold;
+  font-size: 21px;
+}
+
+.modal-body {
+  font-family: $secondary-font;
+  
+}
+
+label.form-label {
+  font-weight: bold;
+}
+
+#create {
+  background-color: $primary-color !important;
+  border: none !important;
+  border-radius: 3px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  font-family: $secondary-font;
+}
