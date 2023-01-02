@@ -4,39 +4,43 @@
   //display: inline;
   font-family: $secondary_font;
   display: inline;
-  margin-bottom: 2em;
+  
+  .one_like {
+    margin-bottom: 1.5em;
 
-  img {
-    height: 50px;
-    width: 50px;
-    object-fit: cover;
-    border-radius: 50px;
-    margin-right: 0.5em;
-    cursor: pointer;
-  }
-
-  .info {
-    
-    display: flex;
-    flex-direction: column;
-    margin-left: 4em;
-    margin-top: -3em;
-
-
-    .date {
-      color: grey;
-      font-size: 11px;
-    }
-
-    .username {
-      font-weight: bold;
+    img {
+      height: 50px;
+      width: 50px;
+      object-fit: cover;
+      border-radius: 50px;
+      margin-right: 0.5em;
       cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
+      
     }
-
+  
+    .info {
+      
+      display: flex;
+      flex-direction: column;
+      margin-left: 4em;
+      margin-top: -3em;
+  
+  
+      .date {
+        color: grey;
+        font-size: 11px;
+      }
+  
+      .username {
+        font-weight: bold;
+        cursor: pointer;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+  
+    }
   }
 
 }

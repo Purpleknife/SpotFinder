@@ -23,14 +23,16 @@ const PinsLikes = (props: PinsLikesProps) => {
   
   return (
     <div className='likes_list'>
-      <img
-        alt='like_img'
-        src={props.profile_image}
-      />
-      <div className='info'>
-      <span className='username' onClick={() => navigate(`/profile/${props.like_creator}`)}>{props.username}</span>
-      
-      <span className='date'><i className="fa-solid fa-calendar-days"></i> {moment(props.date_liked).format('LL')}</span>
+      <div className='one_like'>
+        <img
+          alt='like_img'
+          src={props.profile_image}
+        />
+        <div className='info'>
+        <span className='username' onClick={() => navigate(`/profile/${props.like_creator}`)}>{props.username}</span>
+        
+        <span className='date'><i className="fa-solid fa-calendar-days"></i> {moment(props.date_liked).format('LL')}</span>
+        </div>
       </div>
     </div>
   );

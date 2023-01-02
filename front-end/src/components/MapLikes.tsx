@@ -21,6 +21,7 @@ const MapLikes = (props: MapLikesProps) => {
   
   return (
     <div className='likes_list'>
+      <div className='one_like'>
       <img
         alt='like_img'
         src={props.profile_image}
@@ -29,6 +30,7 @@ const MapLikes = (props: MapLikesProps) => {
       <span className='username' onClick={() => navigate(`/profile/${props.like_creator}`)}>{props.username}</span>
       
       <span className='date'><i className="fa-solid fa-calendar-days"></i> {props.date_liked}</span>
+      </div>
       </div>
     </div>
   );

@@ -414,14 +414,14 @@ const Pins = (props: PinProps) => {
 
             <Modal show={showLikes} onHide={handleLikeClose}>
               <Modal.Header closeButton>
-                <Modal.Title> {totalLikes} Likes</Modal.Title>
+                <Modal.Title>Likes <i className="fa-solid fa-caret-right"></i> {totalLikes}</Modal.Title>
               </Modal.Header>
               <Modal.Body>{likesList}</Modal.Body>
             </Modal>
 
             <Modal show={showComments} onHide={handleCommentClose}>
               <Modal.Header closeButton>
-                <Modal.Title> {totalComments} Comments</Modal.Title>
+                <Modal.Title> Comments <i className="fa-solid fa-caret-right"></i> {totalComments}</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
