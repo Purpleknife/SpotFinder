@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 
+import './Login.scss';
+
 interface LoginProps {
   handleClose: () => void;
   show: boolean;
@@ -71,7 +73,7 @@ const Login = (props: LoginProps) => {
     <>
       <Modal show={props.show} onHide={props.handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
+          <Modal.Title id='login_title'>Login</Modal.Title>
         </Modal.Header>
 
         {showError && <Alert id='alert' key='danger' variant='danger'>
