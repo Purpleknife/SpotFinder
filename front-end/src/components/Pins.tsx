@@ -80,6 +80,8 @@ const Pins = (props: PinProps) => {
 
   const [color, setColor] = useState<string>('#000000');
 
+  const [profileImg, setProfileImg] = useState<string>('');
+
   const [inputTitle, setInputTitle] = useState<string>(props.title);
   const [inputDescription, setInputDescription] = useState<string>(props.description);
 
@@ -319,9 +321,22 @@ const Pins = (props: PinProps) => {
   };
 
 
+  // Load user's profile_image:
+  const loadProfileImage = async() => {
+    return axios.get(`/user_image/${user_id}`)
+      .then((res) => {
+        setProfileImg(res.data.profile_image);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+
   useEffect(() => {
     loadLikes();
     loadComments();
+    loadProfileImage();
   }, []);
 
 
@@ -410,14 +425,21 @@ const Pins = (props: PinProps) => {
               </Modal.Header>
 
               <Modal.Body>
-                <input 
+                <img
+                  className='comment_pin_img'
+                  alt='comment_pin_img'
+                  src={profileImg}
+                />
+
+                <input
+                  className='input_comment_pin'
                   type='text'
                   name='comment'
                   placeholder='Write a comment here...'
                   ref={commentInput}
                 />
 
-                <button onClick={addMapComment}>Add</button>
+                <button className='add_comment_pin' onClick={addMapComment}>Add</button>
                 <br />
 
                 {commentsList}

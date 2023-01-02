@@ -112,3 +112,34 @@
 
 }
 
+.comment_pin_img {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50px;
+  margin-bottom: 0.5em;
+}
+
+.input_comment_pin {
+  margin-left: 1em;
+  width: 21em;
+  height: 3em;
+  font-family: $secondary_font;
+  padding-left: 0.5em;
+  
+}
+
+.add_comment_pin {
+  margin-left: 1em;
+  background-color: $primary_color;
+  font-family: $secondary_font;
+  border: none;
+  height: 3em;
+  border-radius: 5px;
+}
+
+.modal-title.h4 {
+  font-family: $secondary_font !important;
+
+}
+

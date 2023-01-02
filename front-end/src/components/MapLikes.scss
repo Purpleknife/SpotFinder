@@ -4,6 +4,7 @@
   //display: inline;
   font-family: $secondary_font;
   display: inline;
+  margin-bottom: 2em;
 
   img {
     height: 50px;
@@ -11,6 +12,7 @@
     object-fit: cover;
     border-radius: 50px;
     margin-right: 0.5em;
+    cursor: pointer;
   }
 
   .info {

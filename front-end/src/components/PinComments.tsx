@@ -3,8 +3,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { useCookies } from 'react-cookie';
+
 import { EditState } from './Map';
 
+import './PinComments.scss';
+
+import moment from 'moment';
 
 interface PinCommentsProps {
   content: string;
@@ -112,6 +116,7 @@ const PinComments = (props: PinCommentsProps) => {
     return axios.delete(`/pins/${user_id}/${props.id}/${props.map_id}`)
       .then((res) => {
         props.refetch();
+        console.log('delete');
       })
       .catch((error) => {
         console.log(error.message);
@@ -119,28 +124,50 @@ const PinComments = (props: PinCommentsProps) => {
   };
 
 
+
   return (
-    <div className='comments'>
-      {props.username}
-      {props.date_commented}
-      <span style={editInput.viewMode}>{inputContent ? inputContent : props.content}</span>
-        <input 
-          className="input-field-map"
-          type="text"
-          style={editInput.editMode}
-          placeholder={props.content}
-          value={inputContent}
-          onChange = {(event) => {
-            setInputContent(event.target.value)}
-          }
-        />
-      { props.comment_creator === user_id && 
-        <>
-          <button onClick={deletePinComment}>Delete</button>
-          <button style={editInput.viewMode} onClick={edit}>Edit</button>
-          <button style={editInput.editMode} onClick={editIt}><i className="fa-solid fa-floppy-disk"></i> Save</button>
-        </>
-      }
+    <div className='pin_comments'>
+
+      <img
+        alt='img'
+        src={props.profile_image}
+
+      />
+
+    <div className='inner_pin_comment'>
+      <div className='content_pin'>
+      <div className='info'>
+      <span className='date'>{moment(props.date_commented).startOf('day').fromNow()}</span>
+        
+        { props.comment_creator === user_id && 
+          <>
+            <button onClick={deletePinComment}><i className="fa-solid fa-trash"></i></button>
+            <button style={editInput.viewMode} onClick={edit}><i className="fa-solid fa-pen-to-square"></i></button>
+            <button style={editInput.editMode} onClick={editIt}><i className="fa-solid fa-floppy-disk"></i></button>
+          </>
+        }
+      </div>
+      
+        <div className='inner_content_pin'>
+        <span className='username'>{props.username}</span>
+          
+          <span className='text' style={editInput.viewMode}>{inputContent ? inputContent : props.content}</span>
+            <textarea 
+              className="input_content_pin"
+              
+              style={editInput.editMode}
+              placeholder={props.content}
+              value={inputContent}
+              onChange = {(event) => {
+                setInputContent(event.target.value)}
+              }
+            />
+        </div>
+      </div>
+
+      
+
+    </div>
     </div>
   );
 }

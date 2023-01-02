@@ -1,0 +1,97 @@
+@import "../styles/variables";
+
+.pin_comments {
+  margin-top: 1em;
+
+  img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50px;
+  }
+
+  .inner_pin_comment {
+    background-color: rgb(231, 250, 250);
+    border-radius: 7px;
+    margin-left: 4em;
+    margin-top: -3em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    width: 24.6em;
+    
+
+    .content_pin {
+      display: inline-block;
+      margin-left: 0.5em;
+
+      .info {
+        float: right;
+        
+        font-size: 12px;
+        vertical-align: text-top;
+        z-index: 9999;
+        //position: relative;
+        margin-left: 20em;
+  
+        .date {
+          margin-right: 0.5em;
+          font-size: 14px;
+        }
+  
+        button {
+          background: transparent;
+          border: none;
+        }
+  
+        .fa-trash {
+          color: rgb(243, 140, 140);
+          cursor: pointer;
+        }
+  
+        .fa-pen-to-square {
+          color: $primary_color;
+          cursor: pointer;
+        }
+  
+        .fa-floppy-disk {
+          color: rgb(5, 189, 5);
+          cursor: pointer;
+        }
+      }
+  
+      .inner_content_pin {
+        display: flex;
+        flex-direction: column;
+    
+        .username {
+          padding-left: 0.5em;
+          cursor: pointer;
+          font-weight: bold;
+          
+        }
+    
+        .text {
+          padding-left: 0.5em;
+          color: rgb(100, 100, 100);
+          margin-top: 0.5em;
+          //white-space: nowrap;
+          width: 24em;
+          
+        }
+      
+        .input_content_pin {
+          //position: absolute;
+          margin-left: 0.5em;
+          //margin-top: 1em;
+          width: 23em;
+          height: 2.5em;
+        }
+    
+      }
+    }
+
+    
+
+  }
+}
+
