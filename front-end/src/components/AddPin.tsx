@@ -26,6 +26,7 @@ interface AddPinProps {
 const AddPin = (props: AddPinProps) => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in']);
   const user_id = cookies.user_id;
+  const loggedIn = cookies.logged_in;
 
   const [pinPosition, setPinPosition] = useState({
     latitude: 0,
@@ -102,6 +103,9 @@ const AddPin = (props: AddPinProps) => {
         icon={icon}
       >
         <Popup autoPan={false}>
+
+          {loggedIn ?
+          <>
           <div id='pin_title'>Add title: 
           <input
             className='input_title'
@@ -129,6 +133,8 @@ const AddPin = (props: AddPinProps) => {
           </div>
 
           <button id='save' onClick={savePin}>Save</button>
+          </>
+        : <span>Please login to add a pin.</span>}
         </Popup>
       </Marker>
 

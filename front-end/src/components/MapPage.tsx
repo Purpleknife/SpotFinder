@@ -60,6 +60,7 @@ interface Comment {
 const MapPage = () => {
   const [cookies, setCookie] = useCookies(['username', 'user_id', 'logged_in', 'alreadyLiked', 'pinLiked']);
   const user_id = cookies.user_id;
+  const loggedIn = cookies.logged_in;
 
   const navigate = useNavigate();
 
@@ -369,6 +370,7 @@ const MapPage = () => {
       <span className='comment_btn'>{totalComments} </span>
       </div>
       
+      {loggedIn &&
       <div className='add_comment'>
 
         <img
@@ -384,16 +386,16 @@ const MapPage = () => {
         />
 
         <button className='add' onClick={addMapComment}>Add</button>
-      </div>
+      </div>}
       
       {commentsList}
 
-      <div
+      { mapComments.length > 1 && <div
         className='load_more'
         onClick={() => setLoadCounter((prev: number) => prev + 1)}
       >
         Load more...
-      </div>
+      </div>}
 
       <ScrollToTop />
     </div>
