@@ -163,7 +163,7 @@ const Pins = (props: PinProps) => {
     return axios.put(`/pins/${props.id}/${user_id}`, { 
       title: inputTitle,
       description: inputDescription,
-      image: props.pinImage
+      ...(props.pinImage && { image: props.pinImage })
     })
       .then((res) => {
         console.log('edit pin', res.data);
@@ -327,76 +327,75 @@ const Pins = (props: PinProps) => {
 
 
 
-
-  
-
   return (
-    <>
+    <div className='pin_popup'>
+      
       <Marker position={[props.latitude, props.longitude]} icon={icon}>
         <Popup>
-          {/* Title */}
-          <span style={editInput.viewMode}>{inputTitle ? inputTitle : props.title}</span>
-          <input 
-            className="input-field-post"
-            type="text"
-            style={editInput.editMode}
-            placeholder={props.title}
-            value={inputTitle}
-            onChange = {(event) => {
-              setInputTitle(event.target.value)}
-            }
-          />
-          
-          <br />
 
-          {/* Image */}
-          <img
-            className='pin_img'
-            style={editInput.viewMode}
-            alt='pin_img'
-            src={props.image}
-          />
-
-          <input 
-            type='file'
-            style={editInput.editMode}
-            className="uploadInput"
-          />
-          <button style={editInput.editMode} onClick={() => props.uploadImage()}>Load</button>
-          
-          
-          <br />
-
-          {/* Description */}
-          <span style={editInput.viewMode}>{inputTitle ? inputTitle : props.description}</span>
-          <input 
-            className="input-field-post"
-            type="text"
-            style={editInput.editMode}
-            placeholder={props.description}
-            value={inputDescription}
-            onChange = {(event) => {
-              setInputDescription(event.target.value)}
-            }
-          />
-          <br />
-
-          { props.creator === user_id && 
-            <>
-              <button onClick={deletePin}>Delete</button>
-              <button style={editInput.viewMode} onClick={edit} >Edit</button>
-              <button style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i>Save</button>
-            </>
+        { props.creator === user_id && 
+            <div className='pin_btns'>
+              <button id='delete' onClick={deletePin}><i className="fa-solid fa-trash"></i></button>
+              <button id='edit' style={editInput.viewMode} onClick={edit} ><i className="fa-solid fa-pen-to-square"></i></button>
+              <button id='save_pin' style={editInput.editMode} className="save" onClick={editIt}><i className="fa-solid fa-floppy-disk"></i></button>
+            </div>
           }
 
-          <div className='pin_likes'>
+          <div className='pin_info'>
+            {/* Title */}
+            <span id='title' style={editInput.viewMode}><i className="fa-solid fa-map-pin"></i> {inputTitle ? inputTitle : props.title}</span>
+            <input 
+              className="input-field-title"
+              type="text"
+              style={editInput.editMode}
+              placeholder={props.title}
+              value={inputTitle}
+              onChange = {(event) => {
+                setInputTitle(event.target.value)}
+              }
+            />
+            
+            
+
+            {/* Image */}
+            <img
+              className='pin_img'
+              style={editInput.viewMode}
+              alt='pin_img'
+              src={props.image}
+            />
+
+            <input 
+              type='file'
+              style={editInput.editMode}
+              className="uploadInput"
+            />
+            <button id='load_btn' style={editInput.editMode} onClick={() => props.uploadImage()}>Load</button>
+            
+            
+            
+
+            {/* Description */}
+            <span id='description' style={editInput.viewMode}>{inputDescription ? inputDescription : props.description}</span>
+            <textarea 
+              className="input-field-desc"
+              style={editInput.editMode}
+              placeholder={props.description}
+              value={inputDescription}
+              onChange = {(event) => {
+                setInputDescription(event.target.value)}
+              }
+            />
+          </div>
+
+          <div className='pin_likes_comments'>
             <i 
               className="fa-solid fa-heart"
               onClick={addOrRemoveLike}
               style={ {color: `${color}`} }
             ></i>
-            <Button onClick={handleLikeShow}> {totalLikes} Likes</Button>&nbsp;&nbsp;
-            <Button onClick={handleCommentShow}> {totalComments} Comments</Button>
+            <Button id='pin_like' onClick={handleLikeShow}>{totalLikes}</Button>
+            <Button id='pin_comment' onClick={handleCommentShow}><i className="fa-solid fa-comment"></i> {totalComments}</Button>
 
             <Modal show={showLikes} onHide={handleLikeClose}>
               <Modal.Header closeButton>
@@ -432,7 +431,7 @@ const Pins = (props: PinProps) => {
       </Marker>
       
 
-    </>
+    </div>
 
   );
 }

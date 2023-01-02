@@ -1,7 +1,114 @@
+@import "../styles/variables";
 
 
-.pin_img {
-  height: 100px;
-  width: 300px;
-  object-fit: cover;
+.leaflet-popup-content-wrapper {
+  font-family: $secondary_font;
+  
+  #title {
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  #save_pin {
+    color: rgb(19, 202, 19);
+    font-size: 15px;
+  }
+
+  .input-field-title {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: 23em;
+  }
+
+  .uploadInput {
+    margin-bottom: 1em;
+  }
+
+  #load_btn {
+    float: right;
+    margin-top: -3em;
+    background-color: $primary_color;
+    border: none;
+    width: 4em;
+    border-radius: 5px;
+    height: 1.8em;
+    margin-right: 0.3em;
+  }
+  
+  .input-field-desc {
+    width: 23em;
+    height: 3em;
+    overflow: hidden;
+    overflow-wrap: break-word;
+  }
+
+
+  img {
+    height: 100px;
+    width: 300px;
+    object-fit: cover;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    border-radius: 5px;
+  }
+
+  #description {
+    text-align: justify;
+    font-size: 15px;
+    
+  }
+  
+
+  .pin_btns {
+    //margin-top: 1em;
+    float: right;
+
+    button {
+      background: transparent;
+      border: none;
+      font-size: 15px;
+
+    }
+
+    #delete {
+      color: rgb(250, 133, 133);
+    }
+
+    #edit {
+      color: $primary_color;
+    }
+  }
+
+  .pin_likes_comments {
+    margin-top: 2em;
+    font-family: $secondary_font;
+    margin-left: 16.8em;
+    margin-right: -3em;
+
+    .fa-heart {
+      margin-right: -0.5em;
+      cursor: pointer;
+    }
+
+    #pin_like {
+      background-color: transparent;
+      border: none;
+      color: black;
+      font-weight: bold;
+    }
+
+    #pin_comment {
+      background-color: transparent;
+      border: none;
+      color: black;
+      font-weight: bold;
+      color: $primary_color;
+
+      .fa-comment {
+        color: $primary_color;
+      }
+    }
+  }
+
 }
+

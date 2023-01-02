@@ -12,6 +12,7 @@
   .edit_btn {
     display: flex;
     justify-content: flex-end;
+    //position: absolute;
 
     .edit {
       padding-right: 0.5em;
@@ -105,6 +106,7 @@
   .info {
     display: flex;
     flex-direction: column;
+    margin-top: 2em;
 
     .side_image {
       display: flex;
