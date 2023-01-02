@@ -54,6 +54,9 @@ The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-
 ![three](https://user-images.githubusercontent.com/107894342/210190806-4c41d26f-c884-4edc-ba0f-694f13dcfaf7.png)
 ![four](https://user-images.githubusercontent.com/107894342/210190809-eb7787d0-436f-41da-8402-c77ea4ed118d.png)
 
+https://user-images.githubusercontent.com/107894342/210193314-28c47edd-65fd-4271-895e-121e169e8ad4.mp4
+
+
 
 ## Built With
 - Database
