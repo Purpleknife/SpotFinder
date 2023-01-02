@@ -49,6 +49,10 @@ The [ERD](https://github.com/Purpleknife/SpotFinder/blob/master/back-end/ERD%20-
   - [X] 'Load more': In Profile, only 5 Favorites and 5 Contributions are loaded at a time, if you want to see more, you need to click on 'Load more...' at the bottom of the page and it will load 5 more Favorites and Contributions. The same goes for the comments.
 
 ## Final Product
+![one](https://user-images.githubusercontent.com/107894342/210190803-bb40381b-5997-4373-ad66-9fa9613c0e14.png)
+![two](https://user-images.githubusercontent.com/107894342/210190804-20f99b70-3558-40c6-9809-df0256b39638.png)
+![three](https://user-images.githubusercontent.com/107894342/210190806-4c41d26f-c884-4edc-ba0f-694f13dcfaf7.png)
+![four](https://user-images.githubusercontent.com/107894342/210190809-eb7787d0-436f-41da-8402-c77ea4ed118d.png)
 
 
 ## Built With
