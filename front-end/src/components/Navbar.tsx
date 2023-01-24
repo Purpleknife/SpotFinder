@@ -28,7 +28,6 @@ const NavBar = (props: NavBarProps) => {
   const user_id = cookies.user_id;
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
